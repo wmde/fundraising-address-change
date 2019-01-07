@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  app_debug:
+    build:
+      context: .
+      target: app_debug
+    environment:
+      - XDEBUG_CONFIG=remote_host=${LOCAL_IP}
+      - PHP_IDE_CONFIG=serverName=address_change.spenden.wikimedia.de
+    expose:
+      - "9000" # PHP-FPM
+    volumes:
+      - ./:/code
+    working_dir: /code
+    links:
+      - database

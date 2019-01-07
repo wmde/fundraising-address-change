@@ -1,0 +1,40 @@
+{
+	"name": "wmde/fundraising-address-change",
+	"description": "Address change use case for fundraising application",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=7.1",
+		"doctrine/dbal": "^2.5",
+		"doctrine/orm": "^2.5",
+		"ramsey/uuid": "^3.7"
+	},
+	"require-dev": {
+		"wmde/fundraising-store": "~10.1.0",
+
+		"squizlabs/php_codesniffer": "~3.0",
+		"phpunit/phpunit": "~7.0",
+		"ockcyp/covers-validator": "~1.0",
+		"slevomat/coding-standard": "^4.6",
+		"phpmd/phpmd": "~2.6",
+		"phpstan/phpstan": "^0.11",
+		"phpstan/phpstan-phpunit": "^0.11"
+	},
+	"autoload": {
+		"psr-4": {
+			"WMDE\\Fundraising\\AddressChange\\": "src/",
+			"WMDE\\Fundraising\\AddressChangeContext\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"WMDE\\Fundraising\\AddressChangeContext\\Tests\\": "tests/"
+		}
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/wmde/fundraisingstore",
+			"no-api": true
+		}
+	]
+}
