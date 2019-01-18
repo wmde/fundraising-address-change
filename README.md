@@ -2,6 +2,12 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/wmde/fundraising-address-change/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wmde/fundraising-address-change/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wmde/fundraising-address-change/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/wmde/fundraising-address-change/?branch=master)
 
-#Fundraising Address Change
 
-Bounded Context for the Wikimedia Deutschland fundraising donation (sub-)domain. 
+# Fundraising Address Change
+
+Bounded Context for the Wikimedia Deutschland fundraising address change (sub-)domain. 
+
+* When exporting address-related records (donation, membership, subscription), each record has a random UUID that can be used to reference address changes to that record in the future.
+* Users can get links to the address change page, each link being secured with the UUID that identifies the address change.
+* Whenever an address changes, its UUID is regenerated.
+* Address changes are exported as individual records, with current and previous UUID.
