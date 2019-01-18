@@ -28,8 +28,11 @@ class AddressChange {
 		$this->addressType = $addressType;
 		$this->identifier = $identifier;
 		$this->address = $address;
-		if ( $this->identifier === null ) {
+
+		if ( $identifier === null ) {
 			$this->generateUuid();
+		} elseif ( !Uuid::isValid( $identifier ) ) {
+			throw new \InvalidArgumentException( 'Identifier must be a valid UUID' );
 		}
 	}
 

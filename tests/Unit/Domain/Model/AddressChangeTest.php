@@ -76,4 +76,37 @@ class AddressChangeTest extends TestCase {
 
 		$this->assertFalse( $addressChange->isExported() );
 	}
+
+	public function testConstructorsAcceptValidUuids() {
+		$uuid = '72dfed91-fa40-4af0-9e80-c6010ab29cd1';
+		$personAddressChange = AddressChange::createNewPersonAddressChange( $uuid );
+		$companyAddressChange = AddressChange::createNewCompanyAddressChange( $uuid );
+
+		$this->assertSame( $uuid, $personAddressChange->getCurrentIdentifier() );
+		$this->assertSame( $uuid, $companyAddressChange->getCurrentIdentifier() );
+	}
+
+	/**
+	 * @dataProvider invalidUUIDProvider
+	 */
+	public function testPersonalAddressChangeThrowsExceptionsWhenUUIDIsInvalid( string $invalidUUID ) {
+		$this->expectException( \InvalidArgumentException::class );
+		AddressChange::createNewPersonAddressChange( $invalidUUID );
+	}
+
+	/**
+	 * @dataProvider invalidUUIDProvider
+	 */
+	public function testCompanyAddressChangeThrowsExceptionsWhenUUIDIsInvalid( string $invalidUUID ) {
+		$this->expectException( \InvalidArgumentException::class );
+		AddressChange::createNewCompanyAddressChange( $invalidUUID );
+	}
+
+	public function invalidUUIDProvider(): \Generator {
+		yield [ '' ];
+		yield [ 'just a string' ];
+		yield [ '1111222233334444-1111222233334444-1111222233334444-1111222233334444-1111222233334444' ];
+		yield [ 'e-f-f-e-d' ];
+		yield [ 'This-is-not-a-UUID' ];
+	}
 }

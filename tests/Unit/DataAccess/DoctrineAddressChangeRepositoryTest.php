@@ -16,11 +16,11 @@ use WMDE\Fundraising\AddressChangeContext\Tests\TestEnvironment;
  */
 class DoctrineAddressChangeRepositoryTest extends TestCase {
 
-	const VALID_UPDATE_TOKEN_PERSONAL_DONATION = '1ba905fe68e61f3a681d8faf689bfeeb8c942123';
-	const VALID_UPDATE_TOKEN_PERSONAL_MEMBERSHIP = '2ba905fe68e61f3a681d8faf689bfeeb8c942456';
-	const VALID_UPDATE_TOKEN_COMPANY_DONATION = '3ba905fe68e61f3a681d8faf689bfeeb8c942789';
-	const VALID_UPDATE_TOKEN_COMPANY_MEMBERSHIP = '4ba905fe68e61f3a681d8faf689bfeeb8c942666';
-	const INVALID_UPDATE_TOKEN = 'ThisTokenIsLikeTotallyNotValid1234567890';
+	const VALID_UPDATE_TOKEN_PERSONAL_DONATION = '2a54c0a1-fc94-4ef8-8b0a-7c2ed8565521';
+	const VALID_UPDATE_TOKEN_PERSONAL_MEMBERSHIP = 'ce4449f9-8317-41fa-acc3-4a878e26845d';
+	const VALID_UPDATE_TOKEN_COMPANY_DONATION = 'c52258ba-fed1-476a-a7e5-c721df087c12';
+	const VALID_UPDATE_TOKEN_COMPANY_MEMBERSHIP = '8d11d2ba-5ec5-4ec8-a08c-0ac7b8654b59';
+	const INVALID_UPDATE_TOKEN = '72dfed91-fa40-4af0-9e80-c6010ab29cd1';
 
 	/** @var EntityManager */
 	private $em;
