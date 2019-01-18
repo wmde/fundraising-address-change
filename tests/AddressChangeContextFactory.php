@@ -7,9 +7,8 @@ namespace WMDE\Fundraising\AddressChangeContext\Tests;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\Driver\XmlDriver;
 use Doctrine\ORM\Tools\Setup;
-use WMDE\Fundraising\Store\Factory as StoreFactory;
-use WMDE\Fundraising\Store\Installer;
 
 /**
  * @licence GNU GPL v2+
@@ -29,17 +28,10 @@ class AddressChangeContextFactory {
 	public function getEntityManager(): EntityManager {
 		$config = Setup::createConfiguration();
 
-		$driver = new \Doctrine\ORM\Mapping\Driver\XmlDriver( self::DOCTRINE_CLASS_MAPPING_DIRECTORY );
+		$driver = new XmlDriver( self::DOCTRINE_CLASS_MAPPING_DIRECTORY );
 		$config->setMetadataDriverImpl( $driver );
 
-		$eventManager = $this->getConnection()->getEventManager();
-
-		$entityManager = EntityManager::create( $this->connection, $config, $eventManager );
-
-		$platform = $entityManager->getConnection()->getDatabasePlatform();
-		$platform->registerDoctrineTypeMapping( 'enum', 'string' );
-
-		return $entityManager;
+		return EntityManager::create( $this->getConnection(), $config );
 	}
 
 	private function getConnection(): Connection {
@@ -47,10 +39,6 @@ class AddressChangeContextFactory {
 			$this->connection = DriverManager::getConnection( $this->config['db'] );
 		}
 		return $this->connection;
-	}
-
-	public function newInstaller(): Installer {
-		return ( new StoreFactory( $this->getConnection() ) )->newInstaller();
 	}
 
 }

@@ -18,10 +18,7 @@ class TestEnvironment {
 				'db' => [
 					'driver' => 'pdo_sqlite',
 					'memory' => true,
-				],
-				'var-path' => '/tmp',
-				'token-length' => 16,
-				'token-validity-timestamp' => 'PT4H',
+				]
 			]
 		);
 
@@ -36,15 +33,15 @@ class TestEnvironment {
 	}
 
 	private function install(): void {
-		$installer = $this->factory->newInstaller();
+		$schema = new DatabaseSchema( $this->factory->getEntityManager() );
 
 		try {
-			$installer->uninstall();
+			$schema->dropSchema();
 		}
 		catch ( \Exception $ex ) {
 		}
 
-		$installer->install();
+		$schema->createSchema();
 	}
 
 	public function getFactory(): AddressChangeContextFactory {

@@ -7,7 +7,6 @@
     </indexes>
     <unique-constraints>
       <unique-constraint name="UNIQ_7B0E7B9FA8954A18" columns="current_identifier"/>
-      <unique-constraint name="UNIQ_7B0E7B9F71AFE7AD" columns="third_party_identifier"/>
       <unique-constraint name="UNIQ_7B0E7B9F2EC1D3" columns="previous_identifier"/>
     </unique-constraints>
     <id name="id" type="integer" column="id">

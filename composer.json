@@ -9,8 +9,6 @@
 		"ramsey/uuid": "^3.7"
 	},
 	"require-dev": {
-		"wmde/fundraising-store": "~10.1.0",
-
 		"squizlabs/php_codesniffer": "~3.0",
 		"phpunit/phpunit": "~7.0",
 		"ockcyp/covers-validator": "~1.0",
