@@ -4,6 +4,8 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChange\Entities;
 
+use http\Exception\RuntimeException;
+use LogicException;
 use Ramsey\Uuid\Uuid;
 
 class AddressChange {
@@ -20,6 +22,8 @@ class AddressChange {
 	private $address;
 
 	private $addressType;
+
+	private $exportDate;
 
 	private function __construct( string $addressType, ?string $identifier = null, ?Address $address = null ) {
 		$this->addressType = $addressType;
@@ -42,9 +46,14 @@ class AddressChange {
 		$this->identifier = Uuid::uuid4()->toString();
 	}
 
-	public function performAddressChange(): void {
+	public function performAddressChange( Address $address ): void {
+		if ( $this->address !== null ) {
+			throw new LogicException( 'Cannot perform address change for instances that already have an address.' );
+		}
+		$this->address = $address;
 		$this->previousIdentifier = $this->getCurrentIdentifier();
 		$this->generateUuid();
+		$this->resetExportState();
 	}
 
 	public function getCurrentIdentifier(): string {
@@ -68,5 +77,20 @@ class AddressChange {
 
 	public function isCompanyAddress(): bool {
 		return $this->addressType === self::ADDRESS_TYPE_COMPANY;
+	}
+
+	public function markAsExported(): void {
+		if ( $this->isExported() ) {
+			throw new LogicException( 'Address changes can only be exported once.' );
+		}
+		$this->exportDate = new \DateTime();
+	}
+
+	private function resetExportState(): void {
+		$this->exportDate = null;
+	}
+
+	public function isExported(): bool {
+		return $this->exportDate !== null;
 	}
 }
