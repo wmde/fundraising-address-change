@@ -7,8 +7,8 @@ namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\DataAccess;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
 use WMDE\Fundraising\AddressChange\DataAccess\DoctrineAddressChangeRepository;
-use WMDE\Fundraising\AddressChange\Entities\Address;
-use WMDE\Fundraising\AddressChange\Entities\AddressChange;
+use WMDE\Fundraising\AddressChange\Domain\Model\Address;
+use WMDE\Fundraising\AddressChange\Domain\Model\AddressChange;
 use WMDE\Fundraising\AddressChangeContext\Tests\TestEnvironment;
 
 /**

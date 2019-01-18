@@ -6,7 +6,7 @@ namespace WMDE\Fundraising\AddressChange\DataAccess;
 
 use Doctrine\ORM\EntityManager;
 use WMDE\Fundraising\AddressChange\Domain\AddressChangeRepository;
-use WMDE\Fundraising\AddressChange\Entities\AddressChange;
+use WMDE\Fundraising\AddressChange\Domain\Model\AddressChange;
 
 class DoctrineAddressChangeRepository implements AddressChangeRepository {
 

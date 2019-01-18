@@ -4,7 +4,7 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\Tests\Data;
 
-use WMDE\Fundraising\AddressChange\Entities\Address;
+use WMDE\Fundraising\AddressChange\Domain\Model\Address;
 
 class ValidAddress {
 

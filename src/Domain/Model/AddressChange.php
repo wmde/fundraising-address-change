@@ -2,9 +2,8 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\Fundraising\AddressChange\Entities;
+namespace WMDE\Fundraising\AddressChange\Domain\Model;
 
-use http\Exception\RuntimeException;
 use LogicException;
 use Ramsey\Uuid\Uuid;
 

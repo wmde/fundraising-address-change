@@ -4,7 +4,7 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChange\Domain;
 
-use WMDE\Fundraising\AddressChange\Entities\AddressChange;
+use WMDE\Fundraising\AddressChange\Domain\Model\AddressChange;
 
 /**
  * @license GNU GPL v2+

@@ -2,17 +2,16 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\Entities;
+namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\Domain\Model;
 
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
-use WMDE\Fundraising\AddressChange\Entities\Address;
-use WMDE\Fundraising\AddressChange\Entities\AddressChange;
+use WMDE\Fundraising\AddressChange\Domain\Model\AddressChange;
 use WMDE\Fundraising\AddressChangeContext\Tests\Data\ValidAddress;
 use WMDE\Fundraising\AddressChangeContext\Tests\TestEnvironment;
 
 /**
- * @covers \WMDE\Fundraising\AddressChange\Entities\AddressChange
+ * @covers \WMDE\Fundraising\AddressChange\Domain\Model\AddressChange
  */
 class AddressChangeTest extends TestCase {
 

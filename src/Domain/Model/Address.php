@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\Fundraising\AddressChange\Entities;
+namespace WMDE\Fundraising\AddressChange\Domain\Model;
 
 class Address {
 
