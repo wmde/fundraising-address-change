@@ -27,12 +27,5 @@
 		"psr-4": {
 			"WMDE\\Fundraising\\AddressChangeContext\\Tests\\": "tests/"
 		}
-	},
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/wmde/fundraisingstore",
-			"no-api": true
-		}
-	]
+	}
 }
