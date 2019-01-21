@@ -4,6 +4,8 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChange\Domain\Model;
 
+use WMDE\Fundraising\AddressChange\UseCases\ChangeAddress\ChangeAddressValidationException;
+
 class Address {
 
 	private const TYPE_PERSONAL = 'personal';
@@ -64,6 +66,14 @@ class Address {
 		string $postcode,
 		string $city,
 		string $country ): self {
+		self::assertNotEmpty( 'Salutation', $salutation );
+		self::assertNotEmpty( 'First Name', $firstName );
+		self::assertNotEmpty( 'Last Name', $lastName );
+		self::assertNotEmpty( 'Address', $address );
+		self::assertNotEmpty( 'Post Code', $postcode );
+		self::assertNotEmpty( 'City', $city );
+		self::assertNotEmpty( 'Country', $country );
+
 		return new self( $salutation, '', $title, $firstName, $lastName, $address, $postcode, $city, $country, self::TYPE_PERSONAL );
 	}
 
@@ -73,7 +83,18 @@ class Address {
 		string $postcode,
 		string $city,
 		string $country ): self {
+		self::assertNotEmpty( 'Company', $company );
+		self::assertNotEmpty( 'Address', $address );
+		self::assertNotEmpty( 'Post Code', $postcode );
+		self::assertNotEmpty( 'City', $city );
+		self::assertNotEmpty( 'Country', $country );
 		return new self( '', $company, '', '', '', $address, $postcode, $city, $country, self::TYPE_COMPANY );
+	}
+
+	static private function assertNotEmpty( string $field, string $value ): void {
+		if ( $value === '' ) {
+			throw new ChangeAddressValidationException( $field );
+		}
 	}
 
 	public function isPersonalAddress(): bool {

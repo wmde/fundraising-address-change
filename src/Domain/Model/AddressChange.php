@@ -28,7 +28,6 @@ class AddressChange {
 		$this->addressType = $addressType;
 		$this->identifier = $identifier;
 		$this->address = $address;
-
 		if ( $identifier === null ) {
 			$this->generateUuid();
 		} elseif ( !Uuid::isValid( $identifier ) ) {

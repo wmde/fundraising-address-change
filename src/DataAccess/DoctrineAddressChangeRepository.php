@@ -21,6 +21,7 @@ class DoctrineAddressChangeRepository implements AddressChangeRepository {
 	}
 
 	public function storeAddressChange( AddressChange $addressChange ): void {
-		throw new \Exception( 'Not implemented yet' );
+		$this->entityManager->persist( $addressChange );
+		$this->entityManager->flush();
 	}
 }

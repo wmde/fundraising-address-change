@@ -60,6 +60,19 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$this->assertNull( $addressChange );
 	}
 
+	public function testGivenAddressChangeWithAddress_itIsStoredCorrectly() {
+		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
+		$addressChange = AddressChange::createNewPersonAddressChange( null, $this->newPersonalAddress() );
+		$addressChangeRepository->storeAddressChange( $addressChange );
+
+		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( $addressChange->getCurrentIdentifier() );
+		$this->assertNotNull( $retrievedAddressChange );
+		$this->assertNotNull( $retrievedAddressChange->getAddress() );
+		$this->assertNotNull( $addressChange->getAddress() );
+		$this->assertSame( $addressChange->getCurrentIdentifier(), $retrievedAddressChange->getCurrentIdentifier() );
+		$this->assertSame( $addressChange->getAddress()->isPersonalAddress(), $retrievedAddressChange->getAddress()->isPersonalAddress() );
+	}
+
 	private function storeAddressChange( string $uuid, bool $isPersonal = true ): void {
 		if ( $isPersonal ) {
 			$addressChange = AddressChange::createNewPersonAddressChange(

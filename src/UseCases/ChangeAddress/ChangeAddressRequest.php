@@ -5,6 +5,7 @@ declare( strict_types = 1 );
 namespace WMDE\Fundraising\AddressChange\UseCases\ChangeAddress;
 
 use WMDE\FreezableValueObject\FreezableValueObject;
+use WMDE\Fundraising\AddressChange\Domain\Model\AddressChange;
 
 class ChangeAddressRequest {
 	use FreezableValueObject;
@@ -125,6 +126,14 @@ class ChangeAddressRequest {
 		return $this->addressType;
 	}
 
+	public function isPersonal(): bool {
+		return $this->addressType === AddressChange::ADDRESS_TYPE_PERSON;
+	}
+
+	public function isCompany(): bool {
+		return $this->addressType === AddressChange::ADDRESS_TYPE_COMPANY;
+	}
+
 	public function setAddressType( string $addressType ): self {
 		$this->assertIsWritable();
 		$this->addressType = $addressType;
@@ -140,7 +149,5 @@ class ChangeAddressRequest {
 		$this->identifier = $identifier;
 		return $this;
 	}
-
-
 
 }
