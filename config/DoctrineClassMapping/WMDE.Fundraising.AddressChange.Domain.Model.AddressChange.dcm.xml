@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="WMDE\Fundraising\AddressChange\Entities\AddressChange" table="address_change">
+  <entity name="WMDE\Fundraising\AddressChange\Domain\Model\AddressChange" table="address_change">
     <indexes>
-      <index name="tmp_address_change" columns="address_type"/>
+      <index name="ac_export_date" columns="export_date"/>
       <index name="IDX_7B0E7B9FF5B7AF75" columns="address_id"/>
     </indexes>
     <unique-constraints>
       <unique-constraint name="UNIQ_7B0E7B9FA8954A18" columns="current_identifier"/>
-      <unique-constraint name="UNIQ_7B0E7B9F71AFE7AD" columns="third_party_identifier"/>
       <unique-constraint name="UNIQ_7B0E7B9F2EC1D3" columns="previous_identifier"/>
     </unique-constraints>
     <id name="id" type="integer" column="id">
@@ -24,6 +23,11 @@
       </options>
     </field>
     <field name="addressType" type="string" column="address_type" length="10" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="exportDate" type="datetime" column="export_date" nullable="true">
       <options>
         <option name="fixed"/>
       </options>

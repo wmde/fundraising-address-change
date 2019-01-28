@@ -6,7 +6,7 @@ namespace WMDE\Fundraising\AddressChange\DataAccess;
 
 use Doctrine\ORM\EntityManager;
 use WMDE\Fundraising\AddressChange\Domain\AddressChangeRepository;
-use WMDE\Fundraising\AddressChange\Entities\AddressChange;
+use WMDE\Fundraising\AddressChange\Domain\Model\AddressChange;
 
 class DoctrineAddressChangeRepository implements AddressChangeRepository {
 
@@ -18,5 +18,10 @@ class DoctrineAddressChangeRepository implements AddressChangeRepository {
 
 	public function getAddressChangeByUuid( string $uuid ): ?AddressChange {
 		return $this->entityManager->getRepository( AddressChange::class )->findOneBy( [ 'identifier' => $uuid ] );
+	}
+
+	public function storeAddressChange( AddressChange $addressChange ): void {
+		$this->entityManager->persist( $addressChange );
+		$this->entityManager->flush();
 	}
 }
