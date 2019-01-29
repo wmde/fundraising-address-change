@@ -64,13 +64,30 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
 		$addressChange = AddressChange::createNewPersonAddressChange( null, $this->newPersonalAddress() );
 		$addressChangeRepository->storeAddressChange( $addressChange );
+		$now = new \DateTime();
 
 		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( $addressChange->getCurrentIdentifier() );
 		$this->assertNotNull( $retrievedAddressChange );
 		$this->assertNotNull( $retrievedAddressChange->getAddress() );
-		$this->assertNotNull( $addressChange->getAddress() );
+		$this->assertNotNull( $addressChange->getAddress() ); // avoid PHPStan errors when accessing address later
+		$this->assertFalse( $retrievedAddressChange->isExported() );
+		$this->assertDatePropertyIsSet( $now, $retrievedAddressChange, 'createdAt' );
+		$this->assertDatePropertyIsSet( $now, $retrievedAddressChange, 'modifiedAt' );
 		$this->assertSame( $addressChange->getCurrentIdentifier(), $retrievedAddressChange->getCurrentIdentifier() );
 		$this->assertSame( $addressChange->getAddress()->isPersonalAddress(), $retrievedAddressChange->getAddress()->isPersonalAddress() );
+	}
+
+	public function testGivenExportedAddressChange_itsStateIsStoredCorrectly() {
+		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
+		$addressChange = AddressChange::createNewPersonAddressChange( null, $this->newPersonalAddress() );
+		$addressChange->markAsExported();
+		$addressChangeRepository->storeAddressChange( $addressChange );
+		$now = new \DateTime();
+
+		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( $addressChange->getCurrentIdentifier() );
+		$this->assertNotNull( $retrievedAddressChange );
+		$this->assertTrue( $retrievedAddressChange->isExported() );
+		$this->assertDatePropertyIsSet( $now, $retrievedAddressChange, 'exportDate' );
 	}
 
 	private function storeAddressChange( string $uuid, bool $isPersonal = true ): void {
@@ -117,5 +134,14 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 			'Not Berlin',
 			'Somewhere'
 		);
+	}
+
+	private function assertDatePropertyIsSet( \DateTime $expectedDate, AddressChange $addressChange, string $propertyName, float $delta = 1.0 ) {
+		// We're peeking into private properties to make sure the dates, which are not exposed through getters at the domain level,
+		// are properly written at the DB level
+		$dateField = new \ReflectionProperty( AddressChange::class, $propertyName );
+		$dateField->setAccessible( true );
+		$actualDate = $dateField->getValue( $addressChange );
+		$this->assertEqualsWithDelta( $actualDate->getTimestamp(), $expectedDate->getTimestamp(), $delta, 'Dates do not match.' );
 	}
 }

@@ -24,13 +24,18 @@ class AddressChangeTest extends TestCase {
 		$this->entityManager = TestEnvironment::newInstance()->getFactory()->getEntityManager();
 	}
 
-	public function testWhenNewAddressChangeIsPersisted_uuidIsGenerated() {
+	public function testWhenNewAddressChangeIsCreated_uuidIsGenerated() {
 		$addressChange = AddressChange::createNewPersonAddressChange();
 		$this->assertNotEmpty( $addressChange->getCurrentIdentifier() );
 	}
 
-	public function testWhenAddressIdentifierIsUpdated_dataIsProperlyAssigned() {
+	public function testWhenNewAddressChangeIsCreated_itIsNotModified() {
 		$addressChange = AddressChange::createNewPersonAddressChange();
+		$this->assertFalse( $addressChange->isModified() );
+	}
+
+	public function testWhenAddressIsUpdated_dataIsProperlyAssigned() {
+		$addressChange = AddressChange::createNewPersonAddressChange( null, null, new \DateTime( '1970-01-01' ) );
 		$initialIdentifier = $addressChange->getCurrentIdentifier();
 		$address = ValidAddress::newValidPersonalAddress();
 		$addressChange->performAddressChange( $address );
@@ -38,6 +43,7 @@ class AddressChangeTest extends TestCase {
 		$this->assertSame( $initialIdentifier, $addressChange->getPreviousIdentifier() );
 		$this->assertNotSame( $initialIdentifier, $addressChange->getCurrentIdentifier() );
 		$this->assertSame( $address, $addressChange->getAddress() );
+		$this->assertTrue( $addressChange->isModified() );
 	}
 
 	public function testAddressChangeCannotBePerformedTwice() {
@@ -67,6 +73,12 @@ class AddressChangeTest extends TestCase {
 		$this->expectException( \LogicException::class );
 
 		$addressChange->markAsExported();
+	}
+
+	public function testMarkingAsExportedDoesNotChangeModificationDate() {
+		$addressChange = AddressChange::createNewPersonAddressChange();
+		$addressChange->markAsExported();
+		$this->assertFalse( $addressChange->isModified() );
 	}
 
 	public function testWhenAddressChangeIsPerformed_exportStateIsReset() {
