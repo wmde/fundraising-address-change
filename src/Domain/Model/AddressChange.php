@@ -24,7 +24,12 @@ class AddressChange {
 
 	private $exportDate;
 
-	private function __construct( string $addressType, ?string $identifier = null, ?Address $address = null ) {
+	private $createdAt;
+
+	private $modifiedAt;
+
+	private function __construct( string $addressType, ?string $identifier = null, ?Address $address = null,
+								  ?\DateTime $createdAt = null ) {
 		$this->addressType = $addressType;
 		$this->identifier = $identifier;
 		$this->address = $address;
@@ -33,14 +38,18 @@ class AddressChange {
 		} elseif ( !Uuid::isValid( $identifier ) ) {
 			throw new \InvalidArgumentException( 'Identifier must be a valid UUID' );
 		}
+		$this->createdAt = $createdAt ?? new \DateTime();
+		$this->modifiedAt = clone( $this->createdAt );
 	}
 
-	public static function createNewPersonAddressChange( ?string $identifier = null, ?Address $address = null ): self {
-		return new AddressChange( self::ADDRESS_TYPE_PERSON, $identifier, $address );
+	public static function createNewPersonAddressChange( ?string $identifier = null, ?Address $address = null,
+														 ?\DateTime $createdAt = null ): self {
+		return new AddressChange( self::ADDRESS_TYPE_PERSON, $identifier, $address, $createdAt );
 	}
 
-	public static function createNewCompanyAddressChange( ?string $identifier = null, ?Address $address = null ): self {
-		return new AddressChange( self::ADDRESS_TYPE_COMPANY, $identifier, $address );
+	public static function createNewCompanyAddressChange( ?string $identifier = null, ?Address $address = null,
+														  ?\DateTime $createdAt = null ): self {
+		return new AddressChange( self::ADDRESS_TYPE_COMPANY, $identifier, $address, $createdAt );
 	}
 
 	private function generateUuid(): void {
@@ -53,6 +62,7 @@ class AddressChange {
 		}
 		$this->address = $address;
 		$this->previousIdentifier = $this->getCurrentIdentifier();
+		$this->modifiedAt = new \DateTime();
 		$this->generateUuid();
 		$this->resetExportState();
 	}
@@ -93,5 +103,9 @@ class AddressChange {
 
 	public function isExported(): bool {
 		return $this->exportDate !== null;
+	}
+
+	public function isModified(): bool {
+		return $this->createdAt < $this->modifiedAt;
 	}
 }

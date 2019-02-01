@@ -22,16 +22,10 @@
         <option name="fixed"/>
       </options>
     </field>
-    <field name="addressType" type="string" column="address_type" length="10" nullable="false">
-      <options>
-        <option name="fixed"/>
-      </options>
-    </field>
-    <field name="exportDate" type="datetime" column="export_date" nullable="true">
-      <options>
-        <option name="fixed"/>
-      </options>
-    </field>
+    <field name="addressType" type="string" column="address_type" length="10" nullable="false" />
+    <field name="exportDate" type="datetime" column="export_date" nullable="true" />
+    <field name="createdAt" type="datetime" column="created_at" nullable="false" />
+    <field name="modifiedAt" type="datetime" column="modified_at" nullable="false" />
     <many-to-one field="address" target-entity="Address" fetch="LAZY">
       <join-columns>
         <join-column name="address_id" referenced-column-name="id"/>
