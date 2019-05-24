@@ -34,6 +34,8 @@ class Address {
 
 	private $addressType;
 
+	private $donationReceipt;
+
 	private function __construct(
 		string $salutation,
 		string $company,
@@ -44,7 +46,8 @@ class Address {
 		string $postcode,
 		string $city,
 		string $country,
-		string $addressType ) {
+		string $addressType,
+		bool $donationReceipt ) {
 		$this->salutation = $salutation;
 		$this->company = $company;
 		$this->title = $title;
@@ -55,6 +58,7 @@ class Address {
 		$this->city = $city;
 		$this->country = $country;
 		$this->addressType = $addressType;
+		$this->donationReceipt = $donationReceipt;
 	}
 
 	static public function newPersonalAddress(
@@ -65,7 +69,8 @@ class Address {
 		string $address,
 		string $postcode,
 		string $city,
-		string $country ): self {
+		string $country,
+		bool $donationReceipt ): self {
 		self::assertNotEmpty( 'Salutation', $salutation );
 		self::assertNotEmpty( 'First Name', $firstName );
 		self::assertNotEmpty( 'Last Name', $lastName );
@@ -74,7 +79,7 @@ class Address {
 		self::assertNotEmpty( 'City', $city );
 		self::assertNotEmpty( 'Country', $country );
 
-		return new self( $salutation, '', $title, $firstName, $lastName, $address, $postcode, $city, $country, self::TYPE_PERSONAL );
+		return new self( $salutation, '', $title, $firstName, $lastName, $address, $postcode, $city, $country, self::TYPE_PERSONAL, $donationReceipt );
 	}
 
 	static public function newCompanyAddress(
@@ -82,13 +87,14 @@ class Address {
 		string $address,
 		string $postcode,
 		string $city,
-		string $country ): self {
+		string $country,
+		bool $donationReceipt ): self {
 		self::assertNotEmpty( 'Company', $company );
 		self::assertNotEmpty( 'Address', $address );
 		self::assertNotEmpty( 'Post Code', $postcode );
 		self::assertNotEmpty( 'City', $city );
 		self::assertNotEmpty( 'Country', $country );
-		return new self( '', $company, '', '', '', $address, $postcode, $city, $country, self::TYPE_COMPANY );
+		return new self( '', $company, '', '', '', $address, $postcode, $city, $country, self::TYPE_COMPANY, $donationReceipt );
 	}
 
 	static private function assertNotEmpty( string $field, string $value ): void {
@@ -139,5 +145,9 @@ class Address {
 
 	public function getCountry(): string {
 		return $this->country;
+	}
+
+	public function isOptedIntoDonationReceipt(): bool {
+		return $this->donationReceipt;
 	}
 }

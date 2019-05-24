@@ -32,6 +32,8 @@ class ChangeAddressRequest {
 
 	private $identifier;
 
+	private $donationReceipt;
+
 	public function getSalutation(): string {
 		return $this->salutation;
 	}
@@ -147,6 +149,16 @@ class ChangeAddressRequest {
 	public function setIdentifier( string $identifier ): self {
 		$this->assertIsWritable();
 		$this->identifier = $identifier;
+		return $this;
+	}
+
+	public function isOptedIntoDonationReceipt(): bool {
+		return $this->donationReceipt;
+	}
+
+	public function setDonationReceipt( bool $donationReceipt ): self {
+		$this->assertIsWritable();
+		$this->donationReceipt = $donationReceipt;
 		return $this;
 	}
 

@@ -40,7 +40,8 @@ class ChangeAddressUseCase {
 				$request->getAddress(),
 				$request->getPostcode(),
 				$request->getCity(),
-				$request->getCountry()
+				$request->getCountry(),
+				$request->isOptedIntoDonationReceipt()
 			);
 		} elseif ( $request->isCompany() ) {
 			return Address::newCompanyAddress(
@@ -48,7 +49,8 @@ class ChangeAddressUseCase {
 				$request->getAddress(),
 				$request->getPostcode(),
 				$request->getCity(),
-				$request->getCountry()
+				$request->getCountry(),
+				$request->isOptedIntoDonationReceipt()
 			);
 		}
 		throw new ChangeAddressValidationException( 'Address Type' );

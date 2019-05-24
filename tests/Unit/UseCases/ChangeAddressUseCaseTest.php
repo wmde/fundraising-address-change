@@ -59,6 +59,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 		$request->setPostcode( '12345' );
 		$request->setSalutation( 'Herr' );
 		$request->setTitle( 'Prof. Dr.' );
+		$request->setDonationReceipt( true );
 		$request->freeze();
 		return $request;
 	}
@@ -75,6 +76,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 		$request->setPostcode( '12345' );
 		$request->setSalutation( 'Herr' );
 		$request->setTitle( 'Prof. Dr.' );
+		$request->setDonationReceipt( false );
 		$request->freeze();
 		return $request;
 	}
