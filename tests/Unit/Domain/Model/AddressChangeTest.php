@@ -35,7 +35,7 @@ class AddressChangeTest extends TestCase {
 	}
 
 	public function testWhenAddressIsUpdated_dataIsProperlyAssigned() {
-		$addressChange = AddressChange::createNewPersonAddressChange( null, null, new \DateTime( '1970-01-01' ) );
+		$addressChange = AddressChange::createNewPersonAddressChange( null, null, false, new \DateTime( '1970-01-01' ) );
 		$initialIdentifier = $addressChange->getCurrentIdentifier();
 		$address = ValidAddress::newValidPersonalAddress();
 		$addressChange->performAddressChange( $address );

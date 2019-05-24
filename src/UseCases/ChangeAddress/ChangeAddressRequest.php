@@ -162,4 +162,11 @@ class ChangeAddressRequest {
 		return $this;
 	}
 
+	public function isOnlyOptInDonationReceiptRequest(): bool {
+		if ( $this->address == '' ) {
+			return true;
+		}
+		return false;
+	}
+
 }

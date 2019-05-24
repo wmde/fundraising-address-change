@@ -21,11 +21,17 @@ class ChangeAddressUseCase {
 			return ChangeAddressResponse::newErrorResponse( ['Unknown address.'] );
 		}
 		try {
-			$addressChange->performAddressChange( $this->buildAddress( $request ) );
+			if ( $request->isOnlyOptInDonationReceiptRequest() ) {
+				$addressChange->optOutOfDonationReceipt( $request->isOptedIntoDonationReceipt() );
+			}
+			else {
+				$addressChange->performAddressChange( $this->buildAddress( $request ) );
+			}
 		}
 		catch ( ChangeAddressValidationException $e ) {
 			return ChangeAddressResponse::newErrorResponse( [ $e->getMessage() ] );
 		}
+
 		$this->addressChangeRepository->storeAddressChange( $addressChange );
 		return ChangeAddressResponse::newSuccessResponse();
 	}
@@ -40,8 +46,7 @@ class ChangeAddressUseCase {
 				$request->getAddress(),
 				$request->getPostcode(),
 				$request->getCity(),
-				$request->getCountry(),
-				$request->isOptedIntoDonationReceipt()
+				$request->getCountry()
 			);
 		} elseif ( $request->isCompany() ) {
 			return Address::newCompanyAddress(
@@ -49,8 +54,7 @@ class ChangeAddressUseCase {
 				$request->getAddress(),
 				$request->getPostcode(),
 				$request->getCity(),
-				$request->getCountry(),
-				$request->isOptedIntoDonationReceipt()
+				$request->getCountry()
 			);
 		}
 		throw new ChangeAddressValidationException( 'Address Type' );

@@ -22,15 +22,18 @@ class AddressChange {
 
 	private $addressType;
 
+	private $donationReceipt;
+
 	private $exportDate;
 
 	private $createdAt;
 
 	private $modifiedAt;
 
-	private function __construct( string $addressType, ?string $identifier = null, ?Address $address = null,
+	private function __construct( string $addressType, ?string $identifier = null, ?Address $address = null, bool $donationReceipt = false,
 								  ?\DateTime $createdAt = null ) {
 		$this->addressType = $addressType;
+		$this->donationReceipt = $donationReceipt;
 		$this->identifier = $identifier;
 		$this->address = $address;
 		if ( $identifier === null ) {
@@ -42,14 +45,14 @@ class AddressChange {
 		$this->modifiedAt = clone( $this->createdAt );
 	}
 
-	public static function createNewPersonAddressChange( ?string $identifier = null, ?Address $address = null,
+	public static function createNewPersonAddressChange( ?string $identifier = null, ?Address $address = null, bool $donationReceipt = false,
 														 ?\DateTime $createdAt = null ): self {
-		return new AddressChange( self::ADDRESS_TYPE_PERSON, $identifier, $address, $createdAt );
+		return new AddressChange( self::ADDRESS_TYPE_PERSON, $identifier, $address, $donationReceipt, $createdAt );
 	}
 
-	public static function createNewCompanyAddressChange( ?string $identifier = null, ?Address $address = null,
+	public static function createNewCompanyAddressChange( ?string $identifier = null, ?Address $address = null, bool $donationReceipt = false,
 														  ?\DateTime $createdAt = null ): self {
-		return new AddressChange( self::ADDRESS_TYPE_COMPANY, $identifier, $address, $createdAt );
+		return new AddressChange( self::ADDRESS_TYPE_COMPANY, $identifier, $address, $donationReceipt, $createdAt );
 	}
 
 	private function generateUuid(): void {
@@ -64,6 +67,13 @@ class AddressChange {
 		$this->previousIdentifier = $this->getCurrentIdentifier();
 		$this->modifiedAt = new \DateTime();
 		$this->generateUuid();
+		$this->resetExportState();
+	}
+
+	public function optOutOfDonationReceipt( bool $donationReceipt ): void {
+		$this->donationReceipt = $donationReceipt;
+		$this->previousIdentifier = $this->getCurrentIdentifier();
+		$this->modifiedAt = new \DateTime();
 		$this->resetExportState();
 	}
 
@@ -88,6 +98,10 @@ class AddressChange {
 
 	public function isCompanyAddress(): bool {
 		return $this->addressType === self::ADDRESS_TYPE_COMPANY;
+	}
+
+	public function isOptedIntoDonationReceipt(): bool {
+		return $this->donationReceipt;
 	}
 
 	public function markAsExported(): void {
