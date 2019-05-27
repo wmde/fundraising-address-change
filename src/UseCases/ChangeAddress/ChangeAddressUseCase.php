@@ -21,12 +21,10 @@ class ChangeAddressUseCase {
 			return ChangeAddressResponse::newErrorResponse( ['Unknown address.'] );
 		}
 		try {
-			if ( $request->isOnlyOptInDonationReceiptRequest() ) {
-				$addressChange->optOutOfDonationReceipt( $request->isOptedIntoDonationReceipt() );
-			}
-			else {
+			if ( !$request->isOnlyOptInDonationReceiptRequest() ) {
 				$addressChange->performAddressChange( $this->buildAddress( $request ) );
 			}
+			$addressChange->optOutOfDonationReceipt( $request->isOptedIntoDonationReceipt() );
 		}
 		catch ( ChangeAddressValidationException $e ) {
 			return ChangeAddressResponse::newErrorResponse( [ $e->getMessage() ] );

@@ -34,6 +34,8 @@ class ChangeAddressRequest {
 
 	private $donationReceipt;
 
+	private $isOptOutOnly;
+
 	public function getSalutation(): string {
 		return $this->salutation;
 	}
@@ -162,11 +164,14 @@ class ChangeAddressRequest {
 		return $this;
 	}
 
+	public function setIsOptOutOnly( bool $isOptOutOnly ): self {
+		$this->assertIsWritable();
+		$this->isOptOutOnly = $isOptOutOnly;
+		return $this;
+	}
+
 	public function isOnlyOptInDonationReceiptRequest(): bool {
-		if ( $this->address == '' ) {
-			return true;
-		}
-		return false;
+		return $this->isOptOutOnly;
 	}
 
 }

@@ -60,6 +60,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 		$request->setSalutation( 'Herr' );
 		$request->setTitle( 'Prof. Dr.' );
 		$request->setDonationReceipt( true );
+		$request->setIsOptOutOnly( false );
 		$request->freeze();
 		return $request;
 	}
@@ -77,6 +78,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 		$request->setSalutation( 'Herr' );
 		$request->setTitle( 'Prof. Dr.' );
 		$request->setDonationReceipt( false );
+		$request->setIsOptOutOnly( false );
 		$request->freeze();
 		return $request;
 	}
