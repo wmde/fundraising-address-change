@@ -47,6 +47,26 @@ class ChangeAddressUseCaseTest extends TestCase {
 		$this->assertFalse( $response->isSuccess() );
 	}
 
+	public function testGivenValidOptOutOnlyChangeRequest_successResponseIsReturned(): void {
+		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
+		$mockAddressChangeRepository->method( 'getAddressChangeByUuid' )->willReturn(
+			AddressChange::createNewPersonAddressChange( self::VALID_SAMPLE_UUID )
+		);
+		$useCase = new ChangeAddressUseCase( $mockAddressChangeRepository );
+		$response = $useCase->changeAddress( $this->newOptOutOnlyRequest() );
+		$this->assertTrue( $response->isSuccess() );
+	}
+
+	public function testGivenEmptyAddressChangeRequest_errorResponseIsReturned(): void {
+		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
+		$mockAddressChangeRepository->method( 'getAddressChangeByUuid' )->willReturn(
+			AddressChange::createNewPersonAddressChange( self::VALID_SAMPLE_UUID )
+		);
+		$useCase = new ChangeAddressUseCase( $mockAddressChangeRepository );
+		$response = $useCase->changeAddress( $this->newEmptyChangeAddressRequest() );
+		$this->assertFalse( $response->isSuccess() );
+	}
+
 	private function newChangeAddressRequest(): ChangeAddressRequest {
 		$request = new ChangeAddressRequest();
 		$request->setIdentifier( self::VALID_SAMPLE_UUID );
@@ -82,4 +102,41 @@ class ChangeAddressUseCaseTest extends TestCase {
 		$request->freeze();
 		return $request;
 	}
+
+	private function newEmptyChangeAddressRequest(): ChangeAddressRequest {
+		$request = new ChangeAddressRequest();
+		$request->setIdentifier( self::VALID_SAMPLE_UUID );
+		$request->setAddress( '' );
+		$request->setAddressType( AddressChange::ADDRESS_TYPE_PERSON );
+		$request->setCity( '' );
+		$request->setCountry( '' );
+		$request->setFirstName( '' );
+		$request->setLastName( '' );
+		$request->setPostcode( '' );
+		$request->setSalutation( '' );
+		$request->setTitle( '' );
+		$request->setDonationReceipt( true );
+		$request->setIsOptOutOnly( false );
+		$request->freeze();
+		return $request;
+	}
+
+	private function newOptOutOnlyRequest(): ChangeAddressRequest {
+		$request = new ChangeAddressRequest();
+		$request->setIdentifier( self::VALID_SAMPLE_UUID );
+		$request->setAddress( '' );
+		$request->setAddressType( AddressChange::ADDRESS_TYPE_PERSON );
+		$request->setCity( '' );
+		$request->setCountry( '' );
+		$request->setFirstName( '' );
+		$request->setLastName( '' );
+		$request->setPostcode( '' );
+		$request->setSalutation( '' );
+		$request->setTitle( '' );
+		$request->setDonationReceipt( false );
+		$request->setIsOptOutOnly( true );
+		$request->freeze();
+		return $request;
+	}
+
 }
