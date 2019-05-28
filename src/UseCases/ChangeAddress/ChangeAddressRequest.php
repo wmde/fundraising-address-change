@@ -32,6 +32,10 @@ class ChangeAddressRequest {
 
 	private $identifier;
 
+	private $donationReceipt;
+
+	private $isOptOutOnly;
+
 	public function getSalutation(): string {
 		return $this->salutation;
 	}
@@ -148,6 +152,26 @@ class ChangeAddressRequest {
 		$this->assertIsWritable();
 		$this->identifier = $identifier;
 		return $this;
+	}
+
+	public function isOptedIntoDonationReceipt(): bool {
+		return $this->donationReceipt;
+	}
+
+	public function setDonationReceipt( bool $donationReceipt ): self {
+		$this->assertIsWritable();
+		$this->donationReceipt = $donationReceipt;
+		return $this;
+	}
+
+	public function setIsOptOutOnly( bool $isOptOutOnly ): self {
+		$this->assertIsWritable();
+		$this->isOptOutOnly = $isOptOutOnly;
+		return $this;
+	}
+
+	public function isOnlyOptInDonationReceiptRequest(): bool {
+		return $this->isOptOutOnly;
 	}
 
 }
