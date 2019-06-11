@@ -30,10 +30,8 @@ class AddressChange {
 
 	private $modifiedAt;
 
-	private function __construct( string $addressType, ?string $identifier = null, ?Address $address = null, bool $donationReceipt = false,
-								  ?\DateTime $createdAt = null ) {
+	private function __construct( string $addressType, ?string $identifier = null, ?Address $address = null, ?\DateTime $createdAt = null ) {
 		$this->addressType = $addressType;
-		$this->donationReceipt = $donationReceipt;
 		$this->identifier = $identifier;
 		$this->address = $address;
 		if ( $identifier === null ) {
@@ -43,16 +41,15 @@ class AddressChange {
 		}
 		$this->createdAt = $createdAt ?? new \DateTime();
 		$this->modifiedAt = clone( $this->createdAt );
+		$this->donationReceipt = true;
 	}
 
-	public static function createNewPersonAddressChange( ?string $identifier = null, ?Address $address = null, bool $donationReceipt = false,
-														 ?\DateTime $createdAt = null ): self {
-		return new AddressChange( self::ADDRESS_TYPE_PERSON, $identifier, $address, $donationReceipt, $createdAt );
+	public static function createNewPersonAddressChange( ?string $identifier = null, ?Address $address = null, ?\DateTime $createdAt = null ): self {
+		return new AddressChange( self::ADDRESS_TYPE_PERSON, $identifier, $address, $createdAt );
 	}
 
-	public static function createNewCompanyAddressChange( ?string $identifier = null, ?Address $address = null, bool $donationReceipt = false,
-														  ?\DateTime $createdAt = null ): self {
-		return new AddressChange( self::ADDRESS_TYPE_COMPANY, $identifier, $address, $donationReceipt, $createdAt );
+	public static function createNewCompanyAddressChange( ?string $identifier = null, ?Address $address = null, ?\DateTime $createdAt = null ): self {
+		return new AddressChange( self::ADDRESS_TYPE_COMPANY, $identifier, $address, $createdAt );
 	}
 
 	private function generateUuid(): void {
@@ -67,8 +64,8 @@ class AddressChange {
 		$this->markAsModified();
 	}
 
-	public function optOutOfDonationReceipt( bool $donationReceipt ): void {
-		$this->donationReceipt = $donationReceipt;
+	public function optOutOfDonationReceipt(): void {
+		$this->donationReceipt = false;
 		$this->markAsModified();
 	}
 

@@ -44,7 +44,7 @@ class AddressChangeTest extends TestCase {
 	}
 
 	private function newPersonAddressChange(): AddressChange {
-		return AddressChange::createNewPersonAddressChange( null, null, false, new \DateTime( '1970-01-01' ) );
+		return AddressChange::createNewPersonAddressChange( null, null, new \DateTime( '1970-01-01' ) );
 	}
 
 	public function testUpdatingAddressMarksAddressChangeAsModified() {
@@ -71,7 +71,7 @@ class AddressChangeTest extends TestCase {
 		$addressChange = $this->newPersonAddressChange();
 		$initialIdentifier = $addressChange->getCurrentIdentifier();
 
-		$addressChange->optOutOfDonationReceipt( false );
+		$addressChange->optOutOfDonationReceipt();
 
 		$this->assertNotSame( $initialIdentifier, $addressChange->getCurrentIdentifier() );
 		$this->assertSame( $initialIdentifier, $addressChange->getPreviousIdentifier() );
@@ -112,7 +112,7 @@ class AddressChangeTest extends TestCase {
 		$identifierAfterFirstChange = $addressChange->getCurrentIdentifier();
 		$previousIdentifierAfterFirstChange = $addressChange->getPreviousIdentifier();
 
-		$addressChange->optOutOfDonationReceipt( false );
+		$addressChange->optOutOfDonationReceipt();
 		$identifierAfterSecondChange = $addressChange->getCurrentIdentifier();
 		$previousIdentifierAfterSecondChange = $addressChange->getPreviousIdentifier();
 
