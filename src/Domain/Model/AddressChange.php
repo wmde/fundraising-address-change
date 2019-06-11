@@ -64,17 +64,12 @@ class AddressChange {
 			throw new LogicException( 'Cannot perform address change for instances that already have an address.' );
 		}
 		$this->address = $address;
-		$this->previousIdentifier = $this->getCurrentIdentifier();
-		$this->modifiedAt = new \DateTime();
-		$this->generateUuid();
-		$this->resetExportState();
+		$this->markAsModified();
 	}
 
 	public function optOutOfDonationReceipt( bool $donationReceipt ): void {
 		$this->donationReceipt = $donationReceipt;
-		$this->previousIdentifier = $this->getCurrentIdentifier();
-		$this->modifiedAt = new \DateTime();
-		$this->resetExportState();
+		$this->markAsModified();
 	}
 
 	public function getCurrentIdentifier(): string {
@@ -121,5 +116,14 @@ class AddressChange {
 
 	public function isModified(): bool {
 		return $this->createdAt < $this->modifiedAt;
+	}
+
+	private function markAsModified() {
+		if ( !$this->isModified() ) {
+			$this->previousIdentifier = $this->getCurrentIdentifier();
+			$this->generateUuid();
+		}
+		$this->modifiedAt = new \DateTime();
+		$this->resetExportState();
 	}
 }
