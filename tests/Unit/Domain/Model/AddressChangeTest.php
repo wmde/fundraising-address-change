@@ -35,14 +35,26 @@ class AddressChangeTest extends TestCase {
 	}
 
 	public function testWhenAddressIsUpdated_dataIsProperlyAssigned() {
-		$addressChange = AddressChange::createNewPersonAddressChange( null, null, false, new \DateTime( '1970-01-01' ) );
-		$initialIdentifier = $addressChange->getCurrentIdentifier();
+		$addressChange = $this->newPersonAddressChange();
 		$address = ValidAddress::newValidPersonalAddress();
+
 		$addressChange->performAddressChange( $address );
 
-		$this->assertSame( $initialIdentifier, $addressChange->getPreviousIdentifier() );
-		$this->assertNotSame( $initialIdentifier, $addressChange->getCurrentIdentifier() );
 		$this->assertSame( $address, $addressChange->getAddress() );
+	}
+
+	private function newPersonAddressChange(): AddressChange {
+		return AddressChange::createNewPersonAddressChange( null, null, new \DateTime( '1970-01-01' ) );
+	}
+
+	public function testUpdatingAddressMarksAddressChangeAsModified() {
+		$addressChange = $this->newPersonAddressChange();
+		$initialIdentifier = $addressChange->getCurrentIdentifier();
+
+		$addressChange->performAddressChange( ValidAddress::newValidPersonalAddress() );
+
+		$this->assertNotSame( $initialIdentifier, $addressChange->getCurrentIdentifier() );
+		$this->assertSame( $initialIdentifier, $addressChange->getPreviousIdentifier() );
 		$this->assertTrue( $addressChange->isModified() );
 	}
 
@@ -53,6 +65,17 @@ class AddressChangeTest extends TestCase {
 		$this->expectException( \LogicException::class );
 
 		$addressChange->performAddressChange( ValidAddress::newValidPersonalAddress() );
+	}
+
+	public function testOptingOutOfReceiptMarksAddressChangeAsModified() {
+		$addressChange = $this->newPersonAddressChange();
+		$initialIdentifier = $addressChange->getCurrentIdentifier();
+
+		$addressChange->optOutOfDonationReceipt();
+
+		$this->assertNotSame( $initialIdentifier, $addressChange->getCurrentIdentifier() );
+		$this->assertSame( $initialIdentifier, $addressChange->getPreviousIdentifier() );
+		$this->assertTrue( $addressChange->isModified() );
 	}
 
 	public function testNewAddressChangeIsNotExported() {
@@ -79,6 +102,23 @@ class AddressChangeTest extends TestCase {
 		$addressChange = AddressChange::createNewPersonAddressChange();
 		$addressChange->markAsExported();
 		$this->assertFalse( $addressChange->isModified() );
+	}
+
+	public function testMultipleChangesModifyIdentifiersOnlyOnce() {
+		$addressChange = AddressChange::createNewPersonAddressChange();
+
+		$originalIdentifier = $addressChange->getCurrentIdentifier();
+		$addressChange->performAddressChange( ValidAddress::newValidPersonalAddress() );
+		$identifierAfterFirstChange = $addressChange->getCurrentIdentifier();
+		$previousIdentifierAfterFirstChange = $addressChange->getPreviousIdentifier();
+
+		$addressChange->optOutOfDonationReceipt();
+		$identifierAfterSecondChange = $addressChange->getCurrentIdentifier();
+		$previousIdentifierAfterSecondChange = $addressChange->getPreviousIdentifier();
+
+		$this->assertSame( $previousIdentifierAfterFirstChange, $originalIdentifier, 'The original identifier must become the previous identifier' );
+		$this->assertSame( $previousIdentifierAfterSecondChange, $previousIdentifierAfterFirstChange, 'The previous identifier must not change after the first modification' );
+		$this->assertSame( $identifierAfterFirstChange, $identifierAfterSecondChange, 'The current identifier must not change after the first modification' );
 	}
 
 	public function testWhenAddressChangeIsPerformed_exportStateIsReset() {
