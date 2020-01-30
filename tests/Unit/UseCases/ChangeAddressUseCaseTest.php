@@ -37,7 +37,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 		$this->assertFalse( $response->isSuccess() );
 	}
 
-	public function testGivenUnknownAddressChangeRequestIdentifier_errorResponseIsReturned(): void {
+	public function testGivenAddressChangeRequestIdentifierCannotBeFound_errorResponseIsReturned(): void {
 		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
 		$mockAddressChangeRepository->method( 'getAddressChangeByUuid' )->willReturn(
 			null

@@ -66,6 +66,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$addressChangeRepository->storeAddressChange( $addressChange );
 		$now = new \DateTime();
 
+		$this->em->clear( AddressChange::class );
 		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( $addressChange->getCurrentIdentifier() );
 		$this->assertNotNull( $retrievedAddressChange );
 		$this->assertNotNull( $retrievedAddressChange->getAddress() );
@@ -77,6 +78,27 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$this->assertSame( $addressChange->getAddress()->isPersonalAddress(), $retrievedAddressChange->getAddress()->isPersonalAddress() );
 	}
 
+	public function testGivenAddressChangeWithReceiptOptIn_optInIsStoredCorrectly(): void {
+		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
+		$addressChange = AddressChange::createNewCompanyAddressChange();
+		$addressChangeRepository->storeAddressChange( $addressChange );
+
+		$this->em->clear( AddressChange::class );
+		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( $addressChange->getCurrentIdentifier() );
+		$this->assertTrue( $retrievedAddressChange->isOptedIntoDonationReceipt() );
+	}
+
+	public function testGivenAddressChangeWithReceiptOptOut_optOutIsStoredCorrectly(): void {
+		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
+		$addressChange = AddressChange::createNewCompanyAddressChange();
+		$addressChange->optOutOfDonationReceipt();
+		$addressChangeRepository->storeAddressChange( $addressChange );
+
+		$this->em->clear( AddressChange::class );
+		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( $addressChange->getCurrentIdentifier() );
+		$this->assertFalse( $retrievedAddressChange->isOptedIntoDonationReceipt() );
+	}
+
 	public function testGivenExportedAddressChange_itsStateIsStoredCorrectly(): void {
 		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
 		$addressChange = AddressChange::createNewPersonAddressChange( null, $this->newPersonalAddress() );
@@ -84,6 +106,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$addressChangeRepository->storeAddressChange( $addressChange );
 		$now = new \DateTime();
 
+		$this->em->clear( AddressChange::class );
 		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( $addressChange->getCurrentIdentifier() );
 		$this->assertNotNull( $retrievedAddressChange );
 		$this->assertTrue( $retrievedAddressChange->isExported() );
@@ -104,6 +127,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		}
 		$this->em->persist( $addressChange );
 		$this->em->flush();
+		$this->em->clear( AddressChange::class );
 	}
 
 	private function retrieveAddressChangeByUuid( string $uuid ): ?AddressChange {
