@@ -12,10 +12,16 @@ class AddressChange {
 	public const ADDRESS_TYPE_PERSON = 'person';
 	public const ADDRESS_TYPE_COMPANY = 'company';
 
+	/**
+	 * @var int|null
+	 */
 	private $id;
 
 	private $identifier;
 
+	/**
+	 * @var string|null
+	 */
 	private $previousIdentifier;
 
 	private $address;
@@ -24,8 +30,14 @@ class AddressChange {
 
 	private $donationReceipt;
 
+	/**
+	 * @var \DateTimeInterface|null
+	 */
 	private $exportDate;
 
+	/**
+	 * @var \DateTimeInterface|null
+	 */
 	private $createdAt;
 
 	private $modifiedAt;
@@ -115,12 +127,16 @@ class AddressChange {
 		return $this->createdAt < $this->modifiedAt;
 	}
 
-	private function markAsModified() {
+	private function markAsModified(): void {
 		if ( !$this->isModified() ) {
 			$this->previousIdentifier = $this->getCurrentIdentifier();
 			$this->generateUuid();
 		}
 		$this->modifiedAt = new \DateTime();
 		$this->resetExportState();
+	}
+
+	public function getId(): ?int {
+		return $this->id;
 	}
 }

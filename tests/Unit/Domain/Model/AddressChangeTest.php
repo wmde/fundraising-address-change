@@ -24,17 +24,17 @@ class AddressChangeTest extends TestCase {
 		$this->entityManager = TestEnvironment::newInstance()->getFactory()->getEntityManager();
 	}
 
-	public function testWhenNewAddressChangeIsCreated_uuidIsGenerated() {
+	public function testWhenNewAddressChangeIsCreated_uuidIsGenerated(): void {
 		$addressChange = AddressChange::createNewPersonAddressChange();
 		$this->assertNotEmpty( $addressChange->getCurrentIdentifier() );
 	}
 
-	public function testWhenNewAddressChangeIsCreated_itIsNotModified() {
+	public function testWhenNewAddressChangeIsCreated_itIsNotModified(): void {
 		$addressChange = AddressChange::createNewPersonAddressChange();
 		$this->assertFalse( $addressChange->isModified() );
 	}
 
-	public function testWhenAddressIsUpdated_dataIsProperlyAssigned() {
+	public function testWhenAddressIsUpdated_dataIsProperlyAssigned(): void {
 		$addressChange = $this->newPersonAddressChange();
 		$address = ValidAddress::newValidPersonalAddress();
 
@@ -47,7 +47,7 @@ class AddressChangeTest extends TestCase {
 		return AddressChange::createNewPersonAddressChange( null, null, new \DateTime( '1970-01-01' ) );
 	}
 
-	public function testUpdatingAddressMarksAddressChangeAsModified() {
+	public function testUpdatingAddressMarksAddressChangeAsModified(): void {
 		$addressChange = $this->newPersonAddressChange();
 		$initialIdentifier = $addressChange->getCurrentIdentifier();
 
@@ -58,7 +58,7 @@ class AddressChangeTest extends TestCase {
 		$this->assertTrue( $addressChange->isModified() );
 	}
 
-	public function testAddressChangeCannotBePerformedTwice() {
+	public function testAddressChangeCannotBePerformedTwice(): void {
 		$addressChange = AddressChange::createNewPersonAddressChange();
 		$addressChange->performAddressChange( ValidAddress::newValidCompanyAddress() );
 
@@ -67,7 +67,7 @@ class AddressChangeTest extends TestCase {
 		$addressChange->performAddressChange( ValidAddress::newValidPersonalAddress() );
 	}
 
-	public function testOptingOutOfReceiptMarksAddressChangeAsModified() {
+	public function testOptingOutOfReceiptMarksAddressChangeAsModified(): void {
 		$addressChange = $this->newPersonAddressChange();
 		$initialIdentifier = $addressChange->getCurrentIdentifier();
 
@@ -78,18 +78,18 @@ class AddressChangeTest extends TestCase {
 		$this->assertTrue( $addressChange->isModified() );
 	}
 
-	public function testNewAddressChangeIsNotExported() {
+	public function testNewAddressChangeIsNotExported(): void {
 		$addressChange = AddressChange::createNewPersonAddressChange();
 		$this->assertFalse( $addressChange->isExported() );
 	}
 
-	public function testAddressChangeCanBeMarkedAsExported() {
+	public function testAddressChangeCanBeMarkedAsExported(): void {
 		$addressChange = AddressChange::createNewPersonAddressChange();
 		$addressChange->markAsExported();
 		$this->assertTrue( $addressChange->isExported() );
 	}
 
-	public function testAddressChangeCannotBeExportedTwice() {
+	public function testAddressChangeCannotBeExportedTwice(): void {
 		$addressChange = AddressChange::createNewPersonAddressChange();
 		$addressChange->markAsExported();
 
@@ -98,13 +98,13 @@ class AddressChangeTest extends TestCase {
 		$addressChange->markAsExported();
 	}
 
-	public function testMarkingAsExportedDoesNotChangeModificationDate() {
+	public function testMarkingAsExportedDoesNotChangeModificationDate(): void {
 		$addressChange = AddressChange::createNewPersonAddressChange();
 		$addressChange->markAsExported();
 		$this->assertFalse( $addressChange->isModified() );
 	}
 
-	public function testMultipleChangesModifyIdentifiersOnlyOnce() {
+	public function testMultipleChangesModifyIdentifiersOnlyOnce(): void {
 		$addressChange = AddressChange::createNewPersonAddressChange();
 
 		$originalIdentifier = $addressChange->getCurrentIdentifier();
@@ -121,7 +121,7 @@ class AddressChangeTest extends TestCase {
 		$this->assertSame( $identifierAfterFirstChange, $identifierAfterSecondChange, 'The current identifier must not change after the first modification' );
 	}
 
-	public function testWhenAddressChangeIsPerformed_exportStateIsReset() {
+	public function testWhenAddressChangeIsPerformed_exportStateIsReset(): void {
 		$addressChange = AddressChange::createNewPersonAddressChange();
 		$addressChange->markAsExported();
 		$addressChange->performAddressChange( ValidAddress::newValidCompanyAddress() );
@@ -129,7 +129,7 @@ class AddressChangeTest extends TestCase {
 		$this->assertFalse( $addressChange->isExported() );
 	}
 
-	public function testConstructorsAcceptValidUuids() {
+	public function testConstructorsAcceptValidUuids(): void {
 		$uuid = '72dfed91-fa40-4af0-9e80-c6010ab29cd1';
 		$personAddressChange = AddressChange::createNewPersonAddressChange( $uuid );
 		$companyAddressChange = AddressChange::createNewCompanyAddressChange( $uuid );
@@ -141,7 +141,7 @@ class AddressChangeTest extends TestCase {
 	/**
 	 * @dataProvider invalidUUIDProvider
 	 */
-	public function testPersonalAddressChangeThrowsExceptionsWhenUUIDIsInvalid( string $invalidUUID ) {
+	public function testPersonalAddressChangeThrowsExceptionsWhenUUIDIsInvalid( string $invalidUUID ): void {
 		$this->expectException( \InvalidArgumentException::class );
 		AddressChange::createNewPersonAddressChange( $invalidUUID );
 	}
@@ -149,7 +149,7 @@ class AddressChangeTest extends TestCase {
 	/**
 	 * @dataProvider invalidUUIDProvider
 	 */
-	public function testCompanyAddressChangeThrowsExceptionsWhenUUIDIsInvalid( string $invalidUUID ) {
+	public function testCompanyAddressChangeThrowsExceptionsWhenUUIDIsInvalid( string $invalidUUID ): void {
 		$this->expectException( \InvalidArgumentException::class );
 		AddressChange::createNewCompanyAddressChange( $invalidUUID );
 	}

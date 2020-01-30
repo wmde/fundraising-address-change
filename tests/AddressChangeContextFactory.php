@@ -19,6 +19,9 @@ class AddressChangeContextFactory {
 
 	private $config;
 
+	/**
+	 * @var Connection
+	 */
 	private $connection;
 
 	public function __construct( array $config ) {

@@ -12,6 +12,9 @@ class Address {
 
 	private const TYPE_COMPANY = 'company';
 
+	/**
+	 * @var int|null
+	 */
 	private $id;
 
 	private $salutation;
@@ -140,4 +143,9 @@ class Address {
 	public function getCountry(): string {
 		return $this->country;
 	}
+
+	public function getId(): ?int {
+		return $this->id;
+	}
+
 }

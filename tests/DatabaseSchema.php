@@ -14,7 +14,7 @@ class DatabaseSchema {
 		$this->entityManager = $entityManager;
 	}
 
-	public function createSchema() {
+	public function createSchema(): void {
 		$this->getSchemaTool()->createSchema( $this->getClassMetaData() );
 	}
 
