@@ -26,6 +26,8 @@
     <field name="exportDate" type="datetime" column="export_date" nullable="true" />
     <field name="createdAt" type="datetime" column="created_at" nullable="false" />
     <field name="modifiedAt" type="datetime" column="modified_at" nullable="false" />
+    <field name="donationReceipt" type="boolean" column="donation_receipt" nullable="false" />
+
     <many-to-one field="address" target-entity="Address" fetch="LAZY">
       <join-columns>
         <join-column name="address_id" referenced-column-name="id"/>
