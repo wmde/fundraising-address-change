@@ -30,7 +30,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		parent::setUp();
 	}
 
-	public function testGivenValidPersonalDonationUuid_addressChangeIsReturned() {
+	public function testGivenValidPersonalDonationUuid_addressChangeIsReturned(): void {
 		$this->storeAddressChange( self::VALID_UPDATE_TOKEN_PERSONAL_DONATION, true );
 		$retrievedAddressChange = $this->retrieveAddressChangeByUuid( self::VALID_UPDATE_TOKEN_PERSONAL_DONATION );
 
@@ -42,7 +42,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$this->assertTrue( $retrievedAddressChange->isPersonalAddress() );
 	}
 
-	public function testGivenValidCompanyDonationUuid_addressChangeIsReturned() {
+	public function testGivenValidCompanyDonationUuid_addressChangeIsReturned(): void {
 		$this->storeAddressChange( self::VALID_UPDATE_TOKEN_COMPANY_DONATION, false );
 		$retrievedAddressChange = $this->retrieveAddressChangeByUuid( self::VALID_UPDATE_TOKEN_COMPANY_DONATION );
 
@@ -54,13 +54,13 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$this->assertTrue( $retrievedAddressChange->isCompanyAddress() );
 	}
 
-	public function testGivenInvalidDonationUuid_nullIsReturned() {
+	public function testGivenInvalidDonationUuid_nullIsReturned(): void {
 		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
 		$addressChange = $addressChangeRepository->getAddressChangeByUuid( self::INVALID_UPDATE_TOKEN );
 		$this->assertNull( $addressChange );
 	}
 
-	public function testGivenAddressChangeWithAddress_itIsStoredCorrectly() {
+	public function testGivenAddressChangeWithAddress_itIsStoredCorrectly(): void {
 		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
 		$addressChange = AddressChange::createNewPersonAddressChange( null, $this->newPersonalAddress() );
 		$addressChangeRepository->storeAddressChange( $addressChange );
@@ -77,7 +77,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$this->assertSame( $addressChange->getAddress()->isPersonalAddress(), $retrievedAddressChange->getAddress()->isPersonalAddress() );
 	}
 
-	public function testGivenExportedAddressChange_itsStateIsStoredCorrectly() {
+	public function testGivenExportedAddressChange_itsStateIsStoredCorrectly(): void {
 		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
 		$addressChange = AddressChange::createNewPersonAddressChange( null, $this->newPersonalAddress() );
 		$addressChange->markAsExported();
@@ -136,7 +136,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		);
 	}
 
-	private function assertDatePropertyIsSet( \DateTime $expectedDate, AddressChange $addressChange, string $propertyName, float $delta = 1.0 ) {
+	private function assertDatePropertyIsSet( \DateTime $expectedDate, AddressChange $addressChange, string $propertyName, float $delta = 1.0 ): void {
 		// We're peeking into private properties to make sure the dates, which are not exposed through getters at the domain level,
 		// are properly written at the DB level
 		$dateField = new \ReflectionProperty( AddressChange::class, $propertyName );

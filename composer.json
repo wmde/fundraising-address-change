@@ -15,8 +15,8 @@
 		"ockcyp/covers-validator": "~1.0",
 		"slevomat/coding-standard": "^4.6",
 		"phpmd/phpmd": "~2.6",
-		"phpstan/phpstan": "^0.11",
-		"phpstan/phpstan-phpunit": "^0.11"
+		"phpstan/phpstan": "^0.12",
+		"phpstan/phpstan-phpunit": "^0.12"
 	},
 	"autoload": {
 		"psr-4": {

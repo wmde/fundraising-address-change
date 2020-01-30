@@ -1,2 +1,9 @@
+parameters:
+    checkMissingIterableValueType: false
+    inferPrivatePropertyTypeFromConstructor: true
+    ignoreErrors:
+       - '#Method [a-zA-Z0-9\\_]+DoctrineAddressChangeRepository::getAddressChangeByUuid\(\) should return [a-zA-Z0-9\\_]+AddressChange\|null but returns object\|null.#'
+       - '#Property [a-zA-Z0-9\\_]+ChangeAddressRequest::\$[a-zA-Z0-9]+ has no typehint specified.#'
+
 includes:
 	- vendor/phpstan/phpstan-phpunit/extension.neon

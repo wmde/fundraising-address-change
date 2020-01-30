@@ -13,7 +13,7 @@ use WMDE\Fundraising\AddressChange\UseCases\ChangeAddress\ChangeAddressValidatio
  */
 class AddressTest extends TestCase {
 
-	public function testWhenValidFieldValuesAreUsedForPersonalAddress_addressIsCreated() {
+	public function testWhenValidFieldValuesAreUsedForPersonalAddress_addressIsCreated(): void {
 		$address = Address::newPersonalAddress(
 			'Herr',
 			'Prof. Dr.',
@@ -29,7 +29,7 @@ class AddressTest extends TestCase {
 		);
 	}
 
-	public function testWhenValidFieldValuesAreUsedForCompanyAddress_addressIsCreated() {
+	public function testWhenValidFieldValuesAreUsedForCompanyAddress_addressIsCreated(): void {
 		$address = Address::newCompanyAddress(
 			'Test Company',
 			'Test Street 123',
@@ -54,7 +54,7 @@ class AddressTest extends TestCase {
 		string $address,
 		string $postcode,
 		string $city,
-		string $country ) {
+		string $country ): void {
 		$this->expectException( ChangeAddressValidationException::class );
 		$this->expectExceptionMessage( sprintf( 'Invalid value for field "%s".', $testField ) );
 		Address::newPersonalAddress( $salutation, $title, $firstName, $lastName, $address, $postcode, $city, $country );
@@ -69,7 +69,7 @@ class AddressTest extends TestCase {
 		string $address,
 		string $postcode,
 		string $city,
-		string $country ) {
+		string $country ): void {
 		$this->expectException( ChangeAddressValidationException::class );
 		$this->expectExceptionMessage( sprintf( 'Invalid value for field "%s".', $testField ) );
 		Address::newCompanyAddress( $company, $address, $postcode, $city, $country );
