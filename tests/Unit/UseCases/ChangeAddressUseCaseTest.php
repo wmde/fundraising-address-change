@@ -16,11 +16,12 @@ use WMDE\Fundraising\AddressChange\UseCases\ChangeAddress\ChangeAddressUseCase;
 class ChangeAddressUseCaseTest extends TestCase {
 
 	private const VALID_SAMPLE_UUID = 'd8441c6e-1f7a-4710-97d3-0e2126c86d40';
+	private const DUMMY_DONATION_ID = 0;
 
 	public function testGivenValidAddressChangeRequest_successResponseIsReturned(): void {
 		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
 		$mockAddressChangeRepository->method( 'getAddressChangeByUuid' )->willReturn(
-			AddressChange::createNewPersonAddressChange( self::VALID_SAMPLE_UUID )
+			$this->createAddressChange()
 		);
 		$useCase = new ChangeAddressUseCase( $mockAddressChangeRepository );
 		$response = $useCase->changeAddress( $this->newChangeAddressRequest() );
@@ -30,7 +31,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 	public function testGivenInvalidAddressChangeRequest_errorResponseIsReturned(): void {
 		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
 		$mockAddressChangeRepository->method( 'getAddressChangeByUuid' )->willReturn(
-			AddressChange::createNewPersonAddressChange( self::VALID_SAMPLE_UUID )
+			$this->createAddressChange()
 		);
 		$useCase = new ChangeAddressUseCase( $mockAddressChangeRepository );
 		$response = $useCase->changeAddress( $this->newMissingDataChangeAddressRequest() );
@@ -50,7 +51,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 	public function testGivenValidOptOutOnlyChangeRequest_successResponseIsReturned(): void {
 		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
 		$mockAddressChangeRepository->method( 'getAddressChangeByUuid' )->willReturn(
-			AddressChange::createNewPersonAddressChange( self::VALID_SAMPLE_UUID )
+			$this->createAddressChange()
 		);
 		$useCase = new ChangeAddressUseCase( $mockAddressChangeRepository );
 		$response = $useCase->changeAddress( $this->newOptOutOnlyRequest() );
@@ -60,7 +61,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 	public function testGivenEmptyAddressChangeRequest_errorResponseIsReturned(): void {
 		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
 		$mockAddressChangeRepository->method( 'getAddressChangeByUuid' )->willReturn(
-			AddressChange::createNewPersonAddressChange( self::VALID_SAMPLE_UUID )
+			$this->createAddressChange()
 		);
 		$useCase = new ChangeAddressUseCase( $mockAddressChangeRepository );
 		$response = $useCase->changeAddress( $this->newEmptyChangeAddressRequest() );
@@ -137,6 +138,10 @@ class ChangeAddressUseCaseTest extends TestCase {
 		$request->setIsOptOutOnly( true );
 		$request->freeze();
 		return $request;
+	}
+
+	private function createAddressChange(): AddressChange {
+		return new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, self::VALID_SAMPLE_UUID );
 	}
 
 }
