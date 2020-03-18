@@ -23,6 +23,8 @@
       </options>
     </field>
     <field name="addressType" type="string" column="address_type" length="10" nullable="false" />
+    <field name="externalId" type="integer" column="external_id" nullable="false" />
+    <field name="externalIdType" type="string" column="external_id_type" length="10" nullable="false" />
     <field name="exportDate" type="datetime" column="export_date" nullable="true" />
     <field name="createdAt" type="datetime" column="created_at" nullable="false" />
     <field name="modifiedAt" type="datetime" column="modified_at" nullable="false" />

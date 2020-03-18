@@ -7,10 +7,19 @@ namespace WMDE\Fundraising\AddressChange\Domain\Model;
 use LogicException;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * An Address change record with a UUID identifier for accessing it, an optional address (if the user preformed an
+ * address change) and a reference to the originating record (donation or membership).
+ *
+ * The recommended way to construct this class is through the AddressChangeBuilder
+ */
 class AddressChange {
 
 	public const ADDRESS_TYPE_PERSON = 'person';
 	public const ADDRESS_TYPE_COMPANY = 'company';
+
+	public const EXTERNAL_ID_TYPE_DONATION = 'donation';
+	public const EXTERNAL_ID_TYPE_MEMBERSHIP = 'membership';
 
 	/**
 	 * @var int|null
@@ -30,6 +39,10 @@ class AddressChange {
 
 	private $donationReceipt;
 
+	private $externalId;
+
+	private $externalIdType;
+
 	/**
 	 * @var \DateTimeInterface|null
 	 */
@@ -42,7 +55,8 @@ class AddressChange {
 
 	private $modifiedAt;
 
-	private function __construct( string $addressType, ?string $identifier = null, ?Address $address = null, ?\DateTime $createdAt = null ) {
+	public function __construct( string $addressType, string $externalIdType, int $externalId, ?string $identifier = null,
+			?Address $address = null, ?\DateTime $createdAt = null ) {
 		$this->addressType = $addressType;
 		$this->identifier = $identifier;
 		$this->address = $address;
@@ -51,17 +65,17 @@ class AddressChange {
 		} elseif ( !Uuid::isValid( $identifier ) ) {
 			throw new \InvalidArgumentException( 'Identifier must be a valid UUID' );
 		}
+		if ( $addressType !== self::ADDRESS_TYPE_PERSON && $addressType !== self::ADDRESS_TYPE_COMPANY ) {
+			throw new \InvalidArgumentException( 'Invalid address type' );
+		}
+		if( $externalIdType !== self::EXTERNAL_ID_TYPE_DONATION && $externalIdType !== self::EXTERNAL_ID_TYPE_MEMBERSHIP ) {
+			throw new \InvalidArgumentException( 'Invalid external reference type' );
+		}
 		$this->createdAt = $createdAt ?? new \DateTime();
 		$this->modifiedAt = clone( $this->createdAt );
 		$this->donationReceipt = true;
-	}
-
-	public static function createNewPersonAddressChange( ?string $identifier = null, ?Address $address = null, ?\DateTime $createdAt = null ): self {
-		return new AddressChange( self::ADDRESS_TYPE_PERSON, $identifier, $address, $createdAt );
-	}
-
-	public static function createNewCompanyAddressChange( ?string $identifier = null, ?Address $address = null, ?\DateTime $createdAt = null ): self {
-		return new AddressChange( self::ADDRESS_TYPE_COMPANY, $identifier, $address, $createdAt );
+		$this->externalId = $externalId;
+		$this->externalIdType = $externalIdType;
 	}
 
 	private function generateUuid(): void {
@@ -138,5 +152,13 @@ class AddressChange {
 
 	public function getId(): ?int {
 		return $this->id;
+	}
+
+	public function getExternalId(): int {
+		return $this->externalId;
+	}
+
+	public function getExternalIdType(): string {
+		return $this->externalIdType;
 	}
 }

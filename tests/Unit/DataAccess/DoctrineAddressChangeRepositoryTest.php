@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use WMDE\Fundraising\AddressChange\DataAccess\DoctrineAddressChangeRepository;
 use WMDE\Fundraising\AddressChange\Domain\Model\Address;
 use WMDE\Fundraising\AddressChange\Domain\Model\AddressChange;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeBuilder;
 use WMDE\Fundraising\AddressChangeContext\Tests\TestEnvironment;
 
 /**
@@ -21,6 +22,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 	const VALID_UPDATE_TOKEN_COMPANY_DONATION = 'c52258ba-fed1-476a-a7e5-c721df087c12';
 	const VALID_UPDATE_TOKEN_COMPANY_MEMBERSHIP = '8d11d2ba-5ec5-4ec8-a08c-0ac7b8654b59';
 	const INVALID_UPDATE_TOKEN = '72dfed91-fa40-4af0-9e80-c6010ab29cd1';
+	private const DUMMY_DONATION_ID = 0;
 
 	/** @var EntityManager */
 	private $em;
@@ -61,8 +63,9 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 	}
 
 	public function testGivenAddressChangeWithAddress_itIsStoredCorrectly(): void {
+		$donationId = 99;
 		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
-		$addressChange = AddressChange::createNewPersonAddressChange( null, $this->newPersonalAddress() );
+		$addressChange = AddressChangeBuilder::create( null, $this->newPersonalAddress() )->forPerson()->forDonation( $donationId )->build();
 		$addressChangeRepository->storeAddressChange( $addressChange );
 		$now = new \DateTime();
 
@@ -71,6 +74,9 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$this->assertNotNull( $retrievedAddressChange );
 		$this->assertNotNull( $retrievedAddressChange->getAddress() );
 		$this->assertNotNull( $addressChange->getAddress() ); // avoid PHPStan errors when accessing address later
+		$this->assertTrue( $retrievedAddressChange->isPersonalAddress() );
+		$this->assertSame( $donationId, $retrievedAddressChange->getExternalId() );
+		$this->assertSame( AddressChange::EXTERNAL_ID_TYPE_DONATION, $retrievedAddressChange->getExternalIdType() );
 		$this->assertFalse( $retrievedAddressChange->isExported() );
 		$this->assertDatePropertyIsSet( $now, $retrievedAddressChange, 'createdAt' );
 		$this->assertDatePropertyIsSet( $now, $retrievedAddressChange, 'modifiedAt' );
@@ -80,7 +86,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 
 	public function testGivenAddressChangeWithReceiptOptIn_optInIsStoredCorrectly(): void {
 		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
-		$addressChange = AddressChange::createNewCompanyAddressChange();
+		$addressChange = AddressChangeBuilder::create()->forCompany()->forDonation( self::DUMMY_DONATION_ID )->build();
 		$addressChangeRepository->storeAddressChange( $addressChange );
 
 		$this->em->clear( AddressChange::class );
@@ -90,7 +96,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 
 	public function testGivenAddressChangeWithReceiptOptOut_optOutIsStoredCorrectly(): void {
 		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
-		$addressChange = AddressChange::createNewCompanyAddressChange();
+		$addressChange = AddressChangeBuilder::create()->forCompany()->forDonation( self::DUMMY_DONATION_ID )->build();
 		$addressChange->optOutOfDonationReceipt();
 		$addressChangeRepository->storeAddressChange( $addressChange );
 
@@ -101,7 +107,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 
 	public function testGivenExportedAddressChange_itsStateIsStoredCorrectly(): void {
 		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
-		$addressChange = AddressChange::createNewPersonAddressChange( null, $this->newPersonalAddress() );
+		$addressChange = AddressChangeBuilder::create( null, $this->newPersonalAddress() )->forPerson()->forDonation( self::DUMMY_DONATION_ID )->build();
 		$addressChange->markAsExported();
 		$addressChangeRepository->storeAddressChange( $addressChange );
 		$now = new \DateTime();
@@ -115,15 +121,21 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 
 	private function storeAddressChange( string $uuid, bool $isPersonal = true ): void {
 		if ( $isPersonal ) {
-			$addressChange = AddressChange::createNewPersonAddressChange(
+			$addressChange = AddressChangeBuilder::create(
 				$uuid,
 				$this->newPersonalAddress()
-			);
+			)
+				->forPerson()
+				->forDonation( self::DUMMY_DONATION_ID )
+				->build();
 		} else {
-			$addressChange = AddressChange::createNewCompanyAddressChange(
+			$addressChange = AddressChangeBuilder::create(
 				$uuid,
 				$this->newCompanyAddress()
-			);
+			)
+				->forCompany()
+				->forDonation( self::DUMMY_DONATION_ID )
+				->build();
 		}
 		$this->em->persist( $addressChange );
 		$this->em->flush();
