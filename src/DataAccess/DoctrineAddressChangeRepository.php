@@ -2,11 +2,11 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\Fundraising\AddressChange\DataAccess;
+namespace WMDE\Fundraising\AddressChangeContext\DataAccess;
 
 use Doctrine\ORM\EntityManager;
-use WMDE\Fundraising\AddressChange\Domain\AddressChangeRepository;
-use WMDE\Fundraising\AddressChange\Domain\Model\AddressChange;
+use WMDE\Fundraising\AddressChangeContext\Domain\AddressChangeRepository;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 
 class DoctrineAddressChangeRepository implements AddressChangeRepository {
 

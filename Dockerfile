@@ -5,7 +5,7 @@ RUN apt-get update \
 
 FROM app as app_debug
 
-RUN pecl install xdebug-2.6.0 \
+RUN pecl install xdebug-2.9.4 \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini

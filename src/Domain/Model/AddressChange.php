@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\Fundraising\AddressChange\Domain\Model;
+namespace WMDE\Fundraising\AddressChangeContext\Domain\Model;
 
 use LogicException;
 use Ramsey\Uuid\Uuid;

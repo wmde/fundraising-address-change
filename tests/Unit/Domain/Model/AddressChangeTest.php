@@ -6,12 +6,12 @@ namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\Domain\Model;
 
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
-use WMDE\Fundraising\AddressChange\Domain\Model\AddressChange;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 use WMDE\Fundraising\AddressChangeContext\Tests\Data\ValidAddress;
 use WMDE\Fundraising\AddressChangeContext\Tests\TestEnvironment;
 
 /**
- * @covers \WMDE\Fundraising\AddressChange\Domain\Model\AddressChange
+ * @covers \WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange
  */
 class AddressChangeTest extends TestCase {
 

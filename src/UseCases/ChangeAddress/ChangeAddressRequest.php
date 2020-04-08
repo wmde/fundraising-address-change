@@ -2,10 +2,10 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\Fundraising\AddressChange\UseCases\ChangeAddress;
+namespace WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress;
 
 use WMDE\FreezableValueObject\FreezableValueObject;
-use WMDE\Fundraising\AddressChange\Domain\Model\AddressChange;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 
 class ChangeAddressRequest {
 	use FreezableValueObject;

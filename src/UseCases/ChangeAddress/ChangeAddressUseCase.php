@@ -2,10 +2,10 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\Fundraising\AddressChange\UseCases\ChangeAddress;
+namespace WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress;
 
-use WMDE\Fundraising\AddressChange\Domain\AddressChangeRepository;
-use WMDE\Fundraising\AddressChange\Domain\Model\Address;
+use WMDE\Fundraising\AddressChangeContext\Domain\AddressChangeRepository;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\Address;
 
 class ChangeAddressUseCase {
 

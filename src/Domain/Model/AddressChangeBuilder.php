@@ -4,8 +4,8 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\Domain\Model;
 
-use WMDE\Fundraising\AddressChange\Domain\Model\Address;
-use WMDE\Fundraising\AddressChange\Domain\Model\AddressChange;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\Address;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 
 class AddressChangeBuilder {
 

@@ -5,11 +5,11 @@ declare( strict_types = 1 );
 namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\Domain\Model;
 
 use PHPUnit\Framework\TestCase;
-use WMDE\Fundraising\AddressChange\Domain\Model\Address;
-use WMDE\Fundraising\AddressChange\UseCases\ChangeAddress\ChangeAddressValidationException;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\Address;
+use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressValidationException;
 
 /**
- * @covers \WMDE\Fundraising\AddressChange\Domain\Model\Address
+ * @covers \WMDE\Fundraising\AddressChangeContext\Domain\Model\Address
  */
 class AddressTest extends TestCase {
 

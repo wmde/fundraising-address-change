@@ -6,14 +6,14 @@ namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\DataAccess;
 
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
-use WMDE\Fundraising\AddressChange\DataAccess\DoctrineAddressChangeRepository;
-use WMDE\Fundraising\AddressChange\Domain\Model\Address;
-use WMDE\Fundraising\AddressChange\Domain\Model\AddressChange;
+use WMDE\Fundraising\AddressChangeContext\DataAccess\DoctrineAddressChangeRepository;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\Address;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeBuilder;
 use WMDE\Fundraising\AddressChangeContext\Tests\TestEnvironment;
 
 /**
- * @covers \WMDE\Fundraising\AddressChange\DataAccess\DoctrineAddressChangeRepository
+ * @covers \WMDE\Fundraising\AddressChangeContext\DataAccess\DoctrineAddressChangeRepository
  */
 class DoctrineAddressChangeRepositoryTest extends TestCase {
 

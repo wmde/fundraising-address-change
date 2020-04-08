@@ -2,9 +2,9 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\Fundraising\AddressChange\Domain\Model;
+namespace WMDE\Fundraising\AddressChangeContext\Domain\Model;
 
-use WMDE\Fundraising\AddressChange\UseCases\ChangeAddress\ChangeAddressValidationException;
+use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressValidationException;
 
 class Address {
 
