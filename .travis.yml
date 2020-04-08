@@ -8,7 +8,7 @@ language: php
 matrix:
   fast_finish: true
   include:
-    - php: 7.2
+    - php: 7.4
       env: TYPE=coverage
   # More PHP instances with different environment variables may be added here
   # This may be useful if a additional PHP versions or DBMS (SQLite, ...) should be tested by Travis

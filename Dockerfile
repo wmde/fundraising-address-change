@@ -1,4 +1,4 @@
-FROM php:7.2-cli as app
+FROM php:7.4-cli as app
 
 RUN apt-get update \
 	&& docker-php-ext-install -j$(nproc) pdo pdo_mysql

@@ -28,7 +28,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 	private $em;
 
 	public function setUp(): void {
-		$this->em = TestEnvironment::newInstance()->getFactory()->getEntityManager();
+		$this->em = TestEnvironment::newInstance()->getEntityManager();
 		parent::setUp();
 	}
 

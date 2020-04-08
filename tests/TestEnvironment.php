@@ -4,13 +4,20 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\Tests;
 
+use Doctrine\ORM\Configuration;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
+
 /**
  * @license GNU GPL v2+
  */
 class TestEnvironment {
 
-	private $config;
-	private $factory;
+	private TestAddressChangeContextFactory $factory;
+
+	private function __construct( array $config, Configuration $doctrineConfig ) {
+		$this->factory = new TestAddressChangeContextFactory( $config, $doctrineConfig );
+	}
 
 	public static function newInstance(): self {
 		$environment = new self(
@@ -19,7 +26,8 @@ class TestEnvironment {
 					'driver' => 'pdo_sqlite',
 					'memory' => true,
 				]
-			]
+			],
+			Setup::createConfiguration( true )
 		);
 
 		$environment->install();
@@ -27,13 +35,8 @@ class TestEnvironment {
 		return $environment;
 	}
 
-	private function __construct( array $config ) {
-		$this->config = $config;
-		$this->factory = new AddressChangeContextFactory( $this->config );
-	}
-
 	private function install(): void {
-		$schema = new DatabaseSchema( $this->factory->getEntityManager() );
+		$schema = new SchemaCreator( $this->getEntityManager() );
 
 		try {
 			$schema->dropSchema();
@@ -44,8 +47,8 @@ class TestEnvironment {
 		$schema->createSchema();
 	}
 
-	public function getFactory(): AddressChangeContextFactory {
-		return $this->factory;
+	public function getEntityManager(): EntityManager {
+		return $this->factory->getEntityManager();
 	}
 
 }

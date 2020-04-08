@@ -23,7 +23,7 @@ class AddressChangeTest extends TestCase {
 	private $entityManager;
 
 	public function setUp(): void {
-		$this->entityManager = TestEnvironment::newInstance()->getFactory()->getEntityManager();
+		$this->entityManager = TestEnvironment::newInstance()->getEntityManager();
 	}
 
 	public function testWhenNewAddressChangeIsCreated_uuidIsGenerated(): void {
