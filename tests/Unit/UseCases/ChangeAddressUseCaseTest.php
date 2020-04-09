@@ -5,6 +5,7 @@ declare( strict_types = 1 );
 namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\UseCases;
 
 use PHPUnit\Framework\TestCase;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
 use WMDE\Fundraising\AddressChangeContext\Domain\AddressChangeRepository;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressRequest;
@@ -141,7 +142,12 @@ class ChangeAddressUseCaseTest extends TestCase {
 	}
 
 	private function createAddressChange(): AddressChange {
-		return new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, self::VALID_SAMPLE_UUID );
+		return new AddressChange(
+			AddressChange::ADDRESS_TYPE_PERSON,
+			AddressChange::EXTERNAL_ID_TYPE_DONATION,
+			self::DUMMY_DONATION_ID,
+			AddressChangeId::fromString( self::VALID_SAMPLE_UUID )
+		);
 	}
 
 }

@@ -17,7 +17,7 @@ class DoctrineAddressChangeRepository implements AddressChangeRepository {
 	}
 
 	public function getAddressChangeByUuid( string $uuid ): ?AddressChange {
-		return $this->entityManager->getRepository( AddressChange::class )->findOneBy( [ 'identifier' => $uuid ] );
+		return $this->entityManager->getRepository( AddressChange::class )->findOneBy( [ 'identifier.identifier' => $uuid ] );
 	}
 
 	public function storeAddressChange( AddressChange $addressChange ): void {

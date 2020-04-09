@@ -4,37 +4,32 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\Domain\Model;
 
-use WMDE\Fundraising\AddressChangeContext\Domain\Model\Address;
-use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
+use WMDE\Fundraising\AddressChangeContext\Infrastructure\RandomUuidGenerator;
 
 class AddressChangeBuilder {
 
-	/**
-	 * @var string
-	 */
-	private $addressType;
+	private static ?UuidGenerator $uuidGenerator = null;
 
-	/**
-	 * @var string
-	 */
-	private $referenceType;
+	private ?string $addressType;
+	private ?string $referenceType;
+	private ?int $referenceId;
+	private AddressChangeId $identifier;
+	private ?Address $address;
+	private ?\DateTime $createdAt;
 
-	/**
-	 * @var int
-	 */
-	private $referenceId;
-
-	private $id;
-	private $address;
-	private $createdAt;
-
-	public function __construct( ?string $identifier = null, ?Address $address = null, ?\DateTime $createdAt = null ) {
-		$this->id = $identifier;
+	private function __construct( AddressChangeId $identifier = null, ?Address $address = null, ?\DateTime $createdAt = null ) {
+		$this->identifier = $identifier;
 		$this->address = $address;
 		$this->createdAt = $createdAt;
+		$this->addressType = null;
+		$this->referenceType = null;
+		$this->referenceId = null;
 	}
 
-	public static function create( ?string $identifier = null, ?Address $address = null, ?\DateTime $createdAt = null ): self {
+	public static function create( ?AddressChangeId $identifier = null, ?Address $address = null, ?\DateTime $createdAt = null ): self {
+		if ( $identifier === null ) {
+			$identifier = AddressChangeId::fromString( self::generateUuid() );
+		}
 		return new self( $identifier, $address, $createdAt );
 	}
 
@@ -75,7 +70,19 @@ class AddressChangeBuilder {
 		if ( $this->referenceType === null || $this->addressType === null ) {
 			throw new \RuntimeException( 'You must specify address type and reference' );
 		}
-		return new AddressChange( $this->addressType, $this->referenceType, $this->referenceId, $this->id, $this->address, $this->createdAt );
+		return new AddressChange( $this->addressType, $this->referenceType, $this->referenceId, $this->identifier, $this->address, $this->createdAt );
 	}
+
+	public static function setUuidGenerator( UuidGenerator $generator ): void {
+		self::$uuidGenerator = $generator;
+	}
+
+	public static function generateUuid(): string {
+		if ( self::$uuidGenerator === null ) {
+			self::$uuidGenerator = new RandomUuidGenerator();
+		}
+		return call_user_func( [ self::$uuidGenerator, 'generate' ] );
+	}
+
 
 }

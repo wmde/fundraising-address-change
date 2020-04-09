@@ -5,7 +5,6 @@ declare( strict_types = 1 );
 namespace WMDE\Fundraising\AddressChangeContext\Domain\Model;
 
 use LogicException;
-use Ramsey\Uuid\Uuid;
 
 /**
  * An Address change record with a UUID identifier for accessing it, an optional address (if the user preformed an
@@ -28,9 +27,6 @@ class AddressChange {
 
 	private $identifier;
 
-	/**
-	 * @var string|null
-	 */
 	private $previousIdentifier;
 
 	private $address;
@@ -55,16 +51,12 @@ class AddressChange {
 
 	private $modifiedAt;
 
-	public function __construct( string $addressType, string $externalIdType, int $externalId, ?string $identifier = null,
+	public function __construct( string $addressType, string $externalIdType, int $externalId, AddressChangeId $identifier,
 			?Address $address = null, ?\DateTime $createdAt = null ) {
 		$this->addressType = $addressType;
 		$this->identifier = $identifier;
+		$this->previousIdentifier = $identifier;
 		$this->address = $address;
-		if ( $identifier === null ) {
-			$this->generateUuid();
-		} elseif ( !Uuid::isValid( $identifier ) ) {
-			throw new \InvalidArgumentException( 'Identifier must be a valid UUID' );
-		}
 		if ( $addressType !== self::ADDRESS_TYPE_PERSON && $addressType !== self::ADDRESS_TYPE_COMPANY ) {
 			throw new \InvalidArgumentException( 'Invalid address type' );
 		}
@@ -78,31 +70,24 @@ class AddressChange {
 		$this->externalIdType = $externalIdType;
 	}
 
-	private function generateUuid(): void {
-		$this->identifier = Uuid::uuid4()->toString();
-	}
-
-	public function performAddressChange( Address $address ): void {
+	public function performAddressChange( Address $address, AddressChangeId $newIdentifier ): void {
 		if ( $this->address !== null ) {
 			throw new LogicException( 'Cannot perform address change for instances that already have an address.' );
 		}
 		$this->address = $address;
-		$this->markAsModified();
+		$this->markAsModified( $newIdentifier );
 	}
 
-	public function optOutOfDonationReceipt(): void {
+	public function optOutOfDonationReceipt( AddressChangeId $newIdentifier ): void {
 		$this->donationReceipt = false;
-		$this->markAsModified();
+		$this->markAsModified( $newIdentifier );
 	}
 
-	public function getCurrentIdentifier(): string {
-		if ( $this->identifier === null ) {
-			$this->generateUuid();
-		}
+	public function getCurrentIdentifier(): AddressChangeId {
 		return $this->identifier;
 	}
 
-	public function getPreviousIdentifier(): ?string {
+	public function getPreviousIdentifier(): ?AddressChangeId {
 		return $this->previousIdentifier;
 	}
 
@@ -141,11 +126,10 @@ class AddressChange {
 		return $this->createdAt < $this->modifiedAt;
 	}
 
-	private function markAsModified(): void {
-		if ( !$this->isModified() ) {
-			$this->previousIdentifier = $this->getCurrentIdentifier();
-			$this->generateUuid();
-		}
+	private function markAsModified( AddressChangeId $newIdentifier ): void {
+		$this->previousIdentifier = $this->getCurrentIdentifier();
+		$this->identifier = $newIdentifier;
+
 		$this->modifiedAt = new \DateTime();
 		$this->resetExportState();
 	}

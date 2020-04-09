@@ -4,12 +4,14 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress;
 
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
 use WMDE\Fundraising\AddressChangeContext\Domain\AddressChangeRepository;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\Address;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeBuilder;
 
 class ChangeAddressUseCase {
 
-	private $addressChangeRepository;
+	private AddressChangeRepository $addressChangeRepository;
 
 	public function __construct( AddressChangeRepository $addressChangeRepository ) {
 		$this->addressChangeRepository = $addressChangeRepository;
@@ -21,9 +23,10 @@ class ChangeAddressUseCase {
 			return ChangeAddressResponse::newErrorResponse( ['Unknown address.'] );
 		}
 
+		$newIdentifier = AddressChangeId::fromString( AddressChangeBuilder::generateUuid() );
 		if ( $request->hasAddressChangeData() ) {
 			try {
-				$addressChange->performAddressChange( $this->buildAddress( $request ) );
+				$addressChange->performAddressChange( $this->buildAddress( $request ), $newIdentifier );
 			}
 			catch ( ChangeAddressValidationException $e ) {
 				return ChangeAddressResponse::newErrorResponse( [ $e->getMessage() ] );
@@ -31,7 +34,7 @@ class ChangeAddressUseCase {
 		}
 
 		if ( $request->isOptedOutOfDonationReceipt() ) {
-			$addressChange->optOutOfDonationReceipt();
+			$addressChange->optOutOfDonationReceipt( $newIdentifier );
 		}
 
 		$this->addressChangeRepository->storeAddressChange( $addressChange );

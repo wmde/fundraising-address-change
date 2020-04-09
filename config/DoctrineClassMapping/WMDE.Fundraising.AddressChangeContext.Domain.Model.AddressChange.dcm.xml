@@ -12,16 +12,9 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="identifier" type="string" column="current_identifier" length="36" nullable="true">
-      <options>
-        <option name="fixed"/>
-      </options>
-    </field>
-    <field name="previousIdentifier" type="string" column="previous_identifier" length="36" nullable="true">
-      <options>
-        <option name="fixed"/>
-      </options>
-    </field>
+    <embedded name="identifier" class="WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId" column-prefix="current_" />
+    <embedded name="previousIdentifier" class="AddressChangeId" column-prefix="previous_" />
+
     <field name="addressType" type="string" column="address_type" length="10" nullable="false" />
     <field name="externalId" type="integer" column="external_id" nullable="false" />
     <field name="externalIdType" type="string" column="external_id_type" length="10" nullable="false" />
@@ -39,4 +32,6 @@
       </cascade>
     </many-to-one>
   </entity>
+
+
 </doctrine-mapping>
