@@ -17,3 +17,5 @@ build/
 .flooignore
 
 local-db-config.php
+.phpunit.result.cache
+coverage.clover

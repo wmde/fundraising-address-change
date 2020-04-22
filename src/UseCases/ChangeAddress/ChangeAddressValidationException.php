@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\Fundraising\AddressChange\UseCases\ChangeAddress;
+namespace WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress;
 
 class ChangeAddressValidationException extends \Exception {
 

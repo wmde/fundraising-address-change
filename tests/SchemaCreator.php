@@ -7,8 +7,9 @@ namespace WMDE\Fundraising\AddressChangeContext\Tests;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 
-class DatabaseSchema {
-	private $entityManager;
+class SchemaCreator {
+
+	private EntityManager $entityManager;
 
 	public function __construct( EntityManager $entityManager ) {
 		$this->entityManager = $entityManager;

@@ -2,9 +2,9 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\Fundraising\AddressChange\Domain;
+namespace WMDE\Fundraising\AddressChangeContext\Domain;
 
-use WMDE\Fundraising\AddressChange\Domain\Model\AddressChange;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 
 /**
  * @license GNU GPL v2+
