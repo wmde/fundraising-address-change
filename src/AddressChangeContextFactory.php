@@ -26,4 +26,10 @@ class AddressChangeContextFactory {
 		return new XmlDriver( self::DOCTRINE_CLASS_MAPPING_DIRECTORY );
 	}
 
+	public function newEventSubscribers(): array {
+		// Currently we don't have event subscribers, but this method helps to keep a consistent interface
+		// with all the other context factories of the bounded contexts.
+		return [];
+	}
+
 }
