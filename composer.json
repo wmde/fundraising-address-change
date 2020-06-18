@@ -6,7 +6,7 @@
 		"php": ">=7.4",
 		"doctrine/dbal": "^2.10",
 		"doctrine/orm": "^2.7",
-		"ramsey/uuid": "^3.7",
+		"ramsey/uuid": "^4.0",
 		"wmde/freezable-value-object": "~1.0"
 	},
 	"require-dev": {
