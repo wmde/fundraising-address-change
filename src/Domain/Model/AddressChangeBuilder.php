@@ -84,5 +84,4 @@ class AddressChangeBuilder {
 		return call_user_func( [ self::$uuidGenerator, 'generate' ] );
 	}
 
-
 }

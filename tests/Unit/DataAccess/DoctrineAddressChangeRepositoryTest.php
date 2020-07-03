@@ -71,7 +71,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$now = new \DateTime();
 
 		$this->em->clear( AddressChange::class );
-		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( (string) $addressChange->getCurrentIdentifier() );
+		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( (string)$addressChange->getCurrentIdentifier() );
 		$this->assertNotNull( $retrievedAddressChange );
 		$this->assertNotNull( $retrievedAddressChange->getAddress() );
 		$this->assertNotNull( $addressChange->getAddress() ); // avoid PHPStan errors when accessing address later
@@ -91,7 +91,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$addressChangeRepository->storeAddressChange( $addressChange );
 
 		$this->em->clear( AddressChange::class );
-		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( (string) $addressChange->getCurrentIdentifier() );
+		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( (string)$addressChange->getCurrentIdentifier() );
 		$this->assertTrue( $retrievedAddressChange->isOptedIntoDonationReceipt() );
 	}
 
@@ -102,7 +102,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$addressChangeRepository->storeAddressChange( $addressChange );
 
 		$this->em->clear( AddressChange::class );
-		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( (string) $addressChange->getCurrentIdentifier() );
+		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( (string)$addressChange->getCurrentIdentifier() );
 		$this->assertFalse( $retrievedAddressChange->isOptedIntoDonationReceipt() );
 	}
 
@@ -114,7 +114,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$now = new \DateTime();
 
 		$this->em->clear( AddressChange::class );
-		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( (string) $addressChange->getCurrentIdentifier() );
+		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( (string)$addressChange->getCurrentIdentifier() );
 		$this->assertNotNull( $retrievedAddressChange );
 		$this->assertTrue( $retrievedAddressChange->isExported() );
 		$this->assertDatePropertyIsSet( $now, $retrievedAddressChange, 'exportDate' );

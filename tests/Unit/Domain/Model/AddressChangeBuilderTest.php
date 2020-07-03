@@ -5,11 +5,11 @@ declare( strict_types = 1 );
 namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\Domain\Model;
 
 use PHPUnit\Framework\TestCase;
-use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
-use WMDE\Fundraising\AddressChangeContext\Domain\Model\UuidGenerator;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\Address;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeBuilder;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\UuidGenerator;
 
 class AddressChangeBuilderTest extends TestCase implements UuidGenerator {
 
@@ -77,12 +77,11 @@ class AddressChangeBuilderTest extends TestCase implements UuidGenerator {
 		AddressChangeBuilder::setUuidGenerator( $this );
 		$addressChange = $addressChange = AddressChangeBuilder::create()->forPerson()->forDonation( 1 )->build();
 
-		$this->assertSame( 'c956688a-89e8-41b7-b93e-7e4cf3d6c826', (string) $addressChange->getCurrentIdentifier() );
+		$this->assertSame( 'c956688a-89e8-41b7-b93e-7e4cf3d6c826', (string)$addressChange->getCurrentIdentifier() );
 	}
 
 	public function generate(): string {
 		return 'c956688a-89e8-41b7-b93e-7e4cf3d6c826';
 	}
-
 
 }

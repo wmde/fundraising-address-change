@@ -4,11 +4,11 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext;
 
-use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\ORM\Mapping\Driver\XmlDriver;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 
 /**
- * @licence GNU GPL v2+
+ * @license GPL-2.0-or-later
  */
 class AddressChangeContextFactory {
 
