@@ -60,11 +60,11 @@ class AddressChange {
 		if ( $addressType !== self::ADDRESS_TYPE_PERSON && $addressType !== self::ADDRESS_TYPE_COMPANY ) {
 			throw new \InvalidArgumentException( 'Invalid address type' );
 		}
-		if( $externalIdType !== self::EXTERNAL_ID_TYPE_DONATION && $externalIdType !== self::EXTERNAL_ID_TYPE_MEMBERSHIP ) {
+		if ( $externalIdType !== self::EXTERNAL_ID_TYPE_DONATION && $externalIdType !== self::EXTERNAL_ID_TYPE_MEMBERSHIP ) {
 			throw new \InvalidArgumentException( 'Invalid external reference type' );
 		}
 		$this->createdAt = $createdAt ?? new \DateTime();
-		$this->modifiedAt = clone( $this->createdAt );
+		$this->modifiedAt = clone $this->createdAt;
 		$this->donationReceipt = true;
 		$this->externalId = $externalId;
 		$this->externalIdType = $externalIdType;

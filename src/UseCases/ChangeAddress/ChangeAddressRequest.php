@@ -155,7 +155,7 @@ class ChangeAddressRequest {
 	}
 
 	public function isOptedOutOfDonationReceipt(): bool {
-		return ! $this->donationReceipt;
+		return !$this->donationReceipt;
 	}
 
 	public function setDonationReceipt( bool $donationReceipt ): self {
@@ -171,7 +171,7 @@ class ChangeAddressRequest {
 	}
 
 	public function hasAddressChangeData(): bool {
-		return ! $this->isOptOutOnly;
+		return !$this->isOptOutOnly;
 	}
 
 }

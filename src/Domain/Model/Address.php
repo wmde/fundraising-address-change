@@ -60,7 +60,7 @@ class Address {
 		$this->addressType = $addressType;
 	}
 
-	static public function newPersonalAddress(
+	public static function newPersonalAddress(
 		string $salutation,
 		string $title,
 		string $firstName,
@@ -80,7 +80,7 @@ class Address {
 		return new self( $salutation, '', $title, $firstName, $lastName, $address, $postcode, $city, $country, self::TYPE_PERSONAL );
 	}
 
-	static public function newCompanyAddress(
+	public static function newCompanyAddress(
 		string $company,
 		string $address,
 		string $postcode,
@@ -94,7 +94,7 @@ class Address {
 		return new self( '', $company, '', '', '', $address, $postcode, $city, $country, self::TYPE_COMPANY );
 	}
 
-	static private function assertNotEmpty( string $field, string $value ): void {
+	private static function assertNotEmpty( string $field, string $value ): void {
 		if ( $value === '' ) {
 			throw new ChangeAddressValidationException( $field );
 		}

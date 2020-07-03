@@ -4,10 +4,10 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress;
 
-use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
 use WMDE\Fundraising\AddressChangeContext\Domain\AddressChangeRepository;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\Address;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeBuilder;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
 
 class ChangeAddressUseCase {
 
@@ -20,7 +20,7 @@ class ChangeAddressUseCase {
 	public function changeAddress( ChangeAddressRequest $request ): ChangeAddressResponse {
 		$addressChange = $this->addressChangeRepository->getAddressChangeByUuid( $request->getIdentifier() );
 		if ( $addressChange === null ) {
-			return ChangeAddressResponse::newErrorResponse( ['Unknown address.'] );
+			return ChangeAddressResponse::newErrorResponse( [ 'Unknown address.' ] );
 		}
 
 		$newIdentifier = AddressChangeId::fromString( AddressChangeBuilder::generateUuid() );

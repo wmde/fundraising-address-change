@@ -7,7 +7,7 @@ namespace WMDE\Fundraising\AddressChangeContext\Domain;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 
 /**
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  */
 interface AddressChangeRepository {
 

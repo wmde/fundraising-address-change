@@ -6,8 +6,8 @@ namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\Domain\Model;
 
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
-use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
 use WMDE\Fundraising\AddressChangeContext\Tests\Data\ValidAddress;
 use WMDE\Fundraising\AddressChangeContext\Tests\TestEnvironment;
 
@@ -43,7 +43,7 @@ class AddressChangeTest extends TestCase {
 	}
 
 	private function newPersonAddressChange(): AddressChange {
-		return $addressChange = new AddressChange(
+		return new AddressChange(
 			AddressChange::ADDRESS_TYPE_PERSON,
 			AddressChange::EXTERNAL_ID_TYPE_DONATION,
 			self::DUMMY_DONATION_ID,
