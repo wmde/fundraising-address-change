@@ -7,6 +7,9 @@ namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\Domain\Model;
 use PHPUnit\Framework\TestCase;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
 
+/**
+ * @covers \WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId
+ */
 class AddressChangeIdTest extends TestCase {
 
 	public function testConstructorAcceptValidUuids(): void {

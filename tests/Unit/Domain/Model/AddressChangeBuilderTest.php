@@ -11,6 +11,9 @@ use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeBuilder;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\UuidGenerator;
 
+/**
+ * @covers \WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeBuilder
+ */
 class AddressChangeBuilderTest extends TestCase implements UuidGenerator {
 
 	public function testGivenParametersForCreateTheyArePassedToAddressChange(): void {

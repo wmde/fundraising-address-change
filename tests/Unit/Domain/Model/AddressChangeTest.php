@@ -43,7 +43,7 @@ class AddressChangeTest extends TestCase {
 	}
 
 	private function newPersonAddressChange(): AddressChange {
-		return $addressChange = new AddressChange(
+		return new AddressChange(
 			AddressChange::ADDRESS_TYPE_PERSON,
 			AddressChange::EXTERNAL_ID_TYPE_DONATION,
 			self::DUMMY_DONATION_ID,
