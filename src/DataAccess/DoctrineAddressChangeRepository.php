@@ -10,7 +10,7 @@ use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 
 class DoctrineAddressChangeRepository implements AddressChangeRepository {
 
-	private $entityManager;
+	private EntityManager $entityManager;
 
 	public function __construct( EntityManager $entityManager ) {
 		$this->entityManager = $entityManager;

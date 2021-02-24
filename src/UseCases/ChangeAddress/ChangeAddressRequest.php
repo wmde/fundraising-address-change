@@ -10,31 +10,31 @@ use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 class ChangeAddressRequest {
 	use FreezableValueObject;
 
-	private $salutation;
+	private string $salutation;
 
-	private $company;
+	private string $company;
 
-	private $title;
+	private string $title;
 
-	private $firstName;
+	private string $firstName;
 
-	private $lastName;
+	private string $lastName;
 
-	private $address;
+	private string $address;
 
-	private $postcode;
+	private string $postcode;
 
-	private $city;
+	private string $city;
 
-	private $country;
+	private string $country;
 
-	private $addressType;
+	private string $addressType;
 
-	private $identifier;
+	private string $identifier;
 
-	private $donationReceipt;
+	private bool $donationReceipt;
 
-	private $isOptOutOnly;
+	private bool $isOptOutOnly;
 
 	public function getSalutation(): string {
 		return $this->salutation;

@@ -18,12 +18,14 @@ install:
 
 script:
   - make install-php
-  - make ci-with-coverage
+  - make ci
   - make install-php COMPOSER_FLAGS="--no-dev -q" # Remove dev dependencies to make sure PHPStan creates errors if prod code depends on dev classes
-  - docker run -v $PWD:/app --rm phpstan/phpstan analyse --level 7 --no-progress src/ # Can't use "make stan" because stan was removed
+  - docker run -v $PWD:/app --rm ghcr.io/phpstan/phpstan analyse --level 7 --no-progress src/ # Can't use "make stan" because stan was removed
 
 after_success:
-  - if [ "$TYPE" == "coverage" ]; then bash build/travis/uploadCoverage.sh; fi
+  - vendor/bin/phpunit --coverage-clover coverage.clover
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 cache:
   directories:
