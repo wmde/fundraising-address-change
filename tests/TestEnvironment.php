@@ -15,6 +15,12 @@ class TestEnvironment {
 
 	private TestAddressChangeContextFactory $factory;
 
+	/**
+	 * @param array<mixed> $config
+	 * @param Configuration $doctrineConfig
+	 *
+	 * @throws \Doctrine\DBAL\Exception
+	 */
 	private function __construct( array $config, Configuration $doctrineConfig ) {
 		$this->factory = new TestAddressChangeContextFactory( $config, $doctrineConfig );
 	}

@@ -12,30 +12,27 @@ class Address {
 
 	private const TYPE_COMPANY = 'company';
 
-	/**
-	 * @var int|null
-	 */
-	private $id;
+	private ?int $id;
 
-	private $salutation;
+	private string $salutation;
 
-	private $company;
+	private string $company;
 
-	private $title;
+	private string $title;
 
-	private $firstName = '';
+	private string $firstName = '';
 
-	private $lastName = '';
+	private string $lastName = '';
 
-	private $address;
+	private string $address;
 
-	private $postcode;
+	private string $postcode;
 
-	private $city;
+	private string $city;
 
-	private $country = '';
+	private string $country = '';
 
-	private $addressType;
+	private string $addressType;
 
 	private function __construct(
 		string $salutation,

@@ -6,12 +6,23 @@ namespace WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress;
 
 class ChangeAddressResponse {
 
-	private $errorMessages;
+	/**
+	 * @var array<string>
+	 */
+	private array $errorMessages;
 
+	/**
+	 * @param array<string> $errorMessages
+	 */
 	private function __construct( array $errorMessages = [] ) {
 		$this->errorMessages = $errorMessages;
 	}
 
+	/**
+	 * @param array<string> $errorMessages
+	 *
+	 * @return ChangeAddressResponse
+	 */
 	public static function newErrorResponse( array $errorMessages ): self {
 		return new self( $errorMessages );
 	}
@@ -24,6 +35,9 @@ class ChangeAddressResponse {
 		return count( $this->errorMessages ) === 0;
 	}
 
+	/**
+	 * @return array<string>
+	 */
 	public function getErrors(): array {
 		return $this->errorMessages;
 	}

@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\Domain\Model;
 
+use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 
 /**
@@ -20,36 +21,27 @@ class AddressChange {
 	public const EXTERNAL_ID_TYPE_DONATION = 'donation';
 	public const EXTERNAL_ID_TYPE_MEMBERSHIP = 'membership';
 
-	/**
-	 * @var int|null
-	 */
-	private $id;
+	private ?int $id;
 
-	private $identifier;
+	private AddressChangeId $identifier;
 
-	private $previousIdentifier;
+	private AddressChangeId $previousIdentifier;
 
-	private $address;
+	private ?Address $address;
 
-	private $addressType;
+	private string $addressType;
 
-	private $donationReceipt;
+	private bool $donationReceipt;
 
-	private $externalId;
+	private int $externalId;
 
-	private $externalIdType;
+	private string $externalIdType;
 
-	/**
-	 * @var \DateTimeInterface|null
-	 */
-	private $exportDate;
+	private ?\DateTimeInterface $exportDate;
 
-	/**
-	 * @var \DateTimeInterface|null
-	 */
-	private $createdAt;
+	private \DateTimeInterface $createdAt;
 
-	private $modifiedAt;
+	private \DateTimeInterface $modifiedAt;
 
 	public function __construct( string $addressType, string $externalIdType, int $externalId, AddressChangeId $identifier,
 			?Address $address = null, ?\DateTime $createdAt = null ) {
@@ -63,6 +55,7 @@ class AddressChange {
 		if ( $externalIdType !== self::EXTERNAL_ID_TYPE_DONATION && $externalIdType !== self::EXTERNAL_ID_TYPE_MEMBERSHIP ) {
 			throw new \InvalidArgumentException( 'Invalid external reference type' );
 		}
+		$this->exportDate = null;
 		$this->createdAt = $createdAt ?? new \DateTime();
 		$this->modifiedAt = clone $this->createdAt;
 		$this->donationReceipt = true;

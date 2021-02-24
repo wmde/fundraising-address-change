@@ -18,6 +18,12 @@ class TestAddressChangeContextFactory {
 	private Connection $connection;
 	private ?EntityManager $entityManager;
 
+	/**
+	 * @param array<mixed> $config
+	 * @param Configuration $doctrineConfig
+	 *
+	 * @throws \Doctrine\DBAL\Exception
+	 */
 	public function __construct( array $config, Configuration $doctrineConfig ) {
 		$this->doctrineConfig = $doctrineConfig;
 

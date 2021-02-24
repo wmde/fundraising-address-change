@@ -27,6 +27,9 @@ class AddressChangeIdTest extends TestCase {
 		AddressChangeId::fromString( $invalidUUID );
 	}
 
+	/**
+	 * @return \Generator<string[]>
+	 */
 	public function invalidUUIDProvider(): \Generator {
 		yield [ '' ];
 		yield [ 'just a string' ];
