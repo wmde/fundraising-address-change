@@ -5,8 +5,8 @@ declare( strict_types = 1 );
 namespace WMDE\Fundraising\AddressChangeContext\Tests;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Tools\SchemaTool;
-use Doctrine\Persistence\Mapping\ClassMetadata;
 
 class SchemaCreator {
 
@@ -29,7 +29,7 @@ class SchemaCreator {
 	}
 
 	/**
-	 * @return array<ClassMetadata>
+	 * @return array<int, ClassMetadata>
 	 */
 	private function getClassMetaData(): array {
 		return $this->entityManager->getMetadataFactory()->getAllMetadata();
