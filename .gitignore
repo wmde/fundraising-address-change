@@ -12,6 +12,7 @@ composer.lock
 
 vendor/
 build/
+coverage/
 
 .floo
 .flooignore
