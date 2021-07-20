@@ -6,6 +6,8 @@ namespace WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress;
 
 class ChangeAddressResponse {
 
+	public const ERROR_ADDRESS_NOT_FOUND = 'Address not found';
+
 	/**
 	 * @var array<string>
 	 */
