@@ -9,10 +9,12 @@ use WMDE\Fundraising\AddressChangeContext\Domain\AddressChangeRepository;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
 use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressRequest;
+use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressResponse;
 use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressUseCase;
 
 /**
  * @covers \WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressUseCase
+ * @covers \WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressResponse
  */
 class ChangeAddressUseCaseTest extends TestCase {
 
@@ -47,6 +49,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 		$useCase = new ChangeAddressUseCase( $mockAddressChangeRepository );
 		$response = $useCase->changeAddress( $this->newChangeAddressRequest() );
 		$this->assertFalse( $response->isSuccess() );
+		$this->assertEquals( [ ChangeAddressResponse::ERROR_ADDRESS_NOT_FOUND ], $response->getErrors() );
 	}
 
 	public function testGivenValidOptOutOnlyChangeRequest_successResponseIsReturned(): void {

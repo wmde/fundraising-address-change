@@ -42,7 +42,7 @@ class ChangeAddressRequest {
 
 	public function setSalutation( string $salutation ): self {
 		$this->assertIsWritable();
-		$this->salutation = $salutation;
+		$this->salutation = trim( $salutation );
 		return $this;
 	}
 
@@ -52,7 +52,7 @@ class ChangeAddressRequest {
 
 	public function setCompany( string $company ): self {
 		$this->assertIsWritable();
-		$this->company = $company;
+		$this->company = trim( $company );
 		return $this;
 	}
 
@@ -62,7 +62,7 @@ class ChangeAddressRequest {
 
 	public function setTitle( string $title ): self {
 		$this->assertIsWritable();
-		$this->title = $title;
+		$this->title = trim( $title );
 		return $this;
 	}
 
@@ -72,7 +72,7 @@ class ChangeAddressRequest {
 
 	public function setFirstName( string $firstName ): self {
 		$this->assertIsWritable();
-		$this->firstName = $firstName;
+		$this->firstName = trim( $firstName );
 		return $this;
 	}
 
@@ -82,7 +82,7 @@ class ChangeAddressRequest {
 
 	public function setLastName( string $lastName ): self {
 		$this->assertIsWritable();
-		$this->lastName = $lastName;
+		$this->lastName = trim( $lastName );
 		return $this;
 	}
 
@@ -92,7 +92,7 @@ class ChangeAddressRequest {
 
 	public function setAddress( string $address ): self {
 		$this->assertIsWritable();
-		$this->address = $address;
+		$this->address = trim( $address );
 		return $this;
 	}
 
@@ -102,7 +102,7 @@ class ChangeAddressRequest {
 
 	public function setPostcode( string $postcode ): self {
 		$this->assertIsWritable();
-		$this->postcode = $postcode;
+		$this->postcode = trim( $postcode );
 		return $this;
 	}
 
@@ -112,7 +112,7 @@ class ChangeAddressRequest {
 
 	public function setCity( string $city ): self {
 		$this->assertIsWritable();
-		$this->city = $city;
+		$this->city = trim( $city );
 		return $this;
 	}
 
@@ -122,7 +122,7 @@ class ChangeAddressRequest {
 
 	public function setCountry( string $country ): self {
 		$this->assertIsWritable();
-		$this->country = $country;
+		$this->country = trim( $country );
 		return $this;
 	}
 
@@ -150,7 +150,7 @@ class ChangeAddressRequest {
 
 	public function setIdentifier( string $identifier ): self {
 		$this->assertIsWritable();
-		$this->identifier = $identifier;
+		$this->identifier = trim( $identifier );
 		return $this;
 	}
 

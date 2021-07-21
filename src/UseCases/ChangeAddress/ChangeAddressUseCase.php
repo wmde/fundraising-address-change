@@ -20,7 +20,7 @@ class ChangeAddressUseCase {
 	public function changeAddress( ChangeAddressRequest $request ): ChangeAddressResponse {
 		$addressChange = $this->addressChangeRepository->getAddressChangeByUuid( $request->getIdentifier() );
 		if ( $addressChange === null ) {
-			return ChangeAddressResponse::newErrorResponse( [ 'Unknown address.' ] );
+			return ChangeAddressResponse::newErrorResponse( [ ChangeAddressResponse::ERROR_ADDRESS_NOT_FOUND ] );
 		}
 
 		$newIdentifier = AddressChangeId::fromString( AddressChangeBuilder::generateUuid() );
