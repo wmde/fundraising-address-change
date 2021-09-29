@@ -4,7 +4,6 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\Domain\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 
 /**
