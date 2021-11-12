@@ -120,4 +120,25 @@ class AddressChangeTest extends TestCase {
 
 		new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, 'dogs!', self::DUMMY_DONATION_ID, $this->identifier );
 	}
+
+	public function testUnusedAddressReturnsCorrectExportState(): void {
+		$addressChange = new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+
+		$this->assertEquals( AddressChange::EXPORT_STATE_NO_DATA, $addressChange->getExportState() );
+	}
+
+	public function testUsedAddressReturnsCorrectExportState(): void {
+		$addressChange = new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+		$addressChange->performAddressChange( ValidAddress::newValidPersonalAddress(), $this->newIdentifier );
+
+		$this->assertEquals( AddressChange::EXPORT_STATE_USED_NOT_EXPORTED, $addressChange->getExportState() );
+	}
+
+	public function testUsedAndExportedAddressReturnsCorrectExportState(): void {
+		$addressChange = new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+		$addressChange->performAddressChange( ValidAddress::newValidPersonalAddress(), $this->newIdentifier );
+		$addressChange->markAsExported();
+
+		$this->assertEquals( AddressChange::EXPORT_STATE_USED_EXPORTED, $addressChange->getExportState() );
+	}
 }

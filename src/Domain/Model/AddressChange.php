@@ -20,6 +20,10 @@ class AddressChange {
 	public const EXTERNAL_ID_TYPE_DONATION = 'donation';
 	public const EXTERNAL_ID_TYPE_MEMBERSHIP = 'membership';
 
+	public const EXPORT_STATE_NO_DATA = 'NO_DATA';
+	public const EXPORT_STATE_USED_NOT_EXPORTED = 'USED_NOT_EXPORTED';
+	public const EXPORT_STATE_USED_EXPORTED = 'USED_EXPORTED';
+
 	private ?int $id;
 
 	private AddressChangeId $identifier;
@@ -136,5 +140,17 @@ class AddressChange {
 
 	public function getExternalIdType(): string {
 		return $this->externalIdType;
+	}
+
+	public function getExportState(): string {
+		if ( !$this->address ) {
+			return self::EXPORT_STATE_NO_DATA;
+		}
+
+		if ( $this->exportDate ) {
+			return self::EXPORT_STATE_USED_EXPORTED;
+		}
+
+		return self::EXPORT_STATE_USED_NOT_EXPORTED;
 	}
 }
