@@ -121,6 +121,55 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$this->assertDatePropertyIsSet( $now, $retrievedAddressChange, 'exportDate' );
 	}
 
+	public function testWhenQueriedByMultipleUuids_andGivenValidPreviousUuid_addressChangeIsReturned(): void {
+		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
+		$addressChange = AddressChangeBuilder::create(
+			AddressChangeId::fromString( self::VALID_UPDATE_TOKEN_PERSONAL_DONATION ),
+			$this->newPersonalAddress()
+		)->forPerson()->forDonation( self::DUMMY_DONATION_ID )->build();
+		$addressChangeRepository->storeAddressChange( $addressChange );
+
+		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuids(
+			self::INVALID_UPDATE_TOKEN,
+			$addressChange->getPreviousIdentifier()->__toString()
+		);
+
+		$this->assertNotNull( $retrievedAddressChange );
+		$this->assertSame(
+			self::VALID_UPDATE_TOKEN_PERSONAL_DONATION,
+			$retrievedAddressChange->getCurrentIdentifier()->__toString()
+		);
+	}
+
+	public function testWhenQueriedByMultipleUuids_andGivenValidCurrentUuid_addressChangeIsReturned(): void {
+		$addressChangeRepository = new DoctrineAddressChangeRepository( $this->em );
+		$addressChange = AddressChangeBuilder::create(
+			AddressChangeId::fromString( self::VALID_UPDATE_TOKEN_PERSONAL_DONATION ),
+			$this->newPersonalAddress()
+		)->forPerson()->forDonation( self::DUMMY_DONATION_ID )->build();
+		$addressChangeRepository->storeAddressChange( $addressChange );
+
+		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuids(
+			$addressChange->getCurrentIdentifier()->__toString(),
+			self::INVALID_UPDATE_TOKEN
+		);
+
+		$this->assertNotNull( $retrievedAddressChange );
+		$this->assertSame(
+			self::VALID_UPDATE_TOKEN_PERSONAL_DONATION,
+			$retrievedAddressChange->getCurrentIdentifier()->__toString()
+		);
+	}
+
+	public function testWhenQueriedByMultipleUuids_andGivenInvalidDonationUuids_nullIsReturned(): void {
+		$addressChange = ( new DoctrineAddressChangeRepository( $this->em ) )->getAddressChangeByUuids(
+			self::INVALID_UPDATE_TOKEN,
+			self::INVALID_UPDATE_TOKEN
+		);
+
+		$this->assertNull( $addressChange );
+	}
+
 	private function storeAddressChange( string $uuid, bool $isPersonal = true ): void {
 		if ( $isPersonal ) {
 			$addressChange = AddressChangeBuilder::create(
