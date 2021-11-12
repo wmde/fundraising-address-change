@@ -20,6 +20,18 @@ class DoctrineAddressChangeRepository implements AddressChangeRepository {
 		return $this->entityManager->getRepository( AddressChange::class )->findOneBy( [ 'identifier.identifier' => $uuid ] );
 	}
 
+	public function getAddressChangeByUuids( string $currentIdentifier, string $previousIdentifier ): ?AddressChange {
+		return $this->entityManager->getRepository( AddressChange::class )->createQueryBuilder( 'ac' )
+			->where( 'ac.identifier.identifier = :currentIdentifier' )
+			->orWhere( 'ac.previousIdentifier.identifier = :previousIdentifier' )
+			->setParameters( [
+				'currentIdentifier' => $currentIdentifier,
+				'previousIdentifier' => $previousIdentifier
+			] )
+			->getQuery()
+			->getOneOrNullResult();
+	}
+
 	public function storeAddressChange( AddressChange $addressChange ): void {
 		$this->entityManager->persist( $addressChange );
 		$this->entityManager->flush();
