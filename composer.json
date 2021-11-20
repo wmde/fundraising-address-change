@@ -3,7 +3,7 @@
 	"description": "Address change use case for fundraising application",
 	"license": "GPL-2.0-or-later",
 	"require": {
-		"php": ">=7.4",
+		"php": ">=8.0",
 		"doctrine/dbal": "^2.10",
 		"doctrine/orm": "^2.7",
 		"ramsey/uuid": "^4.0",

@@ -13,6 +13,8 @@ interface AddressChangeRepository {
 
 	public function getAddressChangeByUuid( string $uuid ): ?AddressChange;
 
+	public function getAddressChangeByUuids( string $currentIdentifier, string $previousIdentifier ): ?AddressChange;
+
 	public function storeAddressChange( AddressChange $addressChange ): void;
 
 }
