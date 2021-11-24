@@ -14,8 +14,8 @@
 		"symfony/cache": "^5.3",
 		"wmde/fundraising-phpcs": "~5.0",
 		"phpmd/phpmd": "~2.6",
-		"phpstan/phpstan": "^0.12",
-		"phpstan/phpstan-phpunit": "^0.12"
+		"phpstan/phpstan": "^1.2",
+		"phpstan/phpstan-phpunit": "^1.0"
 	},
 	"repositories": [
 		{
