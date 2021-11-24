@@ -24,6 +24,10 @@ class AddressChange {
 	public const EXPORT_STATE_USED_NOT_EXPORTED = 'USED_NOT_EXPORTED';
 	public const EXPORT_STATE_USED_EXPORTED = 'USED_EXPORTED';
 
+	/**
+	 * @var int|null
+	 * @phpstan-ignore-next-line
+	 */
 	private ?int $id;
 
 	private AddressChangeId $identifier;
