@@ -12,6 +12,10 @@ class Address {
 
 	private const TYPE_COMPANY = 'company';
 
+	/**
+	 * @var int|null
+	 * @phpstan-ignore-next-line
+	 */
 	private ?int $id;
 
 	private string $salutation;
