@@ -33,5 +33,10 @@
 		"psr-4": {
 			"WMDE\\Fundraising\\AddressChangeContext\\Tests\\": "tests/"
 		}
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/package-versions-deprecated": true
+		}
 	}
 }
