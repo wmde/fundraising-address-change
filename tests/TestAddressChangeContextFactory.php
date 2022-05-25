@@ -4,7 +4,6 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\Tests;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\Configuration;
@@ -34,10 +33,7 @@ class TestAddressChangeContextFactory {
 
 	public function getEntityManager(): EntityManager {
 		if ( $this->entityManager === null ) {
-			AnnotationRegistry::registerLoader( 'class_exists' );
-
 			$this->doctrineConfig->setMetadataDriverImpl( $this->factory->newMappingDriver() );
-
 			$this->entityManager = EntityManager::create(
 				$this->connection,
 				$this->doctrineConfig
