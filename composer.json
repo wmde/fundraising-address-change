@@ -4,8 +4,8 @@
 	"license": "GPL-2.0-or-later",
 	"require": {
 		"php": ">=8.0",
-		"doctrine/dbal": "^2.10",
-		"doctrine/orm": "^2.7",
+		"doctrine/orm": "^2.11",
+		"doctrine/dbal": "^3.3",
 		"ramsey/uuid": "^4.0",
 		"wmde/freezable-value-object": "~2.0"
 	},
