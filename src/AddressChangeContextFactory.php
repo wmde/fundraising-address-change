@@ -5,8 +5,6 @@ declare( strict_types = 1 );
 namespace WMDE\Fundraising\AddressChangeContext;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Mapping\Driver\XmlDriver;
-use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 
 /**
  * @license GPL-2.0-or-later
@@ -20,8 +18,11 @@ class AddressChangeContextFactory {
 
 	private const DOCTRINE_CLASS_MAPPING_DIRECTORY = __DIR__ . '/../config/DoctrineClassMapping';
 
-	public function newMappingDriver(): MappingDriver {
-		return new XmlDriver( self::DOCTRINE_CLASS_MAPPING_DIRECTORY );
+	/**
+	 * @return string[]
+	 */
+	public function getDoctrineMappingPaths(): array {
+		return [ self::DOCTRINE_CLASS_MAPPING_DIRECTORY ];
 	}
 
 	/**

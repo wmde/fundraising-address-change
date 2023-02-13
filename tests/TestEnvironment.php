@@ -6,7 +6,8 @@ namespace WMDE\Fundraising\AddressChangeContext\Tests;
 
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\ORMSetup;
+use WMDE\Fundraising\AddressChangeContext\AddressChangeContextFactory;
 
 /**
  * @license GPL-2.0-or-later
@@ -26,6 +27,7 @@ class TestEnvironment {
 	}
 
 	public static function newInstance(): self {
+		$contextFactory = new AddressChangeContextFactory();
 		$environment = new self(
 			[
 				'db' => [
@@ -33,7 +35,7 @@ class TestEnvironment {
 					'memory' => true,
 				]
 			],
-			Setup::createConfiguration( true )
+			ORMSetup::createXMLMetadataConfiguration( $contextFactory->getDoctrineMappingPaths() )
 		);
 
 		$environment->install();
