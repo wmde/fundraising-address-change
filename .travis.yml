@@ -1,17 +1,10 @@
-dist: trusty
-
 services:
   - docker
 
 language: php
 
-matrix:
-  fast_finish: true
-  include:
-    - php: 7.4
-      env: TYPE=coverage
-  # More PHP instances with different environment variables may be added here
-  # This may be useful if a additional PHP versions or DBMS (SQLite, ...) should be tested by Travis
+php:
+  - 8.1
 
 install:
   - travis_retry make install-php
@@ -20,7 +13,7 @@ script:
   - make install-php
   - make ci-with-coverage COVERAGE_FLAGS="--coverage-clover coverage.clover"
   - make install-php COMPOSER_FLAGS="--no-dev -q" # Remove dev dependencies to make sure PHPStan creates errors if prod code depends on dev classes
-  - docker run -v $PWD:/app --rm ghcr.io/phpstan/phpstan analyse --level 7 --no-progress src/ # Can't use "make stan" because stan was removed
+  - docker run -v $PWD:/app --rm ghcr.io/phpstan/phpstan:1-php8.1 analyse --level 7 --no-progress src/ # Can't use "make stan" because stan was removed
 
 after_success:
   - wget https://scrutinizer-ci.com/ocular.phar

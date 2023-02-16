@@ -8,17 +8,15 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
-use WMDE\Fundraising\AddressChangeContext\AddressChangeContextFactory;
 
 class TestAddressChangeContextFactory {
 
 	private Configuration $doctrineConfig;
-	private AddressChangeContextFactory $factory;
 	private Connection $connection;
 	private ?EntityManager $entityManager;
 
 	/**
-	 * @param array<mixed> $config
+	 * @param array<string,mixed> $config
 	 * @param Configuration $doctrineConfig
 	 *
 	 * @throws \Doctrine\DBAL\Exception
@@ -27,16 +25,13 @@ class TestAddressChangeContextFactory {
 		$this->doctrineConfig = $doctrineConfig;
 
 		$this->connection = DriverManager::getConnection( $config['db'] );
-		$this->factory = new AddressChangeContextFactory();
 		$this->entityManager = null;
 	}
 
 	public function getEntityManager(): EntityManager {
 		if ( $this->entityManager === null ) {
 
-			$this->doctrineConfig->setMetadataDriverImpl( $this->factory->newMappingDriver() );
-
-			$this->entityManager = EntityManager::create(
+			$this->entityManager = new EntityManager(
 				$this->connection,
 				$this->doctrineConfig
 			);
