@@ -27,8 +27,7 @@ class ChangeAddressUseCase {
 		if ( $request->hasAddressChangeData() ) {
 			try {
 				$addressChange->performAddressChange( $this->buildAddress( $request ), $newIdentifier );
-			}
-			catch ( ChangeAddressValidationException $e ) {
+			} catch ( ChangeAddressValidationException $e ) {
 				return ChangeAddressResponse::newErrorResponse( [ $e->getMessage() ] );
 			}
 		}

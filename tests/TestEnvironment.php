@@ -48,8 +48,7 @@ class TestEnvironment {
 
 		try {
 			$schema->dropSchema();
-		}
-		catch ( \Exception $ex ) {
+		} catch ( \Exception $ex ) {
 		}
 
 		$schema->createSchema();
