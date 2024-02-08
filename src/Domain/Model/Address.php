@@ -8,10 +8,6 @@ use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressVa
 
 class Address {
 
-	private const TYPE_PERSONAL = 'personal';
-
-	private const TYPE_COMPANY = 'company';
-
 	/**
 	 * @var int|null
 	 * @phpstan-ignore-next-line
@@ -36,8 +32,6 @@ class Address {
 
 	private string $country = '';
 
-	private string $addressType;
-
 	private function __construct(
 		string $salutation,
 		string $company,
@@ -47,8 +41,8 @@ class Address {
 		string $address,
 		string $postcode,
 		string $city,
-		string $country,
-		string $addressType ) {
+		string $country
+	) {
 		$this->salutation = $salutation;
 		$this->company = $company;
 		$this->title = $title;
@@ -58,7 +52,6 @@ class Address {
 		$this->postcode = $postcode;
 		$this->city = $city;
 		$this->country = $country;
-		$this->addressType = $addressType;
 	}
 
 	public static function newPersonalAddress(
@@ -78,7 +71,7 @@ class Address {
 		self::assertNotEmpty( 'City', $city );
 		self::assertNotEmpty( 'Country', $country );
 
-		return new self( $salutation, '', $title, $firstName, $lastName, $address, $postcode, $city, $country, self::TYPE_PERSONAL );
+		return new self( $salutation, '', $title, $firstName, $lastName, $address, $postcode, $city, $country );
 	}
 
 	public static function newCompanyAddress(
@@ -92,21 +85,13 @@ class Address {
 		self::assertNotEmpty( 'Post Code', $postcode );
 		self::assertNotEmpty( 'City', $city );
 		self::assertNotEmpty( 'Country', $country );
-		return new self( '', $company, '', '', '', $address, $postcode, $city, $country, self::TYPE_COMPANY );
+		return new self( '', $company, '', '', '', $address, $postcode, $city, $country );
 	}
 
 	private static function assertNotEmpty( string $field, string $value ): void {
 		if ( $value === '' ) {
 			throw new ChangeAddressValidationException( $field );
 		}
-	}
-
-	public function isPersonalAddress(): bool {
-		return $this->addressType === self::TYPE_PERSONAL;
-	}
-
-	public function isCompanyAddress(): bool {
-		return $this->addressType === self::TYPE_COMPANY;
 	}
 
 	public function getSalutation(): string {
