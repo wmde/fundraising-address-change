@@ -35,7 +35,7 @@ class TestEnvironment {
 					'memory' => true,
 				]
 			],
-			ORMSetup::createXMLMetadataConfiguration( $contextFactory->getDoctrineMappingPaths() )
+			ORMSetup::createXMLMetadataConfiguration( $contextFactory->getDoctrineMappingPaths(), true )
 		);
 
 		$environment->install();

@@ -23,7 +23,7 @@
     <field name="modifiedAt" type="datetime" column="modified_at" nullable="false" />
     <field name="donationReceipt" type="boolean" column="donation_receipt" nullable="false" />
 
-    <many-to-one field="address" target-entity="Address" fetch="LAZY">
+    <many-to-one field="address" target-entity="Address" fetch="EAGER">
       <join-columns>
         <join-column name="address_id" referenced-column-name="id"/>
       </join-columns>

@@ -24,10 +24,8 @@ class DoctrineAddressChangeRepository implements AddressChangeRepository {
 		return $this->entityManager->getRepository( AddressChange::class )->createQueryBuilder( 'ac' )
 			->where( 'ac.identifier.identifier = :currentIdentifier' )
 			->orWhere( 'ac.previousIdentifier.identifier = :previousIdentifier' )
-			->setParameters( [
-				'currentIdentifier' => $currentIdentifier,
-				'previousIdentifier' => $previousIdentifier
-			] )
+			->setParameter( 'currentIdentifier', $currentIdentifier )
+			->setParameter( 'previousIdentifier', $previousIdentifier )
 			->getQuery()
 			->getOneOrNullResult();
 	}
