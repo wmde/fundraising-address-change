@@ -41,7 +41,11 @@ class AddressChangeBuilder {
 		return $this->setAddressType( AddressChange::ADDRESS_TYPE_COMPANY );
 	}
 
-	private function setAddressType( string $addressType ): self {
+	/**
+	 * @param AddressChange::ADDRESS_TYPE_PERSON|AddressChange::ADDRESS_TYPE_COMPANY $addressType
+	 * @return $this
+	 */
+	public function setAddressType( string $addressType ): self {
 		if ( $this->addressType !== null ) {
 			throw new \RuntimeException( 'You can only specify address type once' );
 		}
