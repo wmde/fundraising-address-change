@@ -9,6 +9,7 @@ use WMDE\Fundraising\AddressChangeContext\Domain\AddressChangeRepository;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\Address;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressType;
 use WMDE\Fundraising\AddressChangeContext\UseCases\ReadAddressChange\ReadAddressChangeUseCase;
 
 /**
@@ -80,7 +81,7 @@ class ReadAddressChangeUseCaseTest extends TestCase {
 
 	private function createUnusedAddressChange(): AddressChange {
 		return new AddressChange(
-			AddressChange::ADDRESS_TYPE_PERSON,
+			AddressType::Person,
 			AddressChange::EXTERNAL_ID_TYPE_DONATION,
 			self::DUMMY_DONATION_ID,
 			AddressChangeId::fromString( self::VALID_UUID )
@@ -89,7 +90,7 @@ class ReadAddressChangeUseCaseTest extends TestCase {
 
 	private function createUsedAddressChange(): AddressChange {
 		$addressChange = new AddressChange(
-			AddressChange::ADDRESS_TYPE_PERSON,
+			AddressType::Person,
 			AddressChange::EXTERNAL_ID_TYPE_DONATION,
 			self::DUMMY_DONATION_ID,
 			AddressChangeId::fromString( self::VALID_UUID )

@@ -5,6 +5,8 @@ declare( strict_types = 1 );
 namespace WMDE\Fundraising\AddressChangeContext;
 
 use Doctrine\Common\EventSubscriber;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * @license GPL-2.0-or-later
@@ -34,4 +36,17 @@ class AddressChangeContextFactory {
 		return [];
 	}
 
+	public function registerCustomTypes( Connection $connection ): void {
+		$this->registerDoctrinePaymentIntervalType( $connection );
+	}
+
+	public function registerDoctrinePaymentIntervalType( Connection $connection ): void {
+		static $isRegistered = false;
+		if ( $isRegistered ) {
+			return;
+		}
+		Type::addType( 'AddressType', 'WMDE\Fundraising\AddressChangeContext\DataAccess\DoctrineTypes\AddressType' );
+		$connection->getDatabasePlatform()->registerDoctrineTypeMapping( 'AddressType', 'AddressType' );
+		$isRegistered = true;
+	}
 }
