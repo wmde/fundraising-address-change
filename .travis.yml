@@ -18,8 +18,8 @@ script:
     #- docker run -v $PWD:/app --rm registry.gitlab.com/fun-tech/fundraising-frontend-docker:stan analyse --level 7 --no-progress src/ # Can't use "make stan" because stan was removed
 
 after_success:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+  - composer global require scrutinizer/ocular
+  - "$(composer config --global home)/vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover"
 
 cache:
   directories:
