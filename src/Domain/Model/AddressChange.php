@@ -13,10 +13,6 @@ use LogicException;
  * The recommended way to construct this class is through the AddressChangeBuilder
  */
 class AddressChange {
-
-	public const ADDRESS_TYPE_PERSON = 'person';
-	public const ADDRESS_TYPE_COMPANY = 'company';
-
 	public const EXTERNAL_ID_TYPE_DONATION = 'donation';
 	public const EXTERNAL_ID_TYPE_MEMBERSHIP = 'membership';
 
@@ -30,19 +26,9 @@ class AddressChange {
 	 */
 	private ?int $id;
 
-	private AddressChangeId $identifier;
-
 	private AddressChangeId $previousIdentifier;
 
-	private ?Address $address;
-
-	private string $addressType;
-
 	private bool $donationReceipt;
-
-	private int $externalId;
-
-	private string $externalIdType;
 
 	private ?\DateTimeInterface $exportDate;
 
@@ -50,15 +36,15 @@ class AddressChange {
 
 	private \DateTimeInterface $modifiedAt;
 
-	public function __construct( string $addressType, string $externalIdType, int $externalId, AddressChangeId $identifier,
-			?Address $address = null, ?\DateTime $createdAt = null ) {
-		$this->addressType = $addressType;
-		$this->identifier = $identifier;
+	public function __construct(
+		private readonly AddressType $addressType,
+		private readonly string $externalIdType,
+		private readonly int $externalId,
+		private AddressChangeId $identifier,
+		private ?Address $address = null,
+		?\DateTime $createdAt = null
+	) {
 		$this->previousIdentifier = $identifier;
-		$this->address = $address;
-		if ( $addressType !== self::ADDRESS_TYPE_PERSON && $addressType !== self::ADDRESS_TYPE_COMPANY ) {
-			throw new \InvalidArgumentException( 'Invalid address type' );
-		}
 		if ( $externalIdType !== self::EXTERNAL_ID_TYPE_DONATION && $externalIdType !== self::EXTERNAL_ID_TYPE_MEMBERSHIP ) {
 			throw new \InvalidArgumentException( 'Invalid external reference type' );
 		}
@@ -66,8 +52,6 @@ class AddressChange {
 		$this->createdAt = $createdAt ?? new \DateTime();
 		$this->modifiedAt = clone $this->createdAt;
 		$this->donationReceipt = true;
-		$this->externalId = $externalId;
-		$this->externalIdType = $externalIdType;
 	}
 
 	public function performAddressChange( Address $address, AddressChangeId $newIdentifier ): void {
@@ -96,11 +80,11 @@ class AddressChange {
 	}
 
 	public function isPersonalAddress(): bool {
-		return $this->addressType === self::ADDRESS_TYPE_PERSON;
+		return $this->addressType === AddressType::Person;
 	}
 
 	public function isCompanyAddress(): bool {
-		return $this->addressType === self::ADDRESS_TYPE_COMPANY;
+		return $this->addressType === AddressType::Company;
 	}
 
 	public function isOptedIntoDonationReceipt(): bool {

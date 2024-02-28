@@ -24,9 +24,14 @@ class AddressTest extends TestCase {
 			'Test City',
 			'Test Country'
 		);
-		$this->assertTrue(
-			$address->isPersonalAddress()
-		);
+		$this->assertSame( 'Herr', $address->getSalutation() );
+		$this->assertSame( 'Prof. Dr.', $address->getTitle() );
+		$this->assertSame( 'Tester', $address->getFirstName() );
+		$this->assertSame( 'Testfamily', $address->getLastName() );
+		$this->assertSame( 'Test Street 123', $address->getAddress() );
+		$this->assertSame( '12345', $address->getPostcode() );
+		$this->assertSame( 'Test City', $address->getCity() );
+		$this->assertSame( 'Test Country', $address->getCountry() );
 	}
 
 	public function testWhenValidFieldValuesAreUsedForCompanyAddress_addressIsCreated(): void {
@@ -37,9 +42,11 @@ class AddressTest extends TestCase {
 			'Test City',
 			'Test Country'
 		);
-		$this->assertTrue(
-			$address->isCompanyAddress()
-		);
+		$this->assertSame( 'Test Company', $address->getCompany() );
+		$this->assertSame( 'Test Street 123', $address->getAddress() );
+		$this->assertSame( '12345', $address->getPostcode() );
+		$this->assertSame( 'Test City', $address->getCity() );
+		$this->assertSame( 'Test Country', $address->getCountry() );
 	}
 
 	/**

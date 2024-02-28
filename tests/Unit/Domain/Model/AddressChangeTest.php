@@ -7,6 +7,7 @@ namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\Domain\Model;
 use PHPUnit\Framework\TestCase;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressType;
 use WMDE\Fundraising\AddressChangeContext\Tests\Data\ValidAddress;
 
 /**
@@ -25,7 +26,7 @@ class AddressChangeTest extends TestCase {
 	}
 
 	public function testWhenNewAddressChangeIsCreated_itIsNotModified(): void {
-		$addressChange = new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+		$addressChange = new AddressChange( AddressType::Person, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
 		$this->assertFalse( $addressChange->isModified() );
 	}
 
@@ -40,7 +41,7 @@ class AddressChangeTest extends TestCase {
 
 	private function newPersonAddressChange(): AddressChange {
 		return new AddressChange(
-			AddressChange::ADDRESS_TYPE_PERSON,
+			AddressType::Person,
 			AddressChange::EXTERNAL_ID_TYPE_DONATION,
 			self::DUMMY_DONATION_ID,
 			$this->identifier,
@@ -72,18 +73,18 @@ class AddressChangeTest extends TestCase {
 	}
 
 	public function testNewAddressChangeIsNotExported(): void {
-		$addressChange = new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+		$addressChange = new AddressChange( AddressType::Person, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
 		$this->assertFalse( $addressChange->isExported() );
 	}
 
 	public function testAddressChangeCanBeMarkedAsExported(): void {
-		$addressChange = new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+		$addressChange = new AddressChange( AddressType::Person, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
 		$addressChange->markAsExported();
 		$this->assertTrue( $addressChange->isExported() );
 	}
 
 	public function testAddressChangeCannotBeExportedTwice(): void {
-		$addressChange = new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+		$addressChange = new AddressChange( AddressType::Person, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
 		$addressChange->markAsExported();
 
 		$this->expectException( \LogicException::class );
@@ -92,46 +93,40 @@ class AddressChangeTest extends TestCase {
 	}
 
 	public function testMarkingAsExportedDoesNotChangeModificationDate(): void {
-		$addressChange = new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+		$addressChange = new AddressChange( AddressType::Person, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
 		$addressChange->markAsExported();
 		$this->assertFalse( $addressChange->isModified() );
 	}
 
 	public function testWhenAddressChangeIsPerformed_exportStateIsReset(): void {
-		$addressChange = new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+		$addressChange = new AddressChange( AddressType::Person, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
 		$addressChange->markAsExported();
 		$addressChange->performAddressChange( ValidAddress::newValidCompanyAddress(), $this->newIdentifier );
 
 		$this->assertFalse( $addressChange->isExported() );
 	}
 
-	public function testAddressTypeIsValidated(): void {
-		$this->expectException( \InvalidArgumentException::class );
-
-		new AddressChange( 'TyPE_Person', AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
-	}
-
 	public function testReferenceTypeIsValidated(): void {
 		$this->expectException( \InvalidArgumentException::class );
 
-		new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, 'dogs!', self::DUMMY_DONATION_ID, $this->identifier );
+		new AddressChange( AddressType::Person, 'dogs!', self::DUMMY_DONATION_ID, $this->identifier );
 	}
 
 	public function testUnusedAddressReturnsCorrectExportState(): void {
-		$addressChange = new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+		$addressChange = new AddressChange( AddressType::Person, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
 
 		$this->assertEquals( AddressChange::EXPORT_STATE_NO_DATA, $addressChange->getExportState() );
 	}
 
 	public function testUsedAddressReturnsCorrectExportState(): void {
-		$addressChange = new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+		$addressChange = new AddressChange( AddressType::Person, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
 		$addressChange->performAddressChange( ValidAddress::newValidPersonalAddress(), $this->newIdentifier );
 
 		$this->assertEquals( AddressChange::EXPORT_STATE_USED_NOT_EXPORTED, $addressChange->getExportState() );
 	}
 
 	public function testUsedAndExportedAddressReturnsCorrectExportState(): void {
-		$addressChange = new AddressChange( AddressChange::ADDRESS_TYPE_PERSON, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+		$addressChange = new AddressChange( AddressType::Person, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
 		$addressChange->performAddressChange( ValidAddress::newValidPersonalAddress(), $this->newIdentifier );
 		$addressChange->markAsExported();
 

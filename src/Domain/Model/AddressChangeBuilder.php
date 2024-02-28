@@ -10,7 +10,7 @@ class AddressChangeBuilder {
 
 	private static ?UuidGenerator $uuidGenerator = null;
 
-	private ?string $addressType;
+	private ?AddressType $addressType;
 	private ?string $referenceType;
 	private ?int $referenceId;
 	private AddressChangeId $identifier;
@@ -34,14 +34,14 @@ class AddressChangeBuilder {
 	}
 
 	public function forPerson(): self {
-		return $this->setAddressType( AddressChange::ADDRESS_TYPE_PERSON );
+		return $this->setAddressType( AddressType::Person );
 	}
 
 	public function forCompany(): self {
-		return $this->setAddressType( AddressChange::ADDRESS_TYPE_COMPANY );
+		return $this->setAddressType( AddressType::Company );
 	}
 
-	private function setAddressType( string $addressType ): self {
+	public function setAddressType( AddressType $addressType ): self {
 		if ( $this->addressType !== null ) {
 			throw new \RuntimeException( 'You can only specify address type once' );
 		}

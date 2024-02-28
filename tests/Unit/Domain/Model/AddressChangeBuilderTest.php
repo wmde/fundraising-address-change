@@ -78,7 +78,7 @@ class AddressChangeBuilderTest extends TestCase implements UuidGenerator {
 
 	public function testUuidGeneratorCanBeSwitchedOut(): void {
 		AddressChangeBuilder::setUuidGenerator( $this );
-		$addressChange = $addressChange = AddressChangeBuilder::create()->forPerson()->forDonation( 1 )->build();
+		$addressChange = AddressChangeBuilder::create()->forPerson()->forDonation( 1 )->build();
 
 		$this->assertSame( 'c956688a-89e8-41b7-b93e-7e4cf3d6c826', (string)$addressChange->getCurrentIdentifier() );
 	}

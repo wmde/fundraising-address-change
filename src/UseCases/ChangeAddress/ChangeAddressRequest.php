@@ -5,7 +5,7 @@ declare( strict_types = 1 );
 namespace WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress;
 
 use WMDE\FreezableValueObject\FreezableValueObject;
-use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressType;
 
 class ChangeAddressRequest {
 	use FreezableValueObject;
@@ -28,7 +28,7 @@ class ChangeAddressRequest {
 
 	private string $country;
 
-	private string $addressType;
+	private AddressType $addressType;
 
 	private string $identifier;
 
@@ -126,19 +126,19 @@ class ChangeAddressRequest {
 		return $this;
 	}
 
-	public function getAddressType(): string {
+	public function getAddressType(): AddressType {
 		return $this->addressType;
 	}
 
 	public function isPersonal(): bool {
-		return $this->addressType === AddressChange::ADDRESS_TYPE_PERSON;
+		return $this->addressType === AddressType::Person;
 	}
 
 	public function isCompany(): bool {
-		return $this->addressType === AddressChange::ADDRESS_TYPE_COMPANY;
+		return $this->addressType === AddressType::Company;
 	}
 
-	public function setAddressType( string $addressType ): self {
+	public function setAddressType( AddressType $addressType ): self {
 		$this->assertIsWritable();
 		$this->addressType = $addressType;
 		return $this;

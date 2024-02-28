@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use WMDE\Fundraising\AddressChangeContext\Domain\AddressChangeRepository;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressType;
 use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressRequest;
 use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressResponse;
 use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressUseCase;
@@ -76,7 +77,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 		$request = new ChangeAddressRequest();
 		$request->setIdentifier( self::VALID_SAMPLE_UUID );
 		$request->setAddress( 'Test' );
-		$request->setAddressType( AddressChange::ADDRESS_TYPE_PERSON );
+		$request->setAddressType( AddressType::Person );
 		$request->setCity( 'Test City' );
 		$request->setCountry( 'Test Country' );
 		$request->setFirstName( 'Test Name' );
@@ -94,7 +95,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 		$request = new ChangeAddressRequest();
 		$request->setIdentifier( self::VALID_SAMPLE_UUID );
 		$request->setAddress( 'Test' );
-		$request->setAddressType( AddressChange::ADDRESS_TYPE_PERSON );
+		$request->setAddressType( AddressType::Person );
 		$request->setCity( '' );
 		$request->setCountry( 'Test Country' );
 		$request->setFirstName( 'Test Name' );
@@ -112,7 +113,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 		$request = new ChangeAddressRequest();
 		$request->setIdentifier( self::VALID_SAMPLE_UUID );
 		$request->setAddress( '' );
-		$request->setAddressType( AddressChange::ADDRESS_TYPE_PERSON );
+		$request->setAddressType( AddressType::Person );
 		$request->setCity( '' );
 		$request->setCountry( '' );
 		$request->setFirstName( '' );
@@ -130,7 +131,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 		$request = new ChangeAddressRequest();
 		$request->setIdentifier( self::VALID_SAMPLE_UUID );
 		$request->setAddress( '' );
-		$request->setAddressType( AddressChange::ADDRESS_TYPE_PERSON );
+		$request->setAddressType( AddressType::Person );
 		$request->setCity( '' );
 		$request->setCountry( '' );
 		$request->setFirstName( '' );
@@ -146,7 +147,7 @@ class ChangeAddressUseCaseTest extends TestCase {
 
 	private function createAddressChange(): AddressChange {
 		return new AddressChange(
-			AddressChange::ADDRESS_TYPE_PERSON,
+			AddressType::Person,
 			AddressChange::EXTERNAL_ID_TYPE_DONATION,
 			self::DUMMY_DONATION_ID,
 			AddressChangeId::fromString( self::VALID_SAMPLE_UUID )

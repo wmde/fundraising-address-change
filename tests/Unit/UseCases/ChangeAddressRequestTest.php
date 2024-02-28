@@ -4,7 +4,7 @@ declare( strict_types=1 );
 namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\UseCases;
 
 use PHPUnit\Framework\TestCase;
-use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
+use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressType;
 use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressRequest;
 
 /**
@@ -22,7 +22,7 @@ class ChangeAddressRequestTest extends TestCase {
 		$request->setAddress( 'Fledergasse 9' );
 		$request->setCity( 'Battweiler' );
 		$request->setCountry( 'ZZ' );
-		$request->setAddressType( AddressChange::ADDRESS_TYPE_PERSON );
+		$request->setAddressType( AddressType::Person );
 		$request->setDonationReceipt( true );
 		$request->setIdentifier( '0caffee' );
 		$request->setIsOptOutOnly( false );
@@ -38,7 +38,7 @@ class ChangeAddressRequestTest extends TestCase {
 		$this->assertSame( '66484', $request->getPostcode() );
 		$this->assertSame( 'Battweiler', $request->getCity() );
 		$this->assertSame( 'ZZ', $request->getCountry() );
-		$this->assertSame( AddressChange::ADDRESS_TYPE_PERSON, $request->getAddressType() );
+		$this->assertSame( AddressType::Person, $request->getAddressType() );
 		$this->assertSame( '0caffee', $request->getIdentifier() );
 		$this->assertTrue( $request->isPersonal() );
 		$this->assertFalse( $request->isCompany() );

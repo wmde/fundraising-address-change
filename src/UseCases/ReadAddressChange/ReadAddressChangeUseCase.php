@@ -51,8 +51,8 @@ class ReadAddressChangeUseCase {
 			'postcode' => $addressChange->getAddress()->getPostcode(),
 			'city' => $addressChange->getAddress()->getCity(),
 			'country' => $addressChange->getAddress()->getCountry(),
-			'isPersonalAddress' => $addressChange->getAddress()->isPersonalAddress(),
-			'isCompanyAddress' => $addressChange->getAddress()->isCompanyAddress(),
+			'isPersonalAddress' => $addressChange->isPersonalAddress(),
+			'isCompanyAddress' => $addressChange->isCompanyAddress(),
 		];
 	}
 }
