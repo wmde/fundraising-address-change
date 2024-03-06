@@ -6,12 +6,14 @@ namespace WMDE\Fundraising\AddressChangeContext\Tests;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
-use Doctrine\DBAL\Exception;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use WMDE\Fundraising\AddressChangeContext\AddressChangeContextFactory;
 
+/**
+ * @phpstan-import-type Params from \Doctrine\DBAL\DriverManager
+ */
 class TestAddressChangeContextFactory {
 
 	private Configuration $doctrineConfig;
@@ -19,11 +21,9 @@ class TestAddressChangeContextFactory {
 	private AddressChangeContextFactory $contextFactory;
 
 	/**
-	 * @param array<string,mixed> $config
-	 *
-	 * @throws Exception
+	 * @param Params $config
 	 */
-	public function __construct( private array $config ) {
+	public function __construct( private readonly array $config ) {
 		$this->contextFactory = new AddressChangeContextFactory();
 		$this->doctrineConfig = ORMSetup::createXMLMetadataConfiguration(
 			$this->contextFactory->getDoctrineMappingPaths(),
@@ -33,7 +33,7 @@ class TestAddressChangeContextFactory {
 	}
 
 	private function newConnection(): Connection {
-		$connection = DriverManager::getConnection( $this->config['db'] );
+		$connection = DriverManager::getConnection( $this->config );
 		$this->contextFactory->registerCustomTypes( $connection );
 		return $connection;
 	}

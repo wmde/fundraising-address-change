@@ -12,6 +12,9 @@ class AddressType extends Type {
 	}
 
 	public function convertToPHPValue( mixed $value, AbstractPlatform $platform ): DomainAddressType {
+		if ( !is_string( $value ) ) {
+			throw new \LogicException( 'Value from database has to be of type string' );
+		}
 		return match ( $value ) {
 			'person' => DomainAddressType::Person,
 			'company' => DomainAddressType::Company,
@@ -22,12 +25,12 @@ class AddressType extends Type {
 	}
 
 	public function convertToDatabaseValue( mixed $value, AbstractPlatform $platform ): string {
+		if ( !( $value instanceof DomainAddressType ) ) {
+			throw new \LogicException( "Value from database has to be of type " . DomainAddressType::class );
+		}
 		return match ( $value ) {
 			DomainAddressType::Person => 'person',
 			DomainAddressType::Company => 'company',
-			default => throw new \InvalidArgumentException(
-				"Could not convert address type enum ({$value}) to string"
-			),
 		};
 	}
 

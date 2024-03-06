@@ -35,8 +35,8 @@ class ChangeAddressRequestTest extends TestCase {
 		$this->assertSame( 'Battweiler', $request->city );
 		$this->assertSame( 'ZZ', $request->country );
 		$this->assertSame( '0caffee', $request->identifier );
-		$this->assertSame( true, $request->donationReceipt );
-		$this->assertSame( true, $request->isOptOutOnly );
+		$this->assertTrue( $request->donationReceipt );
+		$this->assertTrue( $request->isOptOutOnly );
 	}
 
 	public function testCreatesCompanyRequest(): void {
@@ -61,8 +61,8 @@ class ChangeAddressRequestTest extends TestCase {
 		$this->assertSame( 'Battweiler', $request->city );
 		$this->assertSame( 'ZZ', $request->country );
 		$this->assertSame( '0caffee', $request->identifier );
-		$this->assertSame( true, $request->donationReceipt );
-		$this->assertSame( true, $request->isOptOutOnly );
+		$this->assertTrue( $request->donationReceipt );
+		$this->assertTrue( $request->isOptOutOnly );
 	}
 
 	public function testPersonFieldsAreTrimmed(): void {
