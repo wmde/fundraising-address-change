@@ -74,75 +74,67 @@ class ChangeAddressUseCaseTest extends TestCase {
 	}
 
 	private function newChangeAddressRequest(): ChangeAddressRequest {
-		$request = new ChangeAddressRequest();
-		$request->setIdentifier( self::VALID_SAMPLE_UUID );
-		$request->setAddress( 'Test' );
-		$request->setAddressType( AddressType::Person );
-		$request->setCity( 'Test City' );
-		$request->setCountry( 'Test Country' );
-		$request->setFirstName( 'Test Name' );
-		$request->setLastName( 'Test Last Name' );
-		$request->setPostcode( '12345' );
-		$request->setSalutation( 'Herr' );
-		$request->setTitle( 'Prof. Dr.' );
-		$request->setDonationReceipt( true );
-		$request->setIsOptOutOnly( false );
-		$request->freeze();
-		return $request;
+		return ChangeAddressRequest::newPersonalChangeAddressRequest(
+			salutation: 'Herr',
+			title: 'Prof. Dr.',
+			firstName: 'Test Name',
+			lastName: 'Test Last Name',
+			address: 'Test',
+			postcode: '12345',
+			city: 'Test City',
+			country: 'Test Country',
+			identifier: self::VALID_SAMPLE_UUID,
+			donationReceipt: true,
+			isOptOutOnly: false,
+		);
 	}
 
 	private function newMissingDataChangeAddressRequest(): ChangeAddressRequest {
-		$request = new ChangeAddressRequest();
-		$request->setIdentifier( self::VALID_SAMPLE_UUID );
-		$request->setAddress( 'Test' );
-		$request->setAddressType( AddressType::Person );
-		$request->setCity( '' );
-		$request->setCountry( 'Test Country' );
-		$request->setFirstName( 'Test Name' );
-		$request->setLastName( 'Test Last Name' );
-		$request->setPostcode( '12345' );
-		$request->setSalutation( 'Herr' );
-		$request->setTitle( 'Prof. Dr.' );
-		$request->setDonationReceipt( false );
-		$request->setIsOptOutOnly( false );
-		$request->freeze();
-		return $request;
+		return ChangeAddressRequest::newPersonalChangeAddressRequest(
+			salutation: 'Herr',
+			title: 'Prof. Dr.',
+			firstName: 'Test Name',
+			lastName: 'Test Last Name',
+			address: 'Test',
+			postcode: '12345',
+			city: '',
+			country: 'Test Country',
+			identifier: self::VALID_SAMPLE_UUID,
+			donationReceipt: false,
+			isOptOutOnly: false,
+		);
 	}
 
 	private function newEmptyChangeAddressRequest(): ChangeAddressRequest {
-		$request = new ChangeAddressRequest();
-		$request->setIdentifier( self::VALID_SAMPLE_UUID );
-		$request->setAddress( '' );
-		$request->setAddressType( AddressType::Person );
-		$request->setCity( '' );
-		$request->setCountry( '' );
-		$request->setFirstName( '' );
-		$request->setLastName( '' );
-		$request->setPostcode( '' );
-		$request->setSalutation( '' );
-		$request->setTitle( '' );
-		$request->setDonationReceipt( true );
-		$request->setIsOptOutOnly( false );
-		$request->freeze();
-		return $request;
+		return ChangeAddressRequest::newPersonalChangeAddressRequest(
+			salutation: '',
+			title: '',
+			firstName: '',
+			lastName: '',
+			address: '',
+			postcode: '',
+			city: '',
+			country: '',
+			identifier: self::VALID_SAMPLE_UUID,
+			donationReceipt: true,
+			isOptOutOnly: false,
+		);
 	}
 
 	private function newOptOutOnlyRequest(): ChangeAddressRequest {
-		$request = new ChangeAddressRequest();
-		$request->setIdentifier( self::VALID_SAMPLE_UUID );
-		$request->setAddress( '' );
-		$request->setAddressType( AddressType::Person );
-		$request->setCity( '' );
-		$request->setCountry( '' );
-		$request->setFirstName( '' );
-		$request->setLastName( '' );
-		$request->setPostcode( '' );
-		$request->setSalutation( '' );
-		$request->setTitle( '' );
-		$request->setDonationReceipt( false );
-		$request->setIsOptOutOnly( true );
-		$request->freeze();
-		return $request;
+		return ChangeAddressRequest::newPersonalChangeAddressRequest(
+			salutation: '',
+			title: '',
+			firstName: '',
+			lastName: '',
+			address: '',
+			postcode: '',
+			city: '',
+			country: '',
+			identifier: self::VALID_SAMPLE_UUID,
+			donationReceipt: true,
+			isOptOutOnly: true,
+		);
 	}
 
 	private function createAddressChange(): AddressChange {
