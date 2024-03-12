@@ -81,6 +81,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		$this->assertDatePropertyIsSet( $now, $retrievedAddressChange, 'createdAt' );
 		$this->assertDatePropertyIsSet( $now, $retrievedAddressChange, 'modifiedAt' );
 		$this->assertEquals( $addressChange->getCurrentIdentifier(), $retrievedAddressChange->getCurrentIdentifier() );
+		$this->assertNotNull( $retrievedAddressChange->getAddress() );
 		$this->assertSame( $addressChange->getAddress()->getLastName(), $retrievedAddressChange->getAddress()->getLastName() );
 	}
 
@@ -91,6 +92,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 
 		$this->em->clear();
 		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( (string)$addressChange->getCurrentIdentifier() );
+		$this->assertNotNull( $retrievedAddressChange );
 		$this->assertTrue( $retrievedAddressChange->isOptedIntoDonationReceipt() );
 	}
 
@@ -102,6 +104,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 
 		$this->em->clear();
 		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuid( (string)$addressChange->getCurrentIdentifier() );
+		$this->assertNotNull( $retrievedAddressChange );
 		$this->assertFalse( $retrievedAddressChange->isOptedIntoDonationReceipt() );
 	}
 
@@ -127,6 +130,7 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		)->forPerson()->forDonation( self::DUMMY_DONATION_ID )->build();
 		$addressChangeRepository->storeAddressChange( $addressChange );
 
+		$this->assertNotNull( $addressChange->getPreviousIdentifier() );
 		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuids(
 			self::INVALID_UPDATE_TOKEN,
 			$addressChange->getPreviousIdentifier()->__toString()
@@ -221,12 +225,13 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		);
 	}
 
-	private function assertDatePropertyIsSet( \DateTime $expectedDate, AddressChange $addressChange, string $propertyName, float $delta = 1.0 ): void {
+	private function assertDatePropertyIsSet( \DateTimeInterface $expectedDate, AddressChange $addressChange, string $propertyName, float $delta = 1.0 ): void {
 		// We're peeking into private properties to make sure the dates, which are not exposed through getters at the domain level,
 		// are properly written at the DB level
 		$dateField = new \ReflectionProperty( AddressChange::class, $propertyName );
 		$dateField->setAccessible( true );
 		$actualDate = $dateField->getValue( $addressChange );
+		$this->assertInstanceOf( \DateTimeInterface::class, $actualDate );
 		$this->assertEqualsWithDelta( $actualDate->getTimestamp(), $expectedDate->getTimestamp(), $delta, 'Dates do not match.' );
 	}
 }

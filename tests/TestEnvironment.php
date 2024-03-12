@@ -4,9 +4,7 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\Tests;
 
-use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManager;
-use WMDE\Fundraising\AddressChangeContext\AddressChangeContextFactory;
 
 /**
  * @license GPL-2.0-or-later
@@ -15,25 +13,17 @@ class TestEnvironment {
 
 	private TestAddressChangeContextFactory $factory;
 
-	/**
-	 * @param array<mixed> $config
-	 *
-	 * @throws Exception
-	 */
-	private function __construct( array $config ) {
-		$this->factory = new TestAddressChangeContextFactory( $config );
+	private function __construct() {
+		$this->factory = new TestAddressChangeContextFactory(
+			[
+			'driver' => 'pdo_sqlite',
+			'memory' => true,
+			]
+		);
 	}
 
 	public static function newInstance(): self {
-		$contextFactory = new AddressChangeContextFactory();
-		$environment = new self(
-			[
-				'db' => [
-					'driver' => 'pdo_sqlite',
-					'memory' => true,
-				]
-			]
-		);
+		$environment = new self();
 
 		$environment->install();
 

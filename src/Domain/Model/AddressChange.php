@@ -13,6 +13,11 @@ use LogicException;
  * The recommended way to construct this class is through the AddressChangeBuilder
  */
 class AddressChange {
+
+	/**
+	 * @todo Turn `EXTERNAL_ID_TYPE_DONATION` and `EXTERNAL_ID_TYPE_MEMBERSHIP` into an enum, and add a Doctrine
+	 * 		converter for the enum
+	 */
 	public const EXTERNAL_ID_TYPE_DONATION = 'donation';
 	public const EXTERNAL_ID_TYPE_MEMBERSHIP = 'membership';
 
@@ -71,7 +76,7 @@ class AddressChange {
 		return $this->identifier;
 	}
 
-	public function getPreviousIdentifier(): ?AddressChangeId {
+	public function getPreviousIdentifier(): AddressChangeId {
 		return $this->previousIdentifier;
 	}
 

@@ -1,5 +1,5 @@
-parameters:
-	ignoreErrors:
-		-
-			message: '#Method [a-zA-Z0-9\\_]+::getClassMetaData\(\) return type with generic class Doctrine\\ORM\\Mapping\\ClassMetadata does not specify its types: T#'
-			path: tests/SchemaCreator.php
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-doctrine/rules.neon

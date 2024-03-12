@@ -46,6 +46,7 @@ class ReadAddressChangeUseCaseTest extends TestCase {
 
 		$addressChangeData = $readAddressUseCase->getAddressChangeByUuids( self::VALID_UUID, self::VALID_UUID );
 
+		$this->assertNotNull( $addressChangeData );
 		$this->assertEquals( self::UPDATE_UUID, $addressChangeData->identifier );
 		$this->assertEquals( self::VALID_UUID, $addressChangeData->previousIdentifier );
 		$this->assertEquals( $expectedAddress, $addressChangeData->address );
@@ -63,6 +64,7 @@ class ReadAddressChangeUseCaseTest extends TestCase {
 
 		$addressChangeData = $readAddressUseCase->getAddressChangeByUuids( self::VALID_UUID, self::VALID_UUID );
 
+		$this->assertNotNull( $addressChangeData );
 		$this->assertEquals( self::VALID_UUID, $addressChangeData->identifier );
 		$this->assertEquals( self::VALID_UUID, $addressChangeData->previousIdentifier );
 		$this->assertEquals( [], $addressChangeData->address );

@@ -13,14 +13,12 @@ class AddressChangeBuilder {
 	private ?AddressType $addressType;
 	private ?string $referenceType;
 	private ?int $referenceId;
-	private AddressChangeId $identifier;
-	private ?Address $address;
-	private ?\DateTime $createdAt;
 
-	private function __construct( AddressChangeId $identifier = null, ?Address $address = null, ?\DateTime $createdAt = null ) {
-		$this->identifier = $identifier;
-		$this->address = $address;
-		$this->createdAt = $createdAt;
+	private function __construct(
+		private ?AddressChangeId $identifier = null,
+		private ?Address $address = null,
+		private ?\DateTime $createdAt = null
+	) {
 		$this->addressType = null;
 		$this->referenceType = null;
 		$this->referenceId = null;
@@ -67,7 +65,7 @@ class AddressChangeBuilder {
 	}
 
 	public function build(): AddressChange {
-		if ( $this->referenceType === null || $this->addressType === null ) {
+		if ( $this->referenceType === null || $this->addressType === null || $this->referenceId === null || $this->identifier === null ) {
 			throw new \RuntimeException( 'You must specify address type and reference' );
 		}
 		return new AddressChange( $this->addressType, $this->referenceType, $this->referenceId, $this->identifier, $this->address, $this->createdAt );
