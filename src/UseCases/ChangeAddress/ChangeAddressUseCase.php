@@ -18,7 +18,7 @@ class ChangeAddressUseCase {
 	}
 
 	public function changeAddress( ChangeAddressRequest $request ): ChangeAddressResponse {
-		$addressChange = $this->addressChangeRepository->getAddressChangeByUuid( $request->getIdentifier() );
+		$addressChange = $this->addressChangeRepository->getAddressChangeByUuid( $request->identifier );
 		if ( $addressChange === null ) {
 			return ChangeAddressResponse::newErrorResponse( [ ChangeAddressResponse::ERROR_ADDRESS_NOT_FOUND ] );
 		}
@@ -43,22 +43,22 @@ class ChangeAddressUseCase {
 	private function buildAddress( ChangeAddressRequest $request ): Address {
 		if ( $request->isPersonal() ) {
 			return Address::newPersonalAddress(
-				$request->getSalutation(),
-				$request->getTitle(),
-				$request->getFirstName(),
-				$request->getLastName(),
-				$request->getAddress(),
-				$request->getPostcode(),
-				$request->getCity(),
-				$request->getCountry()
+				$request->salutation,
+				$request->title,
+				$request->firstName,
+				$request->lastName,
+				$request->address,
+				$request->postcode,
+				$request->city,
+				$request->country
 			);
 		} elseif ( $request->isCompany() ) {
 			return Address::newCompanyAddress(
-				$request->getCompany(),
-				$request->getAddress(),
-				$request->getPostcode(),
-				$request->getCity(),
-				$request->getCountry()
+				$request->company,
+				$request->address,
+				$request->postcode,
+				$request->city,
+				$request->country
 			);
 		}
 		throw new ChangeAddressValidationException( 'Address Type' );

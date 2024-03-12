@@ -4,71 +4,110 @@ declare( strict_types=1 );
 namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\UseCases;
 
 use PHPUnit\Framework\TestCase;
-use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressType;
 use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressRequest;
 
 /**
  * @covers \WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressRequest
  */
 class ChangeAddressRequestTest extends TestCase {
-	public function testAccessors(): void {
-		$request = new ChangeAddressRequest();
-		$request->setSalutation( 'Herr' );
-		$request->setTitle( 'Dr.' );
-		$request->setFirstName( 'Bruce' );
-		$request->setLastName( 'Wayne' );
-		$request->setCompany( 'Wayne Enterprises' );
-		$request->setPostcode( '66484' );
-		$request->setAddress( 'Fledergasse 9' );
-		$request->setCity( 'Battweiler' );
-		$request->setCountry( 'ZZ' );
-		$request->setAddressType( AddressType::Person );
-		$request->setDonationReceipt( true );
-		$request->setIdentifier( '0caffee' );
-		$request->setIsOptOutOnly( false );
-		$optOutRequest = new ChangeAddressRequest();
-		$optOutRequest->setIsOptOutOnly( true );
+	public function testCreatesPersonalRequest(): void {
+		$request = ChangeAddressRequest::newPersonalChangeAddressRequest(
+			salutation: 'Herr',
+			title: 'Dr.',
+			firstName: 'Bruce',
+			lastName: 'Wayne',
+			address: 'Fledergasse 9',
+			postcode: '66484',
+			city: 'Battweiler',
+			country: 'ZZ',
+			identifier: '0caffee',
+			donationReceipt: true,
+			isOptOutOnly: true,
+		);
 
-		$this->assertSame( 'Herr', $request->getSalutation() );
-		$this->assertSame( 'Dr.', $request->getTitle() );
-		$this->assertSame( 'Bruce', $request->getFirstName() );
-		$this->assertSame( 'Wayne', $request->getLastName() );
-		$this->assertSame( 'Wayne Enterprises', $request->getCompany() );
-		$this->assertSame( 'Fledergasse 9', $request->getAddress() );
-		$this->assertSame( '66484', $request->getPostcode() );
-		$this->assertSame( 'Battweiler', $request->getCity() );
-		$this->assertSame( 'ZZ', $request->getCountry() );
-		$this->assertSame( AddressType::Person, $request->getAddressType() );
-		$this->assertSame( '0caffee', $request->getIdentifier() );
-		$this->assertTrue( $request->isPersonal() );
-		$this->assertFalse( $request->isCompany() );
-		$this->assertFalse( $request->isOptedOutOfDonationReceipt() );
-		$this->assertTrue( $request->hasAddressChangeData() );
-		$this->assertFalse( $optOutRequest->hasAddressChangeData() );
+		$this->assertSame( '', $request->company );
+		$this->assertSame( 'Herr', $request->salutation );
+		$this->assertSame( 'Dr.', $request->title );
+		$this->assertSame( 'Bruce', $request->firstName );
+		$this->assertSame( 'Wayne', $request->lastName );
+		$this->assertSame( 'Fledergasse 9', $request->address );
+		$this->assertSame( '66484', $request->postcode );
+		$this->assertSame( 'Battweiler', $request->city );
+		$this->assertSame( 'ZZ', $request->country );
+		$this->assertSame( '0caffee', $request->identifier );
+		$this->assertSame( true, $request->donationReceipt );
+		$this->assertSame( true, $request->isOptOutOnly );
 	}
 
-	public function testStringFieldsAreTrimmed(): void {
-		$request = new ChangeAddressRequest();
-		$request->setSalutation( ' Herr ' );
-		$request->setTitle( 'Dr. ' );
-		$request->setFirstName( '    Bruce ' );
-		$request->setLastName( 'Wayne ' );
-		$request->setCompany( ' Wayne Enterprises' );
-		$request->setPostcode( "66484 \n" );
-		$request->setAddress( "\t   Fledergasse 9 " );
-		$request->setCity( '  Battweiler  ' );
-		$request->setCountry( ' ZZ  ' );
-		$request->setIdentifier( '     0caffee    ' );
+	public function testCreatesCompanyRequest(): void {
+		$request = ChangeAddressRequest::newCompanyChangeAddressRequest(
+			company: 'Wayne Enterprises',
+			address: 'Fledergasse 9',
+			postcode: '66484',
+			city: 'Battweiler',
+			country: 'ZZ',
+			identifier: '0caffee',
+			donationReceipt: true,
+			isOptOutOnly: true,
+		);
 
-		$this->assertSame( 'Herr', $request->getSalutation() );
-		$this->assertSame( 'Dr.', $request->getTitle() );
-		$this->assertSame( 'Bruce', $request->getFirstName() );
-		$this->assertSame( 'Wayne', $request->getLastName() );
-		$this->assertSame( 'Wayne Enterprises', $request->getCompany() );
-		$this->assertSame( 'Fledergasse 9', $request->getAddress() );
-		$this->assertSame( '66484', $request->getPostcode() );
-		$this->assertSame( 'Battweiler', $request->getCity() );
-		$this->assertSame( 'ZZ', $request->getCountry() );
-		$this->assertSame( '0caffee', $request->getIdentifier() );
+		$this->assertSame( 'Wayne Enterprises', $request->company );
+		$this->assertSame( '', $request->salutation );
+		$this->assertSame( '', $request->title );
+		$this->assertSame( '', $request->firstName );
+		$this->assertSame( '', $request->lastName );
+		$this->assertSame( 'Fledergasse 9', $request->address );
+		$this->assertSame( '66484', $request->postcode );
+		$this->assertSame( 'Battweiler', $request->city );
+		$this->assertSame( 'ZZ', $request->country );
+		$this->assertSame( '0caffee', $request->identifier );
+		$this->assertSame( true, $request->donationReceipt );
+		$this->assertSame( true, $request->isOptOutOnly );
+	}
+
+	public function testPersonFieldsAreTrimmed(): void {
+		$request = ChangeAddressRequest::newPersonalChangeAddressRequest(
+			salutation: ' Herr  ',
+			title:  'Dr.  ',
+			firstName: '  Bruce   ',
+			lastName: '   Wayne   ',
+			address: '   Fledergasse 9   ',
+			postcode: ' 66484  ',
+			city: '    Battweiler   ',
+			country: '  ZZ   ',
+			identifier: '0caffee     ',
+			donationReceipt: true,
+			isOptOutOnly: true,
+		);
+
+		$this->assertSame( 'Herr', $request->salutation );
+		$this->assertSame( 'Dr.', $request->title );
+		$this->assertSame( 'Bruce', $request->firstName );
+		$this->assertSame( 'Wayne', $request->lastName );
+		$this->assertSame( 'Fledergasse 9', $request->address );
+		$this->assertSame( '66484', $request->postcode );
+		$this->assertSame( 'Battweiler', $request->city );
+		$this->assertSame( 'ZZ', $request->country );
+		$this->assertSame( '0caffee', $request->identifier );
+	}
+
+	public function testCompanyFieldsAreTrimmed(): void {
+		$request = ChangeAddressRequest::newCompanyChangeAddressRequest(
+			company: ' Wayne Enterprises   ',
+			address: '   Fledergasse 9   ',
+			postcode: '  66484    ',
+			city: ' Battweiler ',
+			country: '   ZZ',
+			identifier: '0caffee   ',
+			donationReceipt: true,
+			isOptOutOnly: true,
+		);
+
+		$this->assertSame( 'Wayne Enterprises', $request->company );
+		$this->assertSame( 'Fledergasse 9', $request->address );
+		$this->assertSame( '66484', $request->postcode );
+		$this->assertSame( 'Battweiler', $request->city );
+		$this->assertSame( 'ZZ', $request->country );
+		$this->assertSame( '0caffee', $request->identifier );
 	}
 }
