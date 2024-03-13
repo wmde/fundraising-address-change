@@ -85,7 +85,7 @@ class AddressTest extends TestCase {
 	/**
 	 * @return \Generator<string[]>
 	 */
-	public function emptyPersonFieldTestProvider(): \Generator {
+	public static function emptyPersonFieldTestProvider(): \Generator {
 		yield [ 'Salutation', '', 'Prof. Dr.', 'Testdude', 'Testfamily', 'Test Address 123', '12345', 'Test City', 'Test Country' ];
 		yield [ 'First Name', 'Herr', 'Prof. Dr.', '', 'Testfamily', 'Test Address 123', '12345', 'Test City', 'Test Country' ];
 		yield [ 'Last Name', 'Herr', 'Prof. Dr.', 'Testdude', '', 'Test Address 123', '12345', 'Test City', 'Test Country' ];
@@ -98,7 +98,7 @@ class AddressTest extends TestCase {
 	/**
 	 * @return \Generator<string[]>
 	 */
-	public function emptyCompanyFieldTestProvider(): \Generator {
+	public static function emptyCompanyFieldTestProvider(): \Generator {
 		yield [ 'Company', '', 'Test Street 123', '12345', 'Test City', 'Test Country' ];
 		yield [ 'Address', 'Test Company', '', '12345', 'Test City', 'Test Country' ];
 		yield [ 'Post Code', 'Test Company', 'Test Street 123', '', 'Test City', 'Test Country' ];

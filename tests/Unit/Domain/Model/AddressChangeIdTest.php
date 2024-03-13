@@ -30,7 +30,7 @@ class AddressChangeIdTest extends TestCase {
 	/**
 	 * @return \Generator<string[]>
 	 */
-	public function invalidUUIDProvider(): \Generator {
+	public static function invalidUUIDProvider(): \Generator {
 		yield [ '' ];
 		yield [ 'just a string' ];
 		yield [ '1111222233334444-1111222233334444-1111222233334444-1111222233334444-1111222233334444' ];
