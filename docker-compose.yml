@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   app:
-    image: "registry.gitlab.com/fun-tech/fundraising-frontend-docker:dev"
+    image: "registry.gitlab.com/fun-tech/fundraising-frontend-docker:latest"
     volumes:
       - ./:/code
     links:
