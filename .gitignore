@@ -2,7 +2,6 @@
 *.kate-swp
 
 composer.phar
-composer.lock
 
 !.*
 .env
@@ -14,9 +13,7 @@ vendor/
 build/
 coverage/
 
-.floo
-.flooignore
-
 local-db-config.php
 .phpunit.result.cache
+.phpunit.cache
 coverage.clover
