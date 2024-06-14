@@ -132,4 +132,24 @@ class AddressChangeTest extends TestCase {
 
 		$this->assertEquals( AddressChange::EXPORT_STATE_USED_EXPORTED, $addressChange->getExportState() );
 	}
+
+	public function testNewAddressChangesAreUnused(): void {
+		$addressChange = new AddressChange( AddressType::Person, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+
+		$this->assertFalse( $addressChange->hasBeenUsed() );
+	}
+
+	public function testAddressChangesWithAddressesAreUsed(): void {
+		$addressChange = new AddressChange( AddressType::Person, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+		$addressChange->performAddressChange( ValidAddress::newValidPersonalAddress(), $this->newIdentifier );
+
+		$this->assertTrue( $addressChange->hasBeenUsed() );
+	}
+
+	public function testAddressChangesWithOptOutAreUsed(): void {
+		$addressChange = new AddressChange( AddressType::Person, AddressChange::EXTERNAL_ID_TYPE_DONATION, self::DUMMY_DONATION_ID, $this->identifier );
+		$addressChange->optOutOfDonationReceipt( $this->newIdentifier );
+
+		$this->assertTrue( $addressChange->hasBeenUsed() );
+	}
 }
