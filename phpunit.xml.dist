@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <phpunit 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	backupGlobals="false"
-	bootstrap="tests/bootstrap.php"
-	colors="true"
-	stopOnError="false"
-	stopOnFailure="false"
-	stopOnIncomplete="false"
-	stopOnSkipped="false"
-	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
-	cacheDirectory=".phpunit.cache"
-	backupStaticProperties="false"
-	requireCoverageMetadata="true"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  backupGlobals="false"
+  bootstrap="tests/bootstrap.php"
+  colors="true"
+  stopOnError="false"
+  stopOnFailure="false"
+  stopOnIncomplete="false"
+  stopOnSkipped="false"
+  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+  cacheDirectory=".phpunit.cache"
+  backupStaticProperties="false"
+  requireCoverageMetadata="true"
 >
   <testsuites>
     <testsuite name="unit">
@@ -21,6 +21,12 @@
   <source>
     <include>
       <directory suffix=".php">src</directory>
-    </include>
+  </include>
+  <exclude>
+      <directory suffix=".php">src/DataAccess/Migrations</directory>
+	  <directory suffix=".php">src/DataAccess/DoctrineTypes</directory>
+	  <file>src/ScalarTypeConverter.php</file>
+	  <file>src/AddressChangeContextFactory.php</file>
+  </exclude>
   </source>
 </phpunit>
