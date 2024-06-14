@@ -152,4 +152,15 @@ class AddressChangeTest extends TestCase {
 
 		$this->assertTrue( $addressChange->hasBeenUsed() );
 	}
+
+	public function testMultipleModificationsWithTheSameIdentifierKeepsIdentifiers(): void {
+		$addressChange = $this->newPersonAddressChange();
+		$initialIdentifier = $addressChange->getCurrentIdentifier();
+
+		$addressChange->performAddressChange( ValidAddress::newValidPersonalAddress(), $this->newIdentifier );
+		$addressChange->optOutOfDonationReceipt( $this->newIdentifier );
+
+		$this->assertEquals( $initialIdentifier, $addressChange->getPreviousIdentifier() );
+		$this->assertEquals( $this->newIdentifier, $addressChange->getCurrentIdentifier() );
+	}
 }

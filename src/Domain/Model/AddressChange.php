@@ -120,8 +120,10 @@ class AddressChange {
 	}
 
 	private function markAsModified( AddressChangeId $newIdentifier ): void {
-		$this->previousIdentifier = $this->getCurrentIdentifier();
-		$this->identifier = $newIdentifier;
+		if ( !$this->getCurrentIdentifier()->equals( $newIdentifier ) ) {
+			$this->previousIdentifier = $this->getCurrentIdentifier();
+			$this->identifier = $newIdentifier;
+		}
 
 		$this->modifiedAt = new \DateTime();
 		$this->resetExportState();
