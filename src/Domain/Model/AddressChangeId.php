@@ -25,4 +25,8 @@ class AddressChangeId {
 		return $this->identifier;
 	}
 
+	public function equals( string|AddressChangeId $id ): bool {
+		return is_string( $id ) ? $this->identifier === $id : $this->identifier === $id->identifier;
+	}
+
 }

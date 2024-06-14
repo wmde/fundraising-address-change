@@ -22,7 +22,7 @@ class AddressChangeIdTest extends TestCase {
 	/**
 	 * @dataProvider invalidUUIDProvider
 	 */
-	public function testPersonalAddressChangeThrowsExceptionsWhenUUIDIsInvalid( string $invalidUUID ): void {
+	public function testThrowsExceptionsWhenUUIDIsInvalid( string $invalidUUID ): void {
 		$this->expectException( \InvalidArgumentException::class );
 		AddressChangeId::fromString( $invalidUUID );
 	}
@@ -36,5 +36,20 @@ class AddressChangeIdTest extends TestCase {
 		yield [ '1111222233334444-1111222233334444-1111222233334444-1111222233334444-1111222233334444' ];
 		yield [ 'e-f-f-e-d' ];
 		yield [ 'This-is-not-a-UUID' ];
+	}
+
+	public function testCanCheckEqualityWithStrings(): void {
+		$uuid = '72dfed91-fa40-4af0-9e80-c6010ab29cd1';
+		$addressChangeId = AddressChangeId::fromString( $uuid );
+
+		$this->assertTrue( $addressChangeId->equals( $uuid ), 'IDs should compare equals' );
+	}
+
+	public function testCanCheckEqualityWithOtherID(): void {
+		$uuid = '72dfed91-fa40-4af0-9e80-c6010ab29cd1';
+		$addressChangeId = AddressChangeId::fromString( $uuid );
+		$addressChangeIdWithSameUUID = AddressChangeId::fromString( $uuid );
+
+		$this->assertTrue( $addressChangeId->equals( $addressChangeIdWithSameUUID ), 'IDs should compare equals' );
 	}
 }
