@@ -115,9 +115,15 @@ class AddressChange {
 		return $this->createdAt < $this->modifiedAt;
 	}
 
+	public function hasBeenUsed(): bool {
+		return !$this->getCurrentIdentifier()->equals( $this->previousIdentifier );
+	}
+
 	private function markAsModified( AddressChangeId $newIdentifier ): void {
-		$this->previousIdentifier = $this->getCurrentIdentifier();
-		$this->identifier = $newIdentifier;
+		if ( !$this->getCurrentIdentifier()->equals( $newIdentifier ) ) {
+			$this->previousIdentifier = $this->getCurrentIdentifier();
+			$this->identifier = $newIdentifier;
+		}
 
 		$this->modifiedAt = new \DateTime();
 		$this->resetExportState();
