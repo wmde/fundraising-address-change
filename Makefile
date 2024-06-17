@@ -21,7 +21,7 @@ phpunit:
 	docker-compose run --rm --no-deps app ./vendor/bin/phpunit
 
 phpunit-with-coverage:
-	docker-compose -f docker-compose.yml run --rm --no-deps -e XDEBUG_MODE=coverage app_debug ./vendor/bin/phpunit $(COVERAGE_FLAGS)
+	docker-compose -f docker-compose.yml run --rm --no-deps -e XDEBUG_MODE=coverage app ./vendor/bin/phpunit $(COVERAGE_FLAGS)
 
 cs:
 	docker-compose run --rm --no-deps app ./vendor/bin/phpcs
