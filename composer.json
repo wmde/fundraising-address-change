@@ -13,7 +13,7 @@
 		"phpunit/phpunit": "~10.0",
 		"symfony/cache": "^5.3",
 		"symfony/dotenv": "~6.4",
-		"wmde/fundraising-phpcs": "~10.0",
+		"wmde/fundraising-phpcs": "~10.1",
 		"phpmd/phpmd": "~2.6",
 		"phpstan/phpstan": "^1.10",
 		"phpstan/phpstan-phpunit": "^1.3",
