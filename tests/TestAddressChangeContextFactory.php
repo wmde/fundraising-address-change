@@ -12,7 +12,7 @@ use Doctrine\ORM\ORMSetup;
 use WMDE\Fundraising\AddressChangeContext\AddressChangeContextFactory;
 
 /**
- * @phpstan-import-type Params from \Doctrine\DBAL\DriverManager
+ * @phpstan-import-type Params from DriverManager
  */
 class TestAddressChangeContextFactory {
 

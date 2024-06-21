@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\Domain\Model;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\Address;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
@@ -11,9 +12,7 @@ use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeBuilder;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\UuidGenerator;
 
-/**
- * @covers \WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeBuilder
- */
+#[CoversClass( AddressChangeBuilder::class )]
 class AddressChangeBuilderTest extends TestCase implements UuidGenerator {
 
 	public function testGivenParametersForCreateTheyArePassedToAddressChange(): void {

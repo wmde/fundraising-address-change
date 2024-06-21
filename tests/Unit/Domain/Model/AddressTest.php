@@ -4,13 +4,13 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\Domain\Model;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\Address;
 use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressValidationException;
 
-/**
- * @covers \WMDE\Fundraising\AddressChangeContext\Domain\Model\Address
- */
+#[CoversClass( Address::class )]
 class AddressTest extends TestCase {
 
 	public function testWhenValidFieldValuesAreUsedForPersonalAddress_addressIsCreated(): void {
@@ -49,9 +49,7 @@ class AddressTest extends TestCase {
 		$this->assertSame( 'Test Country', $address->getCountry() );
 	}
 
-	/**
-	 * @dataProvider emptyPersonFieldTestProvider
-	 */
+	#[DataProvider( 'emptyPersonFieldTestProvider' )]
 	public function testWhenNewPersonalAddressWithEmptyFieldsIsCreated_exceptionIsThrownOnEmptyFields(
 		string $testField,
 		string $salutation,
@@ -67,9 +65,7 @@ class AddressTest extends TestCase {
 		Address::newPersonalAddress( $salutation, $title, $firstName, $lastName, $address, $postcode, $city, $country );
 	}
 
-	/**
-	 * @dataProvider emptyCompanyFieldTestProvider
-	 */
+	#[DataProvider( 'emptyCompanyFieldTestProvider' )]
 	public function testWhenNewCompanyAddressWithEmptyFieldsIsCreated_exceptionIsThrownOnEmptyFields(
 		string $testField,
 		string $company,

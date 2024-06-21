@@ -4,12 +4,12 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\Domain\Model;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
 
-/**
- * @covers \WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId
- */
+#[CoversClass( AddressChangeId::class )]
 class AddressChangeIdTest extends TestCase {
 
 	public function testConstructorAcceptValidUuids(): void {
@@ -19,9 +19,7 @@ class AddressChangeIdTest extends TestCase {
 		$this->assertSame( $uuid, $addressChangeId->__toString() );
 	}
 
-	/**
-	 * @dataProvider invalidUUIDProvider
-	 */
+	#[DataProvider( 'invalidUUIDProvider' )]
 	public function testThrowsExceptionsWhenUUIDIsInvalid( string $invalidUUID ): void {
 		$this->expectException( \InvalidArgumentException::class );
 		AddressChangeId::fromString( $invalidUUID );
