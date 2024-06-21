@@ -5,6 +5,7 @@ declare( strict_types = 1 );
 namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\DataAccess;
 
 use Doctrine\ORM\EntityManager;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use WMDE\Fundraising\AddressChangeContext\DataAccess\DoctrineAddressChangeRepository;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\Address;
@@ -13,9 +14,7 @@ use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeBuilder;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
 use WMDE\Fundraising\AddressChangeContext\Tests\TestEnvironment;
 
-/**
- * @covers \WMDE\Fundraising\AddressChangeContext\DataAccess\DoctrineAddressChangeRepository
- */
+#[CoversClass( DoctrineAddressChangeRepository::class )]
 class DoctrineAddressChangeRepositoryTest extends TestCase {
 
 	private const VALID_UPDATE_TOKEN_PERSONAL_DONATION = '2a54c0a1-fc94-4ef8-8b0a-7c2ed8565521';

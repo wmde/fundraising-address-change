@@ -4,15 +4,14 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\Domain\Model;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChangeId;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressType;
 use WMDE\Fundraising\AddressChangeContext\Tests\Data\ValidAddress;
 
-/**
- * @covers \WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange
- */
+#[CoversClass( AddressChange::class )]
 class AddressChangeTest extends TestCase {
 
 	private const DUMMY_DONATION_ID = 0;

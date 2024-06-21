@@ -4,6 +4,7 @@ declare( strict_types = 1 );
 
 namespace WMDE\Fundraising\AddressChangeContext\Tests\Unit\UseCases;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use WMDE\Fundraising\AddressChangeContext\Domain\AddressChangeRepository;
 use WMDE\Fundraising\AddressChangeContext\Domain\Model\AddressChange;
@@ -13,10 +14,8 @@ use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressRe
 use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressResponse;
 use WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressUseCase;
 
-/**
- * @covers \WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressUseCase
- * @covers \WMDE\Fundraising\AddressChangeContext\UseCases\ChangeAddress\ChangeAddressResponse
- */
+#[CoversClass( ChangeAddressUseCase::class )]
+#[CoversClass( ChangeAddressResponse::class )]
 class ChangeAddressUseCaseTest extends TestCase {
 
 	private const VALID_SAMPLE_UUID = 'd8441c6e-1f7a-4710-97d3-0e2126c86d40';
