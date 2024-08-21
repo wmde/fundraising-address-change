@@ -17,6 +17,8 @@ filter:
     - 'vendor/'
 
 build:
+  environment:
+    php: 8.3.0
   image: default-bionic
   nodes:
     analysis:
