@@ -18,19 +18,19 @@ ci-with-coverage: phpunit-with-coverage cs stan
 test: phpunit
 
 phpunit:
-	docker-compose run --rm --no-deps app ./vendor/bin/phpunit
+	docker compose run --rm --no-deps app ./vendor/bin/phpunit
 
 phpunit-with-coverage:
-	docker-compose -f docker-compose.yml run --rm --no-deps -e XDEBUG_MODE=coverage app ./vendor/bin/phpunit $(COVERAGE_FLAGS)
+	docker compose -f docker-compose.yml run --rm --no-deps -e XDEBUG_MODE=coverage app ./vendor/bin/phpunit $(COVERAGE_FLAGS)
 
 cs:
-	docker-compose run --rm --no-deps app ./vendor/bin/phpcs
+	docker compose run --rm --no-deps app ./vendor/bin/phpcs
 
 fix-cs:
-	docker-compose run --rm --no-deps app ./vendor/bin/phpcbf
+	docker compose run --rm --no-deps app ./vendor/bin/phpcbf
 
 stan:
-	docker-compose run --rm --no-deps app php -d memory_limit=1G ./vendor/bin/phpstan analyse --level=9 --no-progress src/ tests/
+	docker compose run --rm --no-deps app php -d memory_limit=1G ./vendor/bin/phpstan analyse --level=9 --no-progress src/ tests/
 
 setup: install-php
 
