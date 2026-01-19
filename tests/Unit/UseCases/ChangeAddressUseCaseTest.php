@@ -22,52 +22,56 @@ class ChangeAddressUseCaseTest extends TestCase {
 	private const DUMMY_DONATION_ID = 0;
 
 	public function testGivenValidAddressChangeRequest_successResponseIsReturned(): void {
-		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
-		$mockAddressChangeRepository->method( 'getAddressChangeByUuid' )->willReturn(
-			$this->createAddressChange()
+		$stubAddressChangeRepository = $this->createConfiguredStub(
+			AddressChangeRepository::class,
+			[ 'getAddressChangeByUuid' => $this->createAddressChange() ]
 		);
-		$useCase = new ChangeAddressUseCase( $mockAddressChangeRepository );
+		$useCase = new ChangeAddressUseCase( $stubAddressChangeRepository );
 		$response = $useCase->changeAddress( $this->newChangeAddressRequest() );
 		$this->assertTrue( $response->isSuccess() );
 	}
 
 	public function testGivenInvalidAddressChangeRequest_errorResponseIsReturned(): void {
-		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
-		$mockAddressChangeRepository->method( 'getAddressChangeByUuid' )->willReturn(
-			$this->createAddressChange()
+		$stubAddressChangeRepository = $this->createConfiguredStub(
+			AddressChangeRepository::class,
+			[ 'getAddressChangeByUuid' => $this->createAddressChange() ]
 		);
-		$useCase = new ChangeAddressUseCase( $mockAddressChangeRepository );
+
+		$useCase = new ChangeAddressUseCase( $stubAddressChangeRepository );
 		$response = $useCase->changeAddress( $this->newMissingDataChangeAddressRequest() );
 		$this->assertFalse( $response->isSuccess() );
 	}
 
 	public function testGivenAddressChangeRequestIdentifierCannotBeFound_errorResponseIsReturned(): void {
-		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
-		$mockAddressChangeRepository->method( 'getAddressChangeByUuid' )->willReturn(
-			null
+		$stubAddressChangeRepository = $this->createConfiguredStub(
+			AddressChangeRepository::class,
+			[ 'getAddressChangeByUuid' => null ]
 		);
-		$useCase = new ChangeAddressUseCase( $mockAddressChangeRepository );
+
+		$useCase = new ChangeAddressUseCase( $stubAddressChangeRepository );
 		$response = $useCase->changeAddress( $this->newChangeAddressRequest() );
 		$this->assertFalse( $response->isSuccess() );
 		$this->assertEquals( [ ChangeAddressResponse::ERROR_ADDRESS_NOT_FOUND ], $response->getErrors() );
 	}
 
 	public function testGivenValidOptOutOnlyChangeRequest_successResponseIsReturned(): void {
-		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
-		$mockAddressChangeRepository->method( 'getAddressChangeByUuid' )->willReturn(
-			$this->createAddressChange()
+		$stubAddressChangeRepository = $this->createConfiguredStub(
+			AddressChangeRepository::class,
+			[ 'getAddressChangeByUuid' => $this->createAddressChange() ]
 		);
-		$useCase = new ChangeAddressUseCase( $mockAddressChangeRepository );
+
+		$useCase = new ChangeAddressUseCase( $stubAddressChangeRepository );
 		$response = $useCase->changeAddress( $this->newOptOutOnlyRequest() );
 		$this->assertTrue( $response->isSuccess() );
 	}
 
 	public function testGivenEmptyAddressChangeRequest_errorResponseIsReturned(): void {
-		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
-		$mockAddressChangeRepository->method( 'getAddressChangeByUuid' )->willReturn(
-			$this->createAddressChange()
+		$stubAddressChangeRepository = $this->createConfiguredStub(
+			AddressChangeRepository::class,
+			[ 'getAddressChangeByUuid' => $this->createAddressChange() ]
 		);
-		$useCase = new ChangeAddressUseCase( $mockAddressChangeRepository );
+
+		$useCase = new ChangeAddressUseCase( $stubAddressChangeRepository );
 		$response = $useCase->changeAddress( $this->newEmptyChangeAddressRequest() );
 		$this->assertFalse( $response->isSuccess() );
 	}
