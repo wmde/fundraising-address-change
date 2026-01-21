@@ -24,12 +24,12 @@ class ReadAddressChangeUseCaseTest extends TestCase {
 	private const DUMMY_DONATION_ID = 0;
 
 	public function testGivenValidUuid_returnsAddressChangeData(): void {
-		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
-		$mockAddressChangeRepository->method( 'getAddressChangeByUuids' )->willReturn(
-			$this->createUsedAddressChange()
+		$stubAddressChangeRepository = $this->createConfiguredStub(
+			AddressChangeRepository::class,
+			[ 'getAddressChangeByUuids' => $this->createUsedAddressChange() ]
 		);
 
-		$readAddressUseCase = new ReadAddressChangeUseCase( $mockAddressChangeRepository );
+		$readAddressUseCase = new ReadAddressChangeUseCase( $stubAddressChangeRepository );
 		$expectedAddress = [
 			'salutation' => 'Herr',
 			'company' => '',
@@ -55,12 +55,12 @@ class ReadAddressChangeUseCaseTest extends TestCase {
 	}
 
 	public function testGivenValidUuidForUnusedAddressChange_returnsAddressChangeData(): void {
-		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
-		$mockAddressChangeRepository->method( 'getAddressChangeByUuids' )->willReturn(
-			$this->createUnusedAddressChange()
+		$stubAddressChangeRepository = $this->createConfiguredStub(
+			AddressChangeRepository::class,
+			[ 'getAddressChangeByUuids' => $this->createUnusedAddressChange() ]
 		);
 
-		$readAddressUseCase = new ReadAddressChangeUseCase( $mockAddressChangeRepository );
+		$readAddressUseCase = new ReadAddressChangeUseCase( $stubAddressChangeRepository );
 
 		$addressChangeData = $readAddressUseCase->getAddressChangeByUuids( self::VALID_UUID, self::VALID_UUID );
 
@@ -73,10 +73,12 @@ class ReadAddressChangeUseCaseTest extends TestCase {
 	}
 
 	public function testGivenInvalidDonationUuids_returnsNull(): void {
-		$mockAddressChangeRepository = $this->createMock( AddressChangeRepository::class );
-		$mockAddressChangeRepository->method( 'getAddressChangeByUuids' )->willReturn( null );
+		$stubAddressChangeRepository = $this->createConfiguredStub(
+			AddressChangeRepository::class,
+			[ 'getAddressChangeByUuids' => null ]
+		);
 
-		$readAddressUseCase = new ReadAddressChangeUseCase( $mockAddressChangeRepository );
+		$readAddressUseCase = new ReadAddressChangeUseCase( $stubAddressChangeRepository );
 
 		$this->assertNull( $readAddressUseCase->getAddressChangeByUuids( self::INVALID_UUID, self::INVALID_UUID ) );
 	}
