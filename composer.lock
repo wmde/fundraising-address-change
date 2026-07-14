@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5dc8f3e205c8a9cd819121dfe2d792d4",
+    "content-hash": "64298c964542151e73465f3dbfc0cb2f",
     "packages": [
         {
             "name": "brick/math",
@@ -2211,6 +2211,50 @@
                 }
             ],
             "time": "2026-07-29T16:43:23+00:00"
+        },
+        {
+            "name": "wmde/clock",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wmde/Clock.git",
+                "reference": "8faf4cfccd721435aa2bc252c223fde33798757e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wmde/Clock/zipball/8faf4cfccd721435aa2bc252c223fde33798757e",
+                "reference": "8faf4cfccd721435aa2bc252c223fde33798757e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.4"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "~2.1",
+                "phpunit/phpunit": "~11.0",
+                "wmde/fundraising-phpcs": "~12.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "WMDE\\Clock\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Simple interface to get the current time without binding to global system resources. Includes test doubles!",
+            "support": {
+                "issues": "https://github.com/wmde/Clock/issues",
+                "source": "https://github.com/wmde/Clock/tree/2.0.0"
+            },
+            "time": "2025-04-23T08:53:23+00:00"
         }
     ],
     "packages-dev": [
