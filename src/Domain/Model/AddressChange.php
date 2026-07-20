@@ -28,7 +28,6 @@ class AddressChange {
 	/**
 	 * @var int|null
 	 */
-	// @phpstan-ignore-next-line
 	private ?int $id;
 
 	private AddressChangeId $previousIdentifier;
