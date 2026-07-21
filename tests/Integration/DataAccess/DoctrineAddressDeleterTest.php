@@ -89,6 +89,7 @@ class DoctrineAddressDeleterTest extends TestCase {
 
 		$addressChange = $this->em->getConnection()->executeQuery( 'SELECT * FROM address_change' )->fetchAssociative();
 
+		$this->assertIsArray( $addressChange, 'Database query should return an array, check for errors' );
 		$this->assertNull( $addressChange[ 'export_date' ] );
 		$this->assertNull( $addressChange[ 'address_id' ] );
 	}
