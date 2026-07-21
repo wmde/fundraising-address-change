@@ -29,7 +29,7 @@ class SchemaCreator {
 	}
 
 	/**
-	 * @return array<int, ClassMetadata>
+	 * @return list<ClassMetadata<*>>
 	 */
 	private function getClassMetaData(): array {
 		return $this->entityManager->getMetadataFactory()->getAllMetadata();
