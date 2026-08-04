@@ -129,7 +129,6 @@ class DoctrineAddressChangeRepositoryTest extends TestCase {
 		)->forPerson()->forDonation( self::DUMMY_DONATION_ID )->build();
 		$addressChangeRepository->storeAddressChange( $addressChange );
 
-		$this->assertNotNull( $addressChange->getPreviousIdentifier() );
 		$retrievedAddressChange = $addressChangeRepository->getAddressChangeByUuids(
 			self::INVALID_UPDATE_TOKEN,
 			$addressChange->getPreviousIdentifier()->__toString()
