@@ -22,22 +22,18 @@ class DoctrineAddressDeleter implements AddressDeleter {
 	public function deleteAll(): void {
 		$cutoffDate = $this->clock->now()->sub( $this->exportGracePeriod );
 
-		$qb = $this->entityManager->createQueryBuilder();
-		$qb->select( 'a.id' )
-			->from( Address::class, 'a' )
-			->leftJoin( AddressChange::class, 'ac' )
-			->where( $qb->expr()->orX(
-				$qb->expr()->isNotNull( 'ac.exportDate' ),
-				$qb->expr()->lte( 'ac.modifiedAt', ':cutoffDate' )
-			) )
-			->setParameter( 'cutoffDate', $cutoffDate );
-
-		$ids = $qb->getQuery()->getResult();
+		$idQuery = $this->entityManager->createQueryBuilder();
+		$idQuery->select( 'DISTINCT IDENTITY(ac_id.address)' )
+			->from( AddressChange::class, 'ac_id' )
+			->where( $idQuery->expr()->orX(
+				$idQuery->expr()->isNotNull( 'ac_id.exportDate' ),
+				$idQuery->expr()->lte( 'ac_id.modifiedAt', ':cutoffDate' )
+			) );
 
 		$qb = $this->entityManager->createQueryBuilder();
 		$qb->delete( Address::class, 'a' )
-			->where( $qb->expr()->in( 'a.id', ':ids' ) )
-			->setParameter( 'ids', $ids )
+			->where( $qb->expr()->in( 'a.id', $idQuery->getDQL() ) )
+			->setParameter( 'cutoffDate', $cutoffDate )
 			->getQuery()
 			->execute();
 
@@ -45,8 +41,8 @@ class DoctrineAddressDeleter implements AddressDeleter {
 		$qb->update( AddressChange::class, 'ac' )
 			->set( 'ac.exportDate', 'NULL' )
 			->set( 'ac.address', 'NULL' )
-			->where( $qb->expr()->in( 'IDENTITY(ac.address)', ':ids' ) )
-			->setParameter( 'ids', $ids )
+			->where( $qb->expr()->in( 'IDENTITY(ac.address)', $idQuery->getDQL() ) )
+			->setParameter( 'cutoffDate', $cutoffDate )
 			->getQuery()
 			->execute();
 	}
